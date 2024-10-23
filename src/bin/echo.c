@@ -78,6 +78,8 @@ void exec_echo(t_shell *shell)
     char        *minus_n;
     int         newline = 1;
 
+
+    printf("MERGE TEST");
     parser = shell->parser;
     if (parser->args != NULL)
     {
