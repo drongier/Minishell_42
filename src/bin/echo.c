@@ -75,10 +75,16 @@ void exec_echo(t_shell *shell)
 {
     t_parser    *parser;
     char        *original;
+    char        *minus_n;
     int         newline = 1;
 
     parser = shell->parser;
-    if (parser->args != NULL && ft_strcmp((char *)parser->args->content, "-n") == 0)
+    if (parser->args != NULL)
+    {
+        minus_n = (char *)parser->args->content;
+        minus_n = remove_quotes(minus_n);
+    }
+    if (parser->args != NULL && ft_strcmp(minus_n, "-n") == 0)
     {
         newline = 0;
         parser->args = parser->args->next;
