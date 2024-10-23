@@ -86,6 +86,7 @@ void exec_echo(t_shell *shell)
     char        *original;
 
     parser = shell->parser;
+    printf("BONJOUR TEST MERGE\n");
     if (parser->args == NULL)
         printf("\n");
     while (parser->args != NULL)
