@@ -37,19 +37,18 @@ int valid_quotes(char *str)
     return (!inside_single && !inside_double);
 }
 
-// Function to remove matching quotes from the input string
 char *remove_quotes(char *str)
 {
     if (!str)
         return NULL;
 
     size_t len = ft_strlen(str);
-    char *result = malloc(len + 1); // Allocate maximum possible size
+    char *result = malloc(len + 1);
     if (!result)
         return NULL;
 
-    size_t i = 0; // Index for input string
-    size_t j = 0; // Index for output string
+    size_t i = 0;
+    size_t j = 0;
 
     int inside_single = 0;
     int inside_double = 0;
@@ -57,15 +56,9 @@ char *remove_quotes(char *str)
     while (str[i] != '\0')
     {
         if (str[i] == '\'' && !inside_double)
-        {
             inside_single = !inside_single;
-            // Do not copy the single quote
-        }
         else if (str[i] == '\"' && !inside_single)
-        {
             inside_double = !inside_double;
-            // Do not copy the double quote
-        }
         else
         {
             result[j] = str[i];
@@ -73,7 +66,6 @@ char *remove_quotes(char *str)
         }
         i++;
     }
-
     result[j] = '\0';
 
     return result;
@@ -82,47 +74,41 @@ char *remove_quotes(char *str)
 void exec_echo(t_shell *shell)
 {
     t_parser    *parser;
-    char        *content;
     char        *original;
+    int         newline = 1;
 
     parser = shell->parser;
-    printf("BONJOUR TEST MERGE\n");
-    if (parser->args == NULL)
-        printf("\n");
+    if (parser->args != NULL && ft_strcmp((char *)parser->args->content, "-n") == 0)
+    {
+        newline = 0;
+        parser->args = parser->args->next;
+    }
     while (parser->args != NULL)
     {
         original = (char *)parser->args->content;
-        // Validate quotes before removing them
         if (valid_quotes(original))
         {
-            content = remove_quotes(original);
+            original = remove_quotes(original);
             if (parser->outfile != STDOUT_FILENO)
             {
-                write(parser->outfile, content, ft_strlen(content));
-                write(parser->outfile, "\n", 1);
+                write(parser->outfile, original, ft_strlen(original));
                 if (parser->args->next)
-                    write(parser->outfile, "\n", 1);
+                    write(parser->outfile, " ", 1);
             }
             else
             {
-                if (ft_strcmp(content, "-n") == 0)
-                    return;
-                printf("%s", content);
-                printf("\n");
+                printf("%s", original);
                 if (parser->args->next)
-                    printf("\n");
+                    printf(" ");
             }
-            free(content);
-        }
-        else
-        {
-            // If quotes are invalid, trigger an error
-            error(shell, "bad syntax", NULL);
-            return ;
         }
         parser->args = parser->args->next;
     }
-    if (parser->outfile != STDOUT_FILENO)
-        close(parser->outfile);
-    error(shell, NULL, NULL);
+    if (newline)
+    {
+        if (parser->outfile != STDOUT_FILENO)
+            write(parser->outfile, "\n", 1);
+        else
+            printf("\n");
+    }
 }
