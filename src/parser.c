@@ -141,11 +141,11 @@ void parser(t_shell *shell)
 			lexer = lexer->next;
 			handle_heredoc(parser, lexer->input);
 		}
-		//free(node_input); 
 		if (lexer && lexer->type == TOKEN_PIPE)
 		{
 			if (!check_error_token_redi(shell))
 				return ;
+			printf("test git");
 			parser->outfile = pipefd[1];
 			parser->next = new_cmd_node();
 			parser = parser->next;
