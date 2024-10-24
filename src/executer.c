@@ -47,9 +47,7 @@ void	exec_start(t_shell *shell)
 void	exec_bin(t_shell *shell, char *cmd)
 {
 	if (ft_strncmp(cmd, "echo", 4) == 0)
-	{
 		exec_echo(shell);
-	}
 	else if (ft_strncmp(cmd, "pwd", 3) == 0)
 		exec_pwd(shell);
 	else if (ft_strncmp(cmd, "cd", 2) == 0)
