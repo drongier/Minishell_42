@@ -1,0 +1,2 @@
+TEST
+Ceci sera écrit dans le fichier au lieu du terminal.

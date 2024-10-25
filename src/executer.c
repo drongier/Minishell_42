@@ -14,15 +14,22 @@
 
 static void	exec_path(t_shell *shell, char *cmd)
 {
-	char * cmd_path;
-
-	t_parser *parser;
+	char 		*cmd_path;
+	int			saved_out;
+	t_parser 	*parser;
 	
 	parser = shell->parser;
 	cmd_path = get_external_cmd_path(cmd);
-	if (parser->infile != STDIN_FILENO)
-		dup2(parser->infile, STDIN_FILENO);
-	exec_cmd(cmd_path, parser->args);
+	saved_out = dup(STDOUT_FILENO);
+	if (parser->outfile != STDOUT_FILENO)
+	{
+		dup2(parser->outfile, STDOUT_FILENO);
+		exec_cmd(cmd_path, parser->args);
+		dup2(saved_out, STDOUT_FILENO);
+	}
+	else 
+		exec_cmd(cmd_path, parser->args);
+	close(saved_out);
 }
 
 void	exec_start(t_shell *shell)
