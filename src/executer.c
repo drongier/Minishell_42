@@ -15,40 +15,12 @@
 static void	exec_path(t_shell *shell, char *cmd)
 {
 	char 		*cmd_path;
-	int			saved_out;
 	t_parser 	*parser;
 	
 	parser = shell->parser;
 	cmd_path = get_external_cmd_path(cmd);
-	saved_out = dup(STDOUT_FILENO);
-	if (parser->outfile != STDOUT_FILENO)
-	{
-		dup2(parser->outfile, STDOUT_FILENO);
-		exec_cmd(cmd_path, parser->args);
-		dup2(saved_out, STDOUT_FILENO);
-	}
-	else 
-		exec_cmd(cmd_path, parser->args);
-	close(saved_out);
-}
+	exec_cmd(cmd_path, parser->args);
 
-void	exec_start(t_shell *shell)
-{
-	t_parser *current_node; 
-	
-	current_node = shell->parser;
-	while (current_node)
-	{
-		t_parser *cmd = (t_parser *)current_node;
-		while (cmd->args)
-		{
-			char *content = (char *)cmd->args->content;
-			cmd->args = cmd->args->next;
-			exec_bin(shell, content);
-			break ;
-		}
-		current_node = current_node->next;
-	}
 }
 
 void	exec_bin(t_shell *shell, char *cmd)
@@ -69,4 +41,25 @@ void	exec_bin(t_shell *shell, char *cmd)
 		exec_exit(shell);
 	else
 		exec_path(shell, cmd);
+}
+void	exec_start(t_shell *shell)
+{
+	t_parser *parser; 
+
+	parser = shell->parser;
+	while (parser)
+	{
+		while (parser->args)
+		{
+			printf("| Commande : %s\n", (char *)parser->args->content);
+			printf("| Infile : %d\n", parser->infile);
+			printf("| Outfile : %d\n", parser->outfile);
+			char *content = (char *)parser->args->content;
+			parser->args = parser->args->next;
+			printf("| pos :%zu\n", shell->lexer->pos);
+			exec_bin(shell, content);
+			break ;
+		}
+		parser = parser->next;
+	}
 }

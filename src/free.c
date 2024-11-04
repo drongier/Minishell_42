@@ -14,6 +14,8 @@
 
 void	cleanup(t_shell *shell)
 {
+	shell->parser->infile = STDIN_FILENO;
+	shell->parser->outfile = STDOUT_FILENO;
 	if (shell->lexer)
 	{
 		free_lexer(shell->lexer);
@@ -24,18 +26,6 @@ void	cleanup(t_shell *shell)
 		free_parser(shell->parser);
 		shell->parser = NULL;
 	}
-/* 	
-	if (shell->env)
-	{
-		free_env(shell->env);
-		shell->env = NULL;
-	}
-	if (shell->cmdline)
-	{
-		free(shell->cmdline);
-		shell->cmdline = NULL;
-	}
-	 */
 }
 
 void	free_lexer(t_lexer *lexer)

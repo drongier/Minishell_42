@@ -86,7 +86,6 @@ void parser(t_shell *shell)
 	t_parser 	*parser;
 	t_lexer 	*lexer;
 	t_list		*node_input;
-	int			pipefd[2];
 
 	shell->parser = new_cmd_node();
 	parser = shell->parser;
@@ -143,12 +142,9 @@ void parser(t_shell *shell)
 		{
 			if (!check_error_token_redi(shell))
 				return ;
-			parser->outfile = pipefd[1];
 			parser->next = new_cmd_node();
 			parser = parser->next;
-			parser->infile = pipefd[0];
 		}
 		lexer = lexer->next;
 	}
-	
 }
