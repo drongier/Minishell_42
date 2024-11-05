@@ -12,19 +12,17 @@
 
 #include "minishell.h"
 
-static void	exec_path(t_shell *shell, char *cmd)
+static void	exec_path(t_shell *shell, char *cmd, t_list *args)
 {
 	char 		*cmd_path;
-	t_parser 	*parser;
 	
-	parser = shell->parser;
 	cmd_path = get_external_cmd_path(cmd);
-	exec_cmd(cmd_path, parser->args);
-
+	exec_cmd(cmd_path, args);
 }
 
-void	exec_bin(t_shell *shell, char *cmd)
+void	exec_bin(t_shell *shell, char *cmd, t_list *args)
 {
+
 	if (ft_strncmp(cmd, "echo", 4) == 0)
 		exec_echo(shell);
 	else if (ft_strncmp(cmd, "pwd", 3) == 0)
@@ -40,7 +38,7 @@ void	exec_bin(t_shell *shell, char *cmd)
 	else if (ft_strncmp(cmd, "exit", 4) == 0 && (shell->cmdline[4] == '\0' || shell->cmdline[4] == ' '))
 		exec_exit(shell);
 	else
-		exec_path(shell, cmd);
+		exec_path(shell, cmd, args);
 }
 void	exec_start(t_shell *shell)
 {
@@ -49,15 +47,16 @@ void	exec_start(t_shell *shell)
 	parser = shell->parser;
 	while (parser)
 	{
-		while (parser->args)
+		t_list *args = parser->args;
+		printf("| Parser check : %i\n", parser->outfile);
+		while (args)
 		{
 			printf("| Commande : %s\n", (char *)parser->args->content);
 			printf("| Infile : %d\n", parser->infile);
 			printf("| Outfile : %d\n", parser->outfile);
-			char *content = (char *)parser->args->content;
-			parser->args = parser->args->next;
-			printf("| pos :%zu\n", shell->lexer->pos);
-			exec_bin(shell, content);
+			char *content = (char *)args->content;
+			args = args->next;
+			exec_bin(shell, content, args);
 			break ;
 		}
 		parser = parser->next;

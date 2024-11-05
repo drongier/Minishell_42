@@ -144,6 +144,7 @@ void parser(t_shell *shell)
 				return ;
 			parser->next = new_cmd_node();
 			parser = parser->next;
+			parser->outfile = 28;
 		}
 		lexer = lexer->next;
 	}
