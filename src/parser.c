@@ -47,8 +47,8 @@ static t_parser *new_cmd_node()
 	if (!cmd)
 		return NULL;
 	cmd->args = NULL;
-	cmd->infile = STDIN_FILENO;   // Default to standard input
-	cmd->outfile = STDOUT_FILENO; // Default to standard output
+	cmd->infile = STDIN_FILENO;
+	cmd->outfile = STDOUT_FILENO;
 	cmd->next = NULL;
 	return (cmd);
 }
@@ -144,7 +144,6 @@ void parser(t_shell *shell)
 				return ;
 			parser->next = new_cmd_node();
 			parser = parser->next;
-			parser->outfile = 28;
 		}
 		lexer = lexer->next;
 	}
