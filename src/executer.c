@@ -25,7 +25,7 @@ void	exec_bin(t_shell *shell, char *cmd, t_list *args)
 
 	if (ft_strncmp(cmd, "echo", 4) == 0)
 	{
-		exec_echo(shell);
+		exec_echo(shell, args);
 		printf("\n");
 	}
 	else if (ft_strncmp(cmd, "pwd", 3) == 0)

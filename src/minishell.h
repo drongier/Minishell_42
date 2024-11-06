@@ -98,7 +98,7 @@ int		env_pop(t_env **env, char *key);
 /* BUILTINS */
 int		is_bin(char *cmd);
 void	exec_bin(t_shell *shell, char *cmd, t_list *args);
-void	exec_echo(t_shell *parser);
+void	exec_echo(t_shell *parser, t_list *args);
 void	exec_cd(t_shell *shell);
 void	exec_pwd(t_shell *shell);
 void	exec_env(t_shell shell);
