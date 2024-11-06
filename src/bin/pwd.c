@@ -18,6 +18,6 @@ void	exec_pwd(t_shell *shell)
 
 	buffer = malloc(sizeof(char) * 4097);
 	printf("%s\n", getcwd(buffer, 4097));
-	error(shell, NULL, NULL);
+	error(shell, NULL, NULL, 0);
 	free(buffer);
 }
