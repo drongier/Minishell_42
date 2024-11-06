@@ -47,8 +47,8 @@ static t_parser *new_cmd_node()
 	if (!cmd)
 		return NULL;
 	cmd->args = NULL;
-	cmd->infile = STDIN_FILENO;   // Default to standard input
-	cmd->outfile = STDOUT_FILENO; // Default to standard output
+	cmd->infile = STDIN_FILENO;
+	cmd->outfile = STDOUT_FILENO;
 	cmd->next = NULL;
 	return (cmd);
 }
@@ -83,16 +83,13 @@ void handle_heredoc(t_parser *parser, const char *delimiter)
 
 void parser(t_shell *shell)
 {
-	t_parser *parser;
-	t_lexer *lexer;
-	t_list	*node_input;
+	t_parser 	*parser;
+	t_lexer 	*lexer;
+	t_list		*node_input;
 
 	shell->parser = new_cmd_node();
 	parser = shell->parser;
 	lexer = shell->lexer;
-	
-	int *pipefd;
-	pipefd = piping();
 	while (lexer)
 	{
 		node_input = ft_lstnew(lexer->input);
@@ -141,17 +138,13 @@ void parser(t_shell *shell)
 			lexer = lexer->next;
 			handle_heredoc(parser, lexer->input);
 		}
-		//free(node_input); 
-		if (lexer && lexer->type == TOKEN_PIPE)
+		if (lexer->type == TOKEN_PIPE)
 		{
 			if (!check_error_token_redi(shell))
 				return ;
-			parser->outfile = pipefd[1];
 			parser->next = new_cmd_node();
 			parser = parser->next;
-			parser->infile = pipefd[0];
 		}
 		lexer = lexer->next;
 	}
-	
 }

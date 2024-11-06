@@ -12,76 +12,17 @@
 
 #include "minishell.h"
 
-static void	exec_path(t_shell *shell, char *cmd)
+static void	exec_path(t_shell *shell, char *cmd, t_list *args)
 {
-	char 			*cmd_path;
-	t_parser 		*parser;
-	struct stat		cmd_stat;
+	char 		*cmd_path;
 	
-	parser = shell->parser;
-	if (ft_strchr(cmd, '/'))
-		cmd_path = ft_strdup(cmd); // Copier le chemin de la commande
-	else
-		cmd_path = get_external_cmd_path(cmd);
-	//printf("cmd_path = '%s'\n", cmd_path);
-	if (!cmd_path)
-    {
-        error(shell, "minishell: %s: Command not found\n", cmd, 127);
-        return ;
-    }
- 	if (stat(cmd_path, &cmd_stat) == 0)
-    {
-        // Vérifier si c'est un répertoire
-        if (S_ISDIR(cmd_stat.st_mode))
-        {
-            error(shell, "minishell: %s: Is a directory\n", cmd_path, 126);
-            free(cmd_path); // Ne pas oublier de libérer la mémoire
-            return;
-        }
-
-        // Vérifier les permissions d'exécution
-        if (access(cmd_path, X_OK) != 0)
-        {
-            error(shell, "minishell: %s: Permission denied\n", cmd_path, 126);
-            free(cmd_path); // Ne pas oublier de libérer la mémoire
-            return;
-        }
-    }
-    else
-    {
-        // Le fichier n'existe pas
-        error(shell, "minishell: %s: No such file or directory\n", cmd_path, 127);
-        free(cmd_path); // Ne pas oublier de libérer la mémoire
-        return;
-    }
-
-
-
-	if (parser->infile != STDIN_FILENO)
-		dup2(parser->infile, STDIN_FILENO);
-	exec_cmd(cmd_path, parser->args);
-	//free(cmd_path);
+	cmd_path = get_external_cmd_path(cmd);
+	exec_cmd(cmd_path, args);
 }
 
-void	exec_start(t_shell *shell)
+void	exec_bin(t_shell *shell, char *cmd, t_list *args)
 {
-	t_parser *current_node = shell->parser;
-	while (current_node)
-	{
-		t_parser *cmd = (t_parser *)current_node;
-		while (cmd->args)
-		{
-			char *content = (char *)cmd->args->content;
-			cmd->args = cmd->args->next;
-			exec_bin(shell, content);			
-			break ;
-		}
-		current_node = current_node->next;
-	}
-}
 
-void	exec_bin(t_shell *shell, char *cmd)
-{
 	if (ft_strncmp(cmd, "echo", 4) == 0)
 	{
 		exec_echo(shell);
@@ -100,5 +41,27 @@ void	exec_bin(t_shell *shell, char *cmd)
 	else if (ft_strncmp(cmd, "exit", 4) == 0 && (shell->cmdline[4] == '\0' || shell->cmdline[4] == ' '))
 		exec_exit(shell);
 	else
-		exec_path(shell, cmd);
+		exec_path(shell, cmd, args);
+}
+void	exec_start(t_shell *shell)
+{
+	t_parser *parser; 
+
+	parser = shell->parser;
+	while (parser)
+	{
+		t_list *args = parser->args;
+		printf("| Parser check : %i\n", parser->outfile);
+		while (args)
+		{
+			printf("| Commande : %s\n", (char *)parser->args->content);
+			printf("| Infile : %d\n", parser->infile);
+			printf("| Outfile : %d\n", parser->outfile);
+			char *content = (char *)args->content;
+			args = args->next;
+			exec_bin(shell, content, args);
+			break ;
+		}
+		parser = parser->next;
+	}
 }

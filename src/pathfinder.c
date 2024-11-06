@@ -52,6 +52,7 @@ void	exec_cmd(char *path, t_list *args)
 {
 	pid_t	pid;
 	int		status;
+	t_list *arg_node = args;
 
 	pid = fork();
 	if (pid == -1)
@@ -62,22 +63,26 @@ void	exec_cmd(char *path, t_list *args)
 	else if (pid == 0)
 	{
 		char **str;
-		str = malloc(sizeof(char *) * ft_lstsize(args) + 2);
+		str = malloc(sizeof(char *) * (ft_lstsize(arg_node) + 2));
 		str[0] = path;
+		printf("| Path_Commande : %s\n", str[0]);
 		int i = 1;
-		while (args)
+		while (arg_node)
 		{
-			str[i] = (char *)args->content;
-			args = args->next;
+			str[i] = (char *)arg_node->content;
+			printf("| Arg[%d] = %s\n", i, str[i]);
+			arg_node = arg_node->next;
 			i++;
 		}
 		str[i] = NULL;
     	char *envp[] = {NULL};
+		printf("|------------------------------------------------\n");
+		printf("\n");
 		if (execve(path, str, envp) == -1)
 		{
-			//perror(args);
 			exit(EXIT_FAILURE);
 		}
+
 	}
 	else
 	{
@@ -87,29 +92,4 @@ void	exec_cmd(char *path, t_list *args)
 			exit(EXIT_FAILURE);
 		}
 	}
-	
-	
 }
-
-/* int main() 
-{
-	char* arg[] = {"cd", "", NULL};
-	char* env[] = {""};
-	if (execve("export", arg, env) == -1)
-	{
-		perror("execve");
-		exit(EXIT_FAILURE);
-	}
-	char *cmd = "wc";
-    char* path = get_external_cmd_path(cmd);
-	
-    if (path)
-	{
-    	printf("Path of %s: %s\n", cmd, path);
-	//exec_cmd("cd", "cd");
-	//is_builtin("cd");
-	}
-    else
-        printf("%s not found in PATH\n", cmd);
-    return 0;
-} */

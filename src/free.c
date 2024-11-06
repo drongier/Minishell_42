@@ -14,6 +14,8 @@
 
 void	cleanup(t_shell *shell)
 {
+	shell->parser->infile = STDIN_FILENO;
+	shell->parser->outfile = STDOUT_FILENO;
 	if (shell->lexer)
 	{
 		free_lexer(shell->lexer);

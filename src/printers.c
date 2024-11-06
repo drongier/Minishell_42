@@ -24,5 +24,5 @@ void	print_lexer(t_shell shell)
 		printf("%20s - type: %6s  pos: %zu\n", shell.lexer->input, enum_dict[shell.lexer->type], shell.lexer->pos);
 		shell.lexer = shell.lexer->next;
 	}
-	printf("------------------------------------------------\n");	
+	printf("|------------------------------------------------\n");	
 }
