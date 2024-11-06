@@ -6,7 +6,7 @@
 /*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 21:32:10 by emaydogd          #+#    #+#             */
-/*   Updated: 2024/10/15 14:41:50 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/11/06 12:37:28 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	exec_export(t_shell *shell)
 		key = ft_substr(shell->parser->args->content, 0, j);
 		if (!is_valid_key(key))
 		{
-			error(shell, "bash: export: `%s': not a valid identifier\n", (char *)shell->parser->args->content);
+			error(shell, "bash: export: `%s': not a valid identifier\n", (char *)shell->parser->args->content, 1);
 			break ;
 		}
 		val = ft_substr(shell->parser->args->content, j + 1, ft_strlen(shell->parser->args->content) - j - 1); // Correction ici
@@ -68,7 +68,7 @@ void	exec_export(t_shell *shell)
 		if (val[0])
 			env_push(&shell->env, key, val);
 		shell->parser->args = shell->parser->args->next;
-		error(shell, NULL, NULL);
+		error(shell, NULL, NULL, 0);
 	}
 }
 /* void	exec_export(t_shell *shell)

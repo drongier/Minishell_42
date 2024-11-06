@@ -6,7 +6,7 @@
 /*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 12:13:52 by chbachir          #+#    #+#             */
-/*   Updated: 2024/11/06 12:15:09 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/11/06 12:40:12 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int     check_error_token_redi(t_shell *shell)
 
         if (!lexer->next)
         {
-                error(shell, "bash: syntax error near unexpected token `newline'\n", NULL);
+                error(shell, "bash: syntax error near unexpected token `newline'\n", NULL, 2);
                 return(0);
         }
         else
