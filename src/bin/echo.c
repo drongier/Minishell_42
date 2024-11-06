@@ -71,7 +71,7 @@ char *remove_quotes(char *str)
     return result;
 }
 
-void exec_echo(t_shell *shell)
+void exec_echo(t_shell *shell, t_list *args)
 {
     t_parser    *parser;
     char        *original;
@@ -79,36 +79,41 @@ void exec_echo(t_shell *shell)
     int         newline = 1;
 
     parser = shell->parser;
+    if (!args)
+    {
+        printf("\n");
+        return ;
+    }
     if (parser->args != NULL)
     {
-        minus_n = (char *)parser->args->content;
+        minus_n = (char *)args->content;
         minus_n = remove_quotes(minus_n);
     }
-    if (parser->args != NULL && ft_strcmp(minus_n, "-n") == 0)
+    if (args != NULL && ft_strcmp(minus_n, "-n") == 0)
     {
         newline = 0;
-        parser->args = parser->args->next;
+        args = args->next;
     }
-    while (parser->args != NULL)
+    while (args != NULL)
     {
-        original = (char *)parser->args->content;
+        original = (char *)args->content;
         if (valid_quotes(original))
         {
             original = remove_quotes(original);
             if (parser->outfile != STDOUT_FILENO)
             {
                 write(parser->outfile, original, ft_strlen(original));
-                if (parser->args->next)
+                if (args->next)
                     write(parser->outfile, " ", 1);
             }
             else
             {
                 printf("%s", original);
-                if (parser->args->next)
+                if (args->next)
                     printf(" ");
             }
         }
-        parser->args = parser->args->next;
+        args = args->next;
     }
     if (newline)
     {
