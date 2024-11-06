@@ -6,7 +6,7 @@
 /*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 09:50:30 by chbachir          #+#    #+#             */
-/*   Updated: 2024/09/20 18:15:49 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/11/06 12:18:27 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,18 +24,6 @@ void	cleanup(t_shell *shell)
 		free_parser(shell->parser);
 		shell->parser = NULL;
 	}
-/* 	
-	if (shell->env)
-	{
-		free_env(shell->env);
-		shell->env = NULL;
-	}
-	if (shell->cmdline)
-	{
-		free(shell->cmdline);
-		shell->cmdline = NULL;
-	}
-	 */
 }
 
 void	free_lexer(t_lexer *lexer)

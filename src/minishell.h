@@ -6,7 +6,7 @@
 /*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 15:02:35 by emaydogd          #+#    #+#             */
-/*   Updated: 2024/10/14 12:35:57 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/11/06 12:20:12 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@
 # include <signal.h>
 # include <sys/wait.h>
 # include <sys/types.h>
+# include <sys/stat.h>
 # include <fcntl.h>
 # include "../libft/libft.h"
-# define BUFFER_SIZE 1024
 
 # define BANNER "\
 ######################################################################################\n\
@@ -117,7 +117,7 @@ void	write_single_quotes(char *input);
 
 /* HELPER FUNCTIONS */
 char	*trim(char *str);
-void	error(t_shell *shell, char *err_msg, char *args);
+void	error(t_shell *shell, char *err_msg, char *args, int err_num);
 
 // Cleaning
 void	cleanup(t_shell *shell);
@@ -129,8 +129,8 @@ int		*piping();
 char 	*get_external_cmd_path(char *cmd);
 char	*ft_getenv(t_shell *shell, char *key);
 
-// ERRORS
-
-int	check_error_token_redi(t_shell *shell);
+// Executer
+int		dollar_at_beginning(char *cmdline);
+int		ft_isspace(char c);
 
 #endif
