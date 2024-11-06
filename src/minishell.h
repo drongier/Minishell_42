@@ -133,4 +133,8 @@ char	*ft_getenv(t_shell *shell, char *key);
 int		dollar_at_beginning(char *cmdline);
 int		ft_isspace(char c);
 
+//error check
+
+int	check_error_token_redi(t_shell *shell);
+
 #endif
