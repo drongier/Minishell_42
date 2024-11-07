@@ -6,7 +6,7 @@
 /*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 12:10:13 by chbachir          #+#    #+#             */
-/*   Updated: 2024/11/06 12:14:41 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/11/07 13:12:15 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,18 @@ static void	exec_path(t_shell *shell, char *cmd, t_list *args)
 {
 	char 		*cmd_path;
 	int			saved_out;
-	
-	saved_out = dup(STDOUT_FILENO);
+	int			saved_in;
+
 	cmd_path = get_external_cmd_path(cmd);
+	saved_out = dup(STDOUT_FILENO);
+	saved_in = dup(STDIN_FILENO);
 	if (shell->parser->outfile != STDOUT_FILENO)
-	{
 		dup2(shell->parser->outfile, STDOUT_FILENO);
-		exec_cmd(cmd_path, args);
-		dup2(saved_out, STDOUT_FILENO);
-	}
-	else
-		exec_cmd(cmd_path, args);
+	if (shell->parser->infile != STDIN_FILENO)
+		dup2(shell->parser->infile, STDIN_FILENO);
+	exec_cmd(cmd_path, args);
+	dup2(saved_out, STDOUT_FILENO);
+	dup2(saved_in, STDIN_FILENO);
 }
 
 void	exec_bin(t_shell *shell, char *cmd, t_list *args)
