@@ -141,10 +141,19 @@ void parser(t_shell *shell)
 		}
 		if (lexer->type == TOKEN_PIPE)
 		{
+			int pipefd[2];
+
+			if (pipe(pipefd) == -1) 
+			{
+				perror("pipe");
+				return;
+			}
 			if (!check_error_token_redi(shell))
 				return ;
+			parser->outfile = pipefd[1];
 			parser->next = new_cmd_node();
 			parser = parser->next;
+			parser->infile = pipefd[0];
 		}
 		lexer = lexer->next;
 	}
