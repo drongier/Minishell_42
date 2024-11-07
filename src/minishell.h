@@ -67,6 +67,8 @@ typedef struct s_parser
 	t_list			*args;
 	int				infile;
 	int				outfile;
+	int				*pipe_in;
+	int				*pipe_out;
 	struct s_parser	*next;
 }	t_parser;
 

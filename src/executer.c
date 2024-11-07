@@ -15,9 +15,18 @@
 static void	exec_path(t_shell *shell, char *cmd, t_list *args)
 {
 	char 		*cmd_path;
+	int			saved_out;
 	
+	saved_out = dup(STDOUT_FILENO);
 	cmd_path = get_external_cmd_path(cmd);
-	exec_cmd(cmd_path, args);
+	if (shell->parser->outfile != STDOUT_FILENO)
+	{
+		dup2(shell->parser->outfile, STDOUT_FILENO);
+		exec_cmd(cmd_path, args);
+		dup2(saved_out, STDOUT_FILENO);
+	}
+	else
+		exec_cmd(cmd_path, args);
 }
 
 void	exec_bin(t_shell *shell, char *cmd, t_list *args)

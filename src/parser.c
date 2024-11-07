@@ -79,6 +79,7 @@ void handle_heredoc(t_parser *parser, const char *delimiter)
     }
     close(pipefd[1]);
     parser->infile = pipefd[0];
+	return ;
 }
 
 void parser(t_shell *shell)
