@@ -6,7 +6,7 @@
 /*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 09:50:30 by chbachir          #+#    #+#             */
-/*   Updated: 2024/11/06 12:18:27 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/11/11 16:26:06 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,4 +80,13 @@ void	free_env(t_env *env)
 		free(env);
 		env = tmp;
 	}
+}
+
+void free_envp(char **envp, int idx)
+{
+	if (!envp)
+		return ;
+	while (idx--)
+		free(envp[idx]);
+	free(envp);
 }

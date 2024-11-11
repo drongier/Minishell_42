@@ -6,7 +6,7 @@
 /*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 15:02:35 by emaydogd          #+#    #+#             */
-/*   Updated: 2024/11/11 13:21:19 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/11/11 18:34:34 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ void	exec_export(t_shell *shell);
 void	exec_unset(t_shell *shell);
 void	exec_exit(t_shell *shell);
 void	exec_start(t_shell *shell);
-void	exec_cmd(char *path, t_list *args);
+void	exec_cmd(char *path, t_list *args, t_shell *shell);
 
 /* todo: DELETE */
 void	print_lexer(t_shell shell);
@@ -120,12 +120,14 @@ void	write_single_quotes(char *input);
 /* HELPER FUNCTIONS */
 char	*trim(char *str);
 void	error(t_shell *shell, char *err_msg, char *args, int err_num);
+char 	**convert_env_to_array(t_env *env);
 
 // Cleaning
 void	cleanup(t_shell *shell);
 void	free_lexer(t_lexer *lexer);
 void	free_parser(t_parser *parser);
 void	free_env(t_env *env);
+void	free_envp(char **envp, int idx);
 
 int		*piping();
 char 	*get_external_cmd_path(char *cmd);
@@ -138,5 +140,6 @@ int		ft_isspace(char c);
 //error check
 
 int	check_error_token_redi(t_shell *shell);
+int	ft_env_size(t_env *env);
 
 #endif

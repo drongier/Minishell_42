@@ -6,7 +6,7 @@
 /*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 12:10:13 by chbachir          #+#    #+#             */
-/*   Updated: 2024/11/11 13:22:25 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/11/11 18:33:20 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ static void	exec_path(t_shell *shell, char *cmd, t_list *args)
 	char 		*cmd_path;
 	int			saved_out;
 	int			saved_in;
-
 	cmd_path = get_external_cmd_path(cmd);
 	saved_out = dup(STDOUT_FILENO);
 	saved_in = dup(STDIN_FILENO);
@@ -25,7 +24,7 @@ static void	exec_path(t_shell *shell, char *cmd, t_list *args)
 		dup2(shell->parser->outfile, STDOUT_FILENO);
 	if (shell->parser->infile != STDIN_FILENO)
 		dup2(shell->parser->infile, STDIN_FILENO);
-	exec_cmd(cmd_path, args);
+	exec_cmd(cmd_path, args, shell);
 	dup2(saved_out, STDOUT_FILENO);
 	dup2(saved_in, STDIN_FILENO);
 }
@@ -58,12 +57,8 @@ void	exec_start(t_shell *shell)
 	while (parser)
 	{
 		t_list *args = parser->args;
-		//printf("| Parser check : %i\n", parser->outfile);
 		while (args)
 		{
-			//printf("| Commande : %s\n", (char *)parser->args->content);
-			//printf("| Infile : %d\n", parser->infile);
-			//printf("| Outfile : %d\n", parser->outfile);
 			char *content = (char *)args->content;
 			args = args->next;
 			exec_bin(shell, content, args);
