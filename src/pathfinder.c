@@ -19,7 +19,7 @@
 
 #define MAX_PATH_LENGTH 1024
 
-char*	get_external_cmd_path(char * cmd)
+char    *get_external_cmd_path(char *cmd)
 {
     static char cmd_path[MAX_PATH_LENGTH];
     int dir_length;
@@ -48,48 +48,59 @@ char*	get_external_cmd_path(char * cmd)
     return (NULL);
 }
 
-void	exec_cmd(char *path, t_list *args)
+void exec_cmd(char *path, t_list *arg_node, t_shell *shell) 
 {
-	pid_t	pid;
-	int		status;
-	t_list *arg_node = args;
+    pid_t pid;
+    int status;
+    t_pipex pipe = shell->parser->pipex;
+    
+    pid = fork();
+    if (pid == -1) 
+    {
+        perror("fork");
+        exit(EXIT_FAILURE);
+    }
+    if (pid == 0) 
+	{
+        char **str = malloc(sizeof(char *) * (ft_lstsize(arg_node) + 2));
+        str[0] = path;
+        int i = 1;
+        while (arg_node) 
+        {
+            str[i] = (char *)arg_node->content;
+            arg_node = arg_node->next;
+            i++;
+        }
+        str[i] = NULL;
+        if (shell->parser->infile != STDIN_FILENO) {
+            dup2(shell->parser->infile, STDIN_FILENO);
+            close(shell->parser->infile);
+        }
+        
+        if (shell->parser->outfile != STDOUT_FILENO) {
+            dup2(shell->parser->outfile, STDOUT_FILENO);
+            close(shell->parser->outfile);
+        }
+        if (pipe.read_fd > 2)
+            close(pipe.read_fd);
+        if (pipe.write_fd > 2)
+            close(pipe.write_fd);
 
-	pid = fork();
-	if (pid == -1)
+        char **envp = {NULL};
+        if (execve(path, str, envp) == -1)
+        perror("execve");
+        exit(EXIT_FAILURE);
+    } 
+	else 
 	{
-		perror("fork");
-		exit(EXIT_FAILURE);
-	}
-	else if (pid == 0)
-	{
-		char **str;
-		str = malloc(sizeof(char *) * (ft_lstsize(arg_node) + 2));
-		str[0] = path;
-		printf("| Path_Commande : %s\n", str[0]);
-		int i = 1;
-		while (arg_node)
-		{
-			str[i] = (char *)arg_node->content;
-			printf("| Arg[%d] = %s\n", i, str[i]);
-			arg_node = arg_node->next;
-			i++;
-		}
-		str[i] = NULL;
-    	char *envp[] = {NULL};
-		printf("|------------------------------------------------\n");
-		printf("\n");
-		if (execve(path, str, envp) == -1)
-		{
-			exit(EXIT_FAILURE);
-		}
-
-	}
-	else
-	{
-		if (waitpid(pid, &status, 0) == -1)
-		{
-			perror("waitpid");
-			exit(EXIT_FAILURE);
-		}
-	}
+        if (pipe.read_fd > 2)
+            close(pipe.read_fd);
+        if (pipe.write_fd > 2)
+            close(pipe.write_fd);
+            
+        if (waitpid(pid, &status, 0) == -1) {
+            perror("waitpid");
+            exit(EXIT_FAILURE);
+        }
+    }
 }

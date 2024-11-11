@@ -1,36 +1,58 @@
-#include <unistd.h>
-#include <sys/wait.h>
-#include <stdio.h>
-#include <stdlib.h>
+#include "minishell.h"
 
-int main(int argc, char *argv[]) {
-  int fds[2];                      // an array that will hold two file descriptors
-  pipe(fds);                       // populates fds with two file descriptors
-  pid_t pid = fork();              // create child process that is a clone of the parent
-  
-  if (pid == 0)                     // if pid == 0, then this is the child process
-  {                 
-    dup2(fds[0], STDIN_FILENO);    // fds[0] (the read end of pipe) donates its data to file descriptor 0
-    close(fds[0]);                 // file descriptor no longer needed in child since stdin is a copy
-    close(fds[1]);                 // file descriptor unused in child
-    char *argv[] = {(char *)"sort", NULL};   // create argument vector
-    if (execvp(argv[0], argv) < 0) exit(0);  // run sort command (exit if something went wrong)
-  } 
-                                    // if we reach here, we are in parent process
-  close(fds[0]);                 // file descriptor unused in parent
-  const char *words[] = {"pear", "peach", "apple"};
-  // write input to the writable file descriptor so it can be read in from child:
-  size_t numwords = sizeof(words)/sizeof(words[0]);
-  for (size_t i = 0; i < numwords; i++) {
-    dprintf(fds[1], "%s\n", words[i]); 
-  }
+char	**list_to_array(t_list *args)
+{
+	t_list *args2;
+	args2 = args;
+	char **str = malloc(sizeof(char *) * (ft_lstsize(args2) + 2));
 
-  // send EOF so child can continue (child blocks until all input has been processed):
-  close(fds[1]); 
+    int i = 0;
+    while (args2) 
+    {
+        str[i] = (char *)args2->content;
+        args2 = args2->next;
+        i++;
+	}
+    str[i] = NULL;
+	return(str);
+}
 
-  int status;
-  pid_t wpid = waitpid(pid, &status, 0); // wait for child to finish before exiting
-  return wpid == pid && WIFEXITED(status) ? WEXITSTATUS(status) : -1;
+void exec_with_pipe(t_shell *shell)
+{
+	t_parser *parser;
+
+	parser = shell->parser;
+	printf("[!] PIPEEEEE [!]\n");
+    while (parser)
+    {
+        pid_t pid = fork();
+        
+        if (pid == 0) 
+		{
+            if (parser->infile != STDIN_FILENO) 
+			{
+                dup2(parser->infile, STDIN_FILENO);
+                close(parser->infile);
+            }
+            if (parser->outfile != STDOUT_FILENO)
+			{
+                dup2(parser->outfile, STDOUT_FILENO);
+                close(parser->outfile);
+            }
+            char **args = list_to_array(parser->args);
+			char *path = get_external_cmd_path(args[0]);
+            execve(path, args, NULL);
+            perror("execve");
+            exit(EXIT_FAILURE);
+        }     
+        if (parser->infile != STDIN_FILENO)
+            close(parser->infile);
+        if (parser->outfile != STDOUT_FILENO)
+            close(parser->outfile);
+        parser = parser->next;
+    }
+    while (wait(NULL) > 0);
+	shell->flag_pipe = 0;
 }
 
 

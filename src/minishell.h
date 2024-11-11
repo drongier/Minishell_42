@@ -62,13 +62,18 @@ typedef struct s_lexer
 	struct s_lexer	*next;
 }	t_lexer;
 
+typedef struct s_pipe 
+{
+    int read_fd;
+    int write_fd;
+} t_pipex;
+
 typedef struct s_parser
 {
 	t_list			*args;
 	int				infile;
 	int				outfile;
-	int				*pipe_in;
-	int				*pipe_out;
+	t_pipex 		pipex;
 	struct s_parser	*next;
 }	t_parser;
 
@@ -84,6 +89,7 @@ typedef struct s_shell
 	char			*cmdline;
 	char			*tmp_output;
 	int				exit_status;
+	int				flag_pipe;
 	struct s_lexer	*lexer;
 	struct s_parser	*parser;
 	struct s_env	*env;
@@ -108,7 +114,7 @@ void	exec_export(t_shell *shell);
 void	exec_unset(t_shell *shell);
 void	exec_exit(t_shell *shell);
 void	exec_start(t_shell *shell);
-void	exec_cmd(char *path, t_list *args);
+void	exec_cmd(char *path, t_list *args, t_shell *t_shell);
 
 /* todo: DELETE */
 void	print_lexer(t_shell shell);
@@ -134,6 +140,7 @@ char	*ft_getenv(t_shell *shell, char *key);
 // Executer
 int		dollar_at_beginning(char *cmdline);
 int		ft_isspace(char c);
+void 	exec_with_pipe(t_shell *shell);
 
 //error check
 

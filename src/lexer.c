@@ -70,14 +70,16 @@ void lexer(t_shell *shell)
             error(shell, "Lexer: Memory allocation failed\n", NULL, 1);
         return;
     }
-
     i = 0;
     pos = 0;
     shell->lexer = NULL;
     while (str[i] != NULL)
     {
 		if (ft_strncmp(str[i], "|", 1) == 0)
+		{
+			shell->flag_pipe = 1;
 			push(&shell->lexer, "|", TOKEN_PIPE, pos);
+		}
 		else if (ft_strncmp(str[i], "<<", 2) == 0)
 			push(&shell->lexer, "<<", TOKEN_REDIR_HEREDOC, pos);
 		else if (ft_strncmp(str[i], ">>", 2) == 0)

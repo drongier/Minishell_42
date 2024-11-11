@@ -140,21 +140,22 @@ void parser(t_shell *shell)
 			handle_heredoc(parser, lexer->input);
 		}
 		if (lexer->type == TOKEN_PIPE)
-		{
-			int pipefd[2];
+        {
+            t_pipex pipex;
 
-			if (pipe(pipefd) == -1) 
-			{
-				perror("pipe");
-				return;
-			}
-			if (!check_error_token_redi(shell))
-				return ;
-			parser->outfile = pipefd[1];
-			parser->next = new_cmd_node();
-			parser = parser->next;
-			parser->infile = pipefd[0];
-		}
+            if (pipe((int *)&pipex) == -1) 
+            {
+                perror("pipe");
+                return;
+            }
+            if (!check_error_token_redi(shell))
+                return;
+            parser->outfile = pipex.write_fd;
+            parser->pipex = pipex;
+            parser->next = new_cmd_node();
+            parser = parser->next;
+            parser->infile = pipex.read_fd;
+        }
 		lexer = lexer->next;
 	}
 }

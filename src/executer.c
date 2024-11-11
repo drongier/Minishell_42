@@ -25,7 +25,7 @@ static void	exec_path(t_shell *shell, char *cmd, t_list *args)
 		dup2(shell->parser->outfile, STDOUT_FILENO);
 	if (shell->parser->infile != STDIN_FILENO)
 		dup2(shell->parser->infile, STDIN_FILENO);
-	exec_cmd(cmd_path, args);
+	exec_cmd(cmd_path, args, shell);
 	dup2(saved_out, STDOUT_FILENO);
 	dup2(saved_in, STDIN_FILENO);
 }
@@ -50,25 +50,26 @@ void	exec_bin(t_shell *shell, char *cmd, t_list *args)
 	else
 		exec_path(shell, cmd, args);
 }
+
 void	exec_start(t_shell *shell)
 {
+
 	t_parser *parser; 
 
 	parser = shell->parser;
-	while (parser)
-	{
-		t_list *args = parser->args;
-		printf("| Parser check : %i\n", parser->outfile);
-		while (args)
+	if (shell->flag_pipe == 1)
+		exec_with_pipe(shell);
+	else
+		while (parser)
 		{
-			printf("| Commande : %s\n", (char *)parser->args->content);
-			printf("| Infile : %d\n", parser->infile);
-			printf("| Outfile : %d\n", parser->outfile);
-			char *content = (char *)args->content;
-			args = args->next;
-			exec_bin(shell, content, args);
-			break ;
+			t_list *args = parser->args;
+			while (args)
+			{
+				char *cmd_name = (char *)args->content;
+				args = args->next;
+				exec_bin(shell, cmd_name, args);
+				break ;
+			}
+			parser = parser->next;
 		}
-		parser = parser->next;
-	}
 }
