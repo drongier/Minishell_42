@@ -6,7 +6,7 @@
 /*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 12:10:13 by chbachir          #+#    #+#             */
-/*   Updated: 2024/11/07 13:12:15 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/11/11 13:22:25 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	exec_bin(t_shell *shell, char *cmd, t_list *args)
 	else if (ft_strncmp(cmd, "pwd", 3) == 0)
 		exec_pwd(shell);
 	else if (ft_strncmp(cmd, "cd", 2) == 0)
-		exec_cd(shell);
+		exec_cd(shell, args);
 	else if (ft_strncmp(cmd, "export", 6) == 0)
 		exec_export(shell);
 	else if (ft_strncmp(cmd, "unset", 5) == 0)
@@ -58,12 +58,12 @@ void	exec_start(t_shell *shell)
 	while (parser)
 	{
 		t_list *args = parser->args;
-		printf("| Parser check : %i\n", parser->outfile);
+		//printf("| Parser check : %i\n", parser->outfile);
 		while (args)
 		{
-			printf("| Commande : %s\n", (char *)parser->args->content);
-			printf("| Infile : %d\n", parser->infile);
-			printf("| Outfile : %d\n", parser->outfile);
+			//printf("| Commande : %s\n", (char *)parser->args->content);
+			//printf("| Infile : %d\n", parser->infile);
+			//printf("| Outfile : %d\n", parser->outfile);
 			char *content = (char *)args->content;
 			args = args->next;
 			exec_bin(shell, content, args);

@@ -6,7 +6,7 @@
 /*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 14:45:30 by chbachir          #+#    #+#             */
-/*   Updated: 2024/10/15 11:40:11 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/11/11 13:05:11 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,19 +65,19 @@ void	exec_cmd(char *path, t_list *args)
 		char **str;
 		str = malloc(sizeof(char *) * (ft_lstsize(arg_node) + 2));
 		str[0] = path;
-		printf("| Path_Commande : %s\n", str[0]);
+		//printf("| Path_Commande : %s\n", str[0]);
 		int i = 1;
 		while (arg_node)
 		{
 			str[i] = (char *)arg_node->content;
-			printf("| Arg[%d] = %s\n", i, str[i]);
+			//printf("| Arg[%d] = %s\n", i, str[i]);
 			arg_node = arg_node->next;
 			i++;
 		}
 		str[i] = NULL;
     	char *envp[] = {NULL};
-		printf("|------------------------------------------------\n");
-		printf("\n");
+		//printf("|------------------------------------------------\n");
+		//printf("\n");
 		if (execve(path, str, envp) == -1)
 		{
 			exit(EXIT_FAILURE);
