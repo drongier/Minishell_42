@@ -6,7 +6,7 @@
 /*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 15:02:35 by emaydogd          #+#    #+#             */
-/*   Updated: 2024/11/06 12:20:12 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/11/11 13:21:19 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ int		env_pop(t_env **env, char *key);
 int		is_bin(char *cmd);
 void	exec_bin(t_shell *shell, char *cmd, t_list *args);
 void	exec_echo(t_shell *parser, t_list *args);
-void	exec_cd(t_shell *shell);
+void	exec_cd(t_shell *shell, t_list *args);
 void	exec_pwd(t_shell *shell);
 void	exec_env(t_shell shell);
 void	exec_export(t_shell *shell);
