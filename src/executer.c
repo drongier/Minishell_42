@@ -6,7 +6,7 @@
 /*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 12:10:13 by chbachir          #+#    #+#             */
-/*   Updated: 2024/11/07 13:12:15 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/11/11 18:33:20 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ static void	exec_path(t_shell *shell, char *cmd, t_list *args)
 	char 		*cmd_path;
 	int			saved_out;
 	int			saved_in;
-
 	cmd_path = get_external_cmd_path(cmd);
 	saved_out = dup(STDOUT_FILENO);
 	saved_in = dup(STDIN_FILENO);
@@ -38,7 +37,7 @@ void	exec_bin(t_shell *shell, char *cmd, t_list *args)
 	else if (ft_strncmp(cmd, "pwd", 3) == 0)
 		exec_pwd(shell);
 	else if (ft_strncmp(cmd, "cd", 2) == 0)
-		exec_cd(shell);
+		exec_cd(shell, args);
 	else if (ft_strncmp(cmd, "export", 6) == 0)
 		exec_export(shell);
 	else if (ft_strncmp(cmd, "unset", 5) == 0)

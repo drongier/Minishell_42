@@ -6,7 +6,7 @@
 /*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 14:45:30 by chbachir          #+#    #+#             */
-/*   Updated: 2024/10/15 11:40:11 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/11/11 18:32:53 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,56 @@
 
 #define MAX_PATH_LENGTH 1024
 
-char    *get_external_cmd_path(char *cmd)
+char *create_env_str(t_env *env)
+{
+	char 	*env_str;
+	size_t	key_len;
+	size_t	val_len;
+	
+	key_len = ft_strlen(env->key);
+	val_len = ft_strlen(env->value);
+	env_str = malloc(sizeof(char *) + key_len + val_len + 2); // +1 for = + 1 for '\0'
+	if (!env_str)
+		return NULL;
+	ft_strcpy(env_str, env->key);
+	env_str[key_len] = '=';
+	ft_strcpy(env_str + key_len + 1, env->value);
+	return env_str;
+}
+
+int	ft_env_size(t_env *env)
+{
+	int	size = 0;
+	while (env)
+	{
+		env = env->next;
+		size++;
+	}
+	return (size);
+}
+
+char	**convert_env_to_array(t_env *env)
+{
+	char **envp = malloc(sizeof(char *) * (ft_env_size(env)) + 1);
+	if(!envp)
+		return NULL;
+	int i = 0;
+	while(env)
+	{
+		envp[i] = create_env_str(env);
+		if (!envp[i])
+		{
+			free_envp(envp, i);
+			return NULL;
+		}
+		i++;
+		env = env->next;
+	}
+	envp[i] = NULL;
+	return envp;
+}
+
+char*	get_external_cmd_path(char * cmd)
 {
     static char cmd_path[MAX_PATH_LENGTH];
     int dir_length;
@@ -48,59 +97,47 @@ char    *get_external_cmd_path(char *cmd)
     return (NULL);
 }
 
-void exec_cmd(char *path, t_list *arg_node, t_shell *shell) 
+void	exec_cmd(char *path, t_list *args, t_shell *shell)
 {
-    pid_t pid;
-    int status;
-    t_pipex pipe = shell->parser->pipex;
-    
-    pid = fork();
-    if (pid == -1) 
-    {
-        perror("fork");
-        exit(EXIT_FAILURE);
-    }
-    if (pid == 0) 
-	{
-        char **str = malloc(sizeof(char *) * (ft_lstsize(arg_node) + 2));
-        str[0] = path;
-        int i = 1;
-        while (arg_node) 
-        {
-            str[i] = (char *)arg_node->content;
-            arg_node = arg_node->next;
-            i++;
-        }
-        str[i] = NULL;
-        if (shell->parser->infile != STDIN_FILENO) {
-            dup2(shell->parser->infile, STDIN_FILENO);
-            close(shell->parser->infile);
-        }
-        
-        if (shell->parser->outfile != STDOUT_FILENO) {
-            dup2(shell->parser->outfile, STDOUT_FILENO);
-            close(shell->parser->outfile);
-        }
-        if (pipe.read_fd > 2)
-            close(pipe.read_fd);
-        if (pipe.write_fd > 2)
-            close(pipe.write_fd);
+	pid_t	pid;
+	int		status;
+	t_list *arg_node = args;
 
-        char **envp = {NULL};
-        if (execve(path, str, envp) == -1)
-        perror("execve");
-        exit(EXIT_FAILURE);
-    } 
-	else 
+	pid = fork();
+	
+	if (pid == -1)
 	{
-        if (pipe.read_fd > 2)
-            close(pipe.read_fd);
-        if (pipe.write_fd > 2)
-            close(pipe.write_fd);
-            
-        if (waitpid(pid, &status, 0) == -1) {
-            perror("waitpid");
-            exit(EXIT_FAILURE);
-        }
-    }
+		perror("fork");
+		exit(EXIT_FAILURE);
+	}
+	else if (pid == 0)
+	{
+		int i;
+		char **envp = convert_env_to_array(shell->env);
+		if (!envp)
+			exit(EXIT_FAILURE);
+		char *argv[] = {path, NULL};
+		i = 1; // skip 0, car argv[0] est path. On touche pas !
+		while (arg_node)
+		{
+			argv[i] = (char *)arg_node->content;
+			i++;
+			arg_node = arg_node->next;
+		}
+		argv[i] = NULL;
+		if (execve(path, argv, envp) == -1)
+		{
+			free_envp(envp, ft_env_size(shell->env));
+			exit(EXIT_FAILURE);
+		}
+		
+	}
+	else
+	{
+		if (waitpid(pid, &status, 0) == -1)
+		{ 
+			perror("waitpid");
+			exit(EXIT_FAILURE);
+		}
+	}
 }
