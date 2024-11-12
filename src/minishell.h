@@ -6,19 +6,20 @@
 /*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 15:02:35 by emaydogd          #+#    #+#             */
-/*   Updated: 2024/11/11 18:34:34 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/11/12 17:56:44 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
+# define _POSIX_C_SOURCE 200809L
+# include <signal.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
 # include <unistd.h>
 # include <readline/readline.h>
 # include <readline/history.h>
-# include <signal.h>
 # include <sys/wait.h>
 # include <sys/types.h>
 # include <sys/stat.h>
@@ -146,7 +147,12 @@ void 	exec_with_pipe(t_shell *shell);
 
 //error check
 
-int	check_error_token_redi(t_shell *shell);
-int	ft_env_size(t_env *env);
+int		check_error_token_redi(t_shell *shell);
+int		ft_env_size(t_env *env);
+
+// Signals
+
+void	handle_sigint(int sig);
+void	setup_signal_handlers(void);
 
 #endif
