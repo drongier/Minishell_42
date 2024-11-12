@@ -22,7 +22,6 @@ void exec_with_pipe(t_shell *shell)
 	t_parser *parser;
 
 	parser = shell->parser;
-	printf("[!] PIPEEEEE [!]\n");
     while (parser)
     {
         pid_t pid = fork();
