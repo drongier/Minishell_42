@@ -117,7 +117,7 @@ void	exec_cmd(char *path, t_list *args, t_shell *shell)
 		if (!envp)
 			exit(EXIT_FAILURE);
 		char *argv[] = {path, NULL};
-		i = 1; // skip 0, car argv[0] est path. On touche pas !
+		i = 1;
 		while (arg_node)
 		{
 			argv[i] = (char *)arg_node->content;
@@ -127,7 +127,7 @@ void	exec_cmd(char *path, t_list *args, t_shell *shell)
 		argv[i] = NULL;
 		if (execve(path, argv, envp) == -1)
 		{
-			free_envp(envp, ft_env_size(shell->env));
+            error(shell, "%s: command not found\n", (char *)shell->parser->args->content, 127);
 			exit(EXIT_FAILURE);
 		}
 		

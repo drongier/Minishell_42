@@ -40,8 +40,8 @@ void exec_with_pipe(t_shell *shell)
             }
             char **args = list_to_array(parser->args);
 			char *path = get_external_cmd_path(args[0]);
-            execve(path, args, NULL);
-            perror("execve");
+            if (execve(path, args, NULL) == -1)
+                error(shell, "%s: command not found\n", args[0], 127);
             exit(EXIT_FAILURE);
         }     
         if (parser->infile != STDIN_FILENO)
