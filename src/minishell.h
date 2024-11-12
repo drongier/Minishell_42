@@ -127,6 +127,8 @@ void	write_single_quotes(char *input);
 char	*trim(char *str);
 void	error(t_shell *shell, char *err_msg, char *args, int err_num);
 char 	**convert_env_to_array(t_env *env);
+char 	*remove_quotes(char *str);
+int 	valid_quotes(char *str);
 
 // Cleaning
 void	cleanup(t_shell *shell);
