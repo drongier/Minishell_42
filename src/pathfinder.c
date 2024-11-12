@@ -126,11 +126,7 @@ void	exec_cmd(char *path, t_list *args, t_shell *shell)
 		}
 		argv[i] = NULL;
 		if (execve(path, argv, envp) == -1)
-		{
             error(shell, "%s: command not found\n", (char *)shell->parser->args->content, 127);
-			exit(EXIT_FAILURE);
-		}
-		
 	}
 	else
 	{
