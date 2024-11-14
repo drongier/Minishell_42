@@ -6,7 +6,7 @@
 /*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 14:45:30 by chbachir          #+#    #+#             */
-/*   Updated: 2024/11/11 18:32:53 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/11/14 19:43:19 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ void	exec_cmd(char *path, t_list *args, t_shell *shell)
 	t_list *arg_node = args;
 
 	pid = fork();
-	
+
 	if (pid == -1)
 	{
 		perror("fork");
