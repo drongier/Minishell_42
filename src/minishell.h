@@ -6,7 +6,7 @@
 /*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 15:02:35 by emaydogd          #+#    #+#             */
-/*   Updated: 2024/11/11 18:34:34 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/11/14 19:42:22 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,5 +150,8 @@ void 	exec_with_pipe(t_shell *shell);
 
 int	check_error_token_redi(t_shell *shell);
 int	ft_env_size(t_env *env);
+
+// signals
+void use_signals(void);
 
 #endif
