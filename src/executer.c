@@ -21,6 +21,7 @@ static void	exec_path(t_shell *shell, char *cmd, t_list *args)
 	cmd_path = get_external_cmd_path(cmd);
 	if (ft_strchr(cmd, '/'))
 		cmd_path = ft_strdup(cmd); // Copier le chemin de la commande
+	printf("path : %s\n", cmd_path);
 	saved_out = dup(STDOUT_FILENO);
 	saved_in = dup(STDIN_FILENO);
 	if (shell->parser->outfile != STDOUT_FILENO)

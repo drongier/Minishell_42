@@ -124,6 +124,8 @@ void	exec_cmd(char *path, t_list *args, t_shell *shell)
 			i++;
 			arg_node = arg_node->next;
 		}
+		printf("args %s\n", argv[1]);
+		printf("outifle %d\n", shell->parser->outfile);
 		argv[i] = NULL;
 		if (execve(path, argv, envp) == -1)
             error(shell, "%s: command not found\n", (char *)shell->parser->args->content, 127);

@@ -40,6 +40,8 @@ void exec_with_pipe(t_shell *shell)
             }
             char **args = list_to_array(parser->args);
 			char *path = get_external_cmd_path(args[0]);
+            if (ft_strchr(args[0], '/'))
+		        path = ft_strdup(args[0]); // Copier le chemin de la commande
             if (execve(path, args, NULL) == -1)
                 error(shell, "%s: command not found\n", args[0], 127);
             exit(EXIT_FAILURE);
