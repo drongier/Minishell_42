@@ -6,7 +6,7 @@
 /*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 12:13:52 by chbachir          #+#    #+#             */
-/*   Updated: 2024/11/17 18:08:54 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/11/17 21:41:24 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,10 @@ int     check_error_token_redi(t_shell *shell)
 void	error(t_shell *shell, char *err_msg, char *args, int err_num)
 {
 	if (!err_msg)
-	{
-		printf("1 error status that i should get = %d\n", err_num);
 		shell->exit_status = err_num;
-	}
 	else
 	{
 		printf(err_msg, args);
-		printf("2 error status that i should get = %d\n", err_num);
 		shell->exit_status = err_num;
 	}
 }
