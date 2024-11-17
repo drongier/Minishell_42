@@ -39,7 +39,7 @@ void exec_with_pipe(t_shell *shell)
                 close(parser->outfile);
             }
             char **args = list_to_array(parser->args);
-			char *path = get_external_cmd_path(args[0]);
+			char *path = get_external_cmd_path(shell, args[0]);
             if (execve(path, args, NULL) == -1)
                 error(shell, "%s: command not found\n", args[0], 127);
             exit(EXIT_FAILURE);

@@ -6,7 +6,7 @@
 /*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 12:10:13 by chbachir          #+#    #+#             */
-/*   Updated: 2024/11/14 19:42:59 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/11/17 17:27:08 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static void	exec_path(t_shell *shell, char *cmd, t_list *args)
 	int				saved_out;
 	int				saved_in;
 	
-	cmd_path = get_external_cmd_path(cmd);
+	cmd_path = get_external_cmd_path(shell, cmd);
 	if (ft_strchr(cmd, '/'))
 		cmd_path = ft_strdup(cmd); // Copier le chemin de la commande
 	saved_out = dup(STDOUT_FILENO);
@@ -55,7 +55,6 @@ void	exec_bin(t_shell *shell, char *cmd, t_list *args)
 
 void	exec_start(t_shell *shell)
 {
-
 	t_parser *parser; 
 
 	parser = shell->parser;

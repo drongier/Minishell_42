@@ -6,7 +6,7 @@
 /*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 14:45:30 by chbachir          #+#    #+#             */
-/*   Updated: 2024/11/14 19:43:19 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/11/17 21:31:44 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,15 +68,15 @@ char	**convert_env_to_array(t_env *env)
 	return envp;
 }
 
-char*	get_external_cmd_path(char * cmd)
+char*	get_external_cmd_path(t_shell *shell, char * cmd)
 {
     static char cmd_path[MAX_PATH_LENGTH];
     int dir_length;
     char* current_dir;
 
-    if (getenv("PATH") == NULL)
+    if (ft_getenv(shell, "PATH") == NULL)
         return NULL;
-	current_dir = getenv("PATH");
+	current_dir = ft_getenv(shell, "PATH");
     while (*current_dir != '\0')
 	{
         dir_length = 0;
@@ -108,14 +108,14 @@ void	exec_cmd(char *path, t_list *args, t_shell *shell)
 	if (pid == -1)
 	{
 		perror("fork");
-		exit(EXIT_FAILURE);
+		return ;
 	}
 	else if (pid == 0)
 	{
 		int i;
 		char **envp = convert_env_to_array(shell->env);
 		if (!envp)
-			exit(EXIT_FAILURE);
+			return ;
 		char *argv[] = {path, NULL};
 		i = 1;
 		while (arg_node)
@@ -127,17 +127,20 @@ void	exec_cmd(char *path, t_list *args, t_shell *shell)
 		argv[i] = NULL;
 		if (execve(path, argv, envp) == -1)
 		{
-            error(shell, "%s: command not found\n", (char *)shell->parser->args->content, 127);
-			exit(EXIT_FAILURE);
+			if (ft_getenv(shell, "PATH") == NULL)
+				error(shell, "%s: No such file or directory\n", (char *)shell->parser->args->content, 127);
+				//exit(EXIT_FAILURE); was causing exit-status 0
+			else
+            	error(shell, "%s: command not found\n", (char *)shell->parser->args->content, 127);
+				//exit(EXIT_FAILURE); was causing exit-status 0
 		}
-		
 	}
 	else
 	{
 		if (waitpid(pid, &status, 0) == -1)
 		{ 
 			perror("waitpid");
-			exit(EXIT_FAILURE);
+			return ;
 		}
 	}
 }

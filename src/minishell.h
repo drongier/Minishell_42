@@ -6,7 +6,7 @@
 /*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 15:02:35 by emaydogd          #+#    #+#             */
-/*   Updated: 2024/11/14 19:42:22 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/11/17 17:26:21 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,7 +136,7 @@ void	free_env(t_env *env);
 void	free_envp(char **envp, int idx);
 
 int		*piping();
-char 	*get_external_cmd_path(char *cmd);
+char 	*get_external_cmd_path(t_shell *shell, char *cmd);
 char	*ft_getenv(t_shell *shell, char *key);
 
 // Executer
