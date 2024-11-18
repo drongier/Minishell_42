@@ -6,19 +6,20 @@
 /*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 15:02:35 by emaydogd          #+#    #+#             */
-/*   Updated: 2024/11/17 17:26:21 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/11/18 22:51:19 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
+# define _POSIX_C_SOURCE 200809L
+# include <signal.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
 # include <unistd.h>
 # include <readline/readline.h>
 # include <readline/history.h>
-# include <signal.h>
 # include <sys/wait.h>
 # include <sys/types.h>
 # include <sys/stat.h>
@@ -42,6 +43,7 @@
  ╚═════╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝╚═════╝       ╚══════╝╚═╝     ╚═╝╚═╝  ╚═╝╚══════╝ \n\
 ######################################################################################\n\
 "
+extern volatile sig_atomic_t g_signal;
 
 typedef enum	s_token_type
 {
@@ -90,6 +92,7 @@ typedef struct s_shell
 	char			*tmp_output;
 	int				exit_status;
 	int				flag_pipe;
+	int				in_heredoc;
 	struct s_lexer	*lexer;
 	struct s_parser	*parser;
 	struct s_env	*env;
@@ -147,8 +150,16 @@ void 	exec_with_pipe(t_shell *shell);
 
 //error check
 
-int	check_error_token_redi(t_shell *shell);
-int	ft_env_size(t_env *env);
+int		check_error_token_redi(t_shell *shell);
+int		ft_env_size(t_env *env);
+
+// Signals
+
+void	handle_sigint(int sig);
+void	setup_signal_handlers(void);
+
+// heredoc
+void	handle_heredoc(t_shell *shell, t_parser *parser, const char *delimiter);
 
 // signals
 void use_signals(void);

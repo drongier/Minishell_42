@@ -6,17 +6,11 @@
 /*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 14:45:30 by chbachir          #+#    #+#             */
-/*   Updated: 2024/11/17 21:31:44 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/11/18 22:50:35 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
 #include "minishell.h"
-#include <sys/wait.h>
-#include "../libft/libft.h"
-
 #define MAX_PATH_LENGTH 1024
 
 char *create_env_str(t_env *env)
@@ -144,3 +138,4 @@ void	exec_cmd(char *path, t_list *args, t_shell *shell)
 		}
 	}
 }
+
