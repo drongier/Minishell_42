@@ -87,12 +87,14 @@ void parser(t_shell *shell)
 	t_parser 	*parser;
 	t_lexer 	*lexer;
 	t_list		*node_input;
+	char		*clean_str;
 
 	shell->parser = new_cmd_node();
 	parser = shell->parser;
 	lexer = shell->lexer;
 	while (lexer)
 	{
+		clean_str = remove_quotes((char *)lexer->input);
 		node_input = ft_lstnew(lexer->input);
 		if (lexer->type == TOKEN_ARG)
 			ft_lstadd_back(&parser->args, node_input);
