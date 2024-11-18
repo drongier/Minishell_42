@@ -6,7 +6,7 @@
 /*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/01 17:16:34 by emaydogd          #+#    #+#             */
-/*   Updated: 2024/11/14 20:53:47 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/11/18 15:20:01 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static int is_valid_var_char(char c)
 // Crée une nouvelle chaîne en ajoutant un caractère à une chaîne existante
 static char *ft_strjoin_char(char *s, char c)
 {
-    char    *new_str;
+    char    *new_str; 
     size_t  len;
 
     if (!s)
