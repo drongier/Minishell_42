@@ -6,7 +6,7 @@
 /*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 15:02:35 by emaydogd          #+#    #+#             */
-/*   Updated: 2024/11/12 17:56:44 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/11/18 16:34:08 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ typedef struct s_shell
 	char			*tmp_output;
 	int				exit_status;
 	int				flag_pipe;
+	int				in_heredoc;
 	struct s_lexer	*lexer;
 	struct s_parser	*parser;
 	struct s_env	*env;
@@ -154,5 +155,8 @@ int		ft_env_size(t_env *env);
 
 void	handle_sigint(int sig);
 void	setup_signal_handlers(void);
+
+// heredoc
+void	handle_heredoc(t_parser *parser, const char *delimiter);
 
 #endif

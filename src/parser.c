@@ -6,7 +6,7 @@
 /*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 15:36:16 by emaydogd          #+#    #+#             */
-/*   Updated: 2024/10/15 14:12:50 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/11/18 16:31:27 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,34 +53,6 @@ static t_parser *new_cmd_node()
 	return (cmd);
 }
 
-void handle_heredoc(t_parser *parser, const char *delimiter) 
-{
-	char *line = NULL;
-    int pipefd[2];
-
-    if (pipe(pipefd) == -1) 
-    {
-        perror("pipe");
-        return;
-    }
-    while (1) 
-    {
-        line = readline("heredoc> ");
-        if (!line)
-            break;
-        if (strcmp(line, delimiter) == 0) 
-        {
-            free(line);
-            break;
-        }
-        write(pipefd[1], line, strlen(line));
-        write(pipefd[1], "\n", 1);
-        free(line);
-    }
-    close(pipefd[1]);
-    parser->infile = pipefd[0];
-	return ;
-}
 
 void parser(t_shell *shell)
 {
