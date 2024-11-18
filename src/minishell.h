@@ -6,7 +6,7 @@
 /*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 15:02:35 by emaydogd          #+#    #+#             */
-/*   Updated: 2024/11/18 16:34:08 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/11/18 21:37:21 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@
  ╚═════╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝╚═════╝       ╚══════╝╚═╝     ╚═╝╚═╝  ╚═╝╚══════╝ \n\
 ######################################################################################\n\
 "
+extern volatile sig_atomic_t g_signal;
 
 typedef enum	s_token_type
 {
@@ -157,6 +158,6 @@ void	handle_sigint(int sig);
 void	setup_signal_handlers(void);
 
 // heredoc
-void	handle_heredoc(t_parser *parser, const char *delimiter);
+void	handle_heredoc(t_shell *shell, t_parser *parser, const char *delimiter);
 
 #endif

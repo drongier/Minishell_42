@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   helper.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emaydogd <emaydogd@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 14:10:57 by emaydogd          #+#    #+#             */
-/*   Updated: 2024/09/20 14:14:25 by emaydogd         ###   ########.fr       */
+/*   Updated: 2024/11/18 21:18:28 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,4 +32,33 @@ char	*trim(char *str)
 	}
 	new[j] = '\0';
 	return (new);
+}
+
+void print_cmdtable(t_shell shell)
+{
+	t_parser *current_node = shell.parser;
+	int cmd_num = 1;
+
+	printf("Command Table:\n");
+	while (current_node)
+	{
+		printf("\n	Command %d:\n", cmd_num++);
+		t_parser *cmd = (t_parser *)current_node;
+		printf("		infile: %d\n", cmd->infile);
+		printf("		outfile: %d\n", cmd->outfile);
+		int i = 0;
+		if (cmd->args)
+		{
+			while (cmd->args)
+			{
+				printf("		Arg[%d]: %s\n", i, (char *)cmd->args->content);
+				i++;
+				cmd->args = cmd->args->next;
+			}
+		}
+		else
+			printf("  No command arguments.\n");
+		current_node = current_node->next;
+	}
+	printf("------------------------------------------------\n");
 }
