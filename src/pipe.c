@@ -12,23 +12,6 @@
 
 #include "minishell.h"
 
-char	**list_to_array(t_list *args)
-{
-	t_list *args2;
-	args2 = args;
-	char **str = malloc(sizeof(char *) * (ft_lstsize(args2) + 2));
-
-    int i = 0;
-    while (args2) 
-    {
-        str[i] = (char *)args2->content;
-        args2 = args2->next;
-        i++;
-	}
-    str[i] = NULL;
-	return(str);
-}
-
 void exec_with_pipe(t_shell *shell)
 {
 	t_parser *parser;
