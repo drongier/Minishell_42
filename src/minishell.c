@@ -6,7 +6,7 @@
 /*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 15:02:35 by emaydogd          #+#    #+#             */
-/*   Updated: 2024/11/18 22:51:57 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/11/20 12:38:53 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static void	minishell(char **env)
         lexer(&shell);
         expander(&shell);
         parser(&shell);
-
+		//print_cmdtable(shell);
         // Vérifier si une interruption a eu lieu
         if (shell.exit_status == 130)
         {
