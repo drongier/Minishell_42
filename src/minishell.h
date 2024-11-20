@@ -132,6 +132,7 @@ char	*trim(char *str);
 void	error(t_shell *shell, char *err_msg, char *args, int err_num);
 char 	**convert_env_to_array(t_env *env);
 char 	*remove_quotes(char *str);
+char	**list_to_array(t_list *args);
 
 // Cleaning
 void	cleanup(t_shell *shell);

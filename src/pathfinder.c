@@ -122,11 +122,9 @@ void	exec_cmd(char *path, t_list *args, t_shell *shell)
 		if (execve(path, argv, envp) == -1)
 		{
 			if (ft_getenv(shell, "PATH") == NULL)
-				error(shell, "%s: No such file or directory\n", (char *)shell->parser->args->content, 127);
-				//exit(EXIT_FAILURE); was causing exit-status 0
+				error(shell, "No such file or directory\n", (char *)shell->parser->args->content, 127);
 			else
-            	error(shell, "%s: command not found\n", (char *)shell->parser->args->content, 127);
-				//exit(EXIT_FAILURE); was causing exit-status 0
+            	error(shell, ": command not found\n", (char *)shell->parser->args->content, 127);
 		}
 	}
 	else
@@ -136,6 +134,7 @@ void	exec_cmd(char *path, t_list *args, t_shell *shell)
 			perror("waitpid");
 			return ;
 		}
+		shell->exit_status = 0;
 	}
 }
 
