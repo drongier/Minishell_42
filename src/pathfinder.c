@@ -123,10 +123,8 @@ void	exec_cmd(char *path, t_list *args, t_shell *shell)
 		{
 			if (ft_getenv(shell, "PATH") == NULL)
 				error(shell, "No such file or directory\n", (char *)shell->parser->args->content, 127);
-				//exit(EXIT_FAILURE); was causing exit-status 0
 			else
             	error(shell, ": command not found\n", (char *)shell->parser->args->content, 127);
-				//exit(EXIT_FAILURE); was causing exit-status 0
 		}
 	}
 	else
