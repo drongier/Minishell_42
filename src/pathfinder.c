@@ -6,7 +6,7 @@
 /*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 14:45:30 by chbachir          #+#    #+#             */
-/*   Updated: 2024/11/18 23:03:40 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/11/20 14:36:30 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@ char*	get_external_cmd_path(t_shell *shell, char * cmd)
     static char cmd_path[MAX_PATH_LENGTH];
     int dir_length;
     char* current_dir;
-
     if (ft_getenv(shell, "PATH") == NULL)
         return NULL;
 	current_dir = ft_getenv(shell, "PATH");
@@ -122,7 +121,7 @@ void	exec_cmd(char *path, t_list *args, t_shell *shell)
 		if (execve(path, argv, envp) == -1)
 		{
 			if (ft_getenv(shell, "PATH") == NULL)
-				error(shell, "No such file or directory\n", (char *)shell->parser->args->content, 127);
+				error(shell, ": No such file or directory\n", (char *)shell->parser->args->content, 127);
 			else
             	error(shell, ": command not found\n", (char *)shell->parser->args->content, 127);
 		}

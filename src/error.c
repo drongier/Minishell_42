@@ -6,7 +6,7 @@
 /*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 12:13:52 by chbachir          #+#    #+#             */
-/*   Updated: 2024/11/20 12:47:33 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/11/20 14:34:36 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,6 @@ void	error(t_shell *shell, char *err_msg, char *args, int err_num)
 	{       
                 ft_putstr_fd(args, STDERR_FILENO);
                 ft_putstr_fd(err_msg, STDERR_FILENO);
-		shell->exit_status = err_num;
+				shell->exit_status = err_num;
 	}
 }
