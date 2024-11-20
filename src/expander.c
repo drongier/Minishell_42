@@ -5,376 +5,194 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/01 17:16:34 by emaydogd          #+#    #+#             */
-/*   Updated: 2024/11/18 23:08:52 by chbachir         ###   ########.fr       */
+/*   Created: 2024/11/19 12:51:03 by chbachir          #+#    #+#             */
+/*   Updated: 2024/11/20 10:11:16 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+// expander.c
 #include "minishell.h"
 
-// Vérifie si le caractère est valide pour un nom de variable
-static int is_valid_var_char(char c)
+// Vérifie si le caractère fait partie d'un nom de variable valide
+static int is_var_char(char c)
 {
-    if ((c >= 'A' && c <= 'Z') ||
-        (c >= 'a' && c <= 'z') ||
-        (c >= '0' && c <= '9') ||
-        c == '_')
-        return (1);
-    return (0);
+    return ((c >= 'A' && c <= 'Z') ||
+            (c >= 'a' && c <= 'z') ||
+            (c >= '0' && c <= '9') ||
+            (c == '_'));
 }
 
-// Crée une nouvelle chaîne en ajoutant un caractère à une chaîne existante
-static char *ft_strjoin_char(char *s, char c)
+// Vérifie si la variable actuelle est une variable spéciale ($?)
+static int is_special_variable(const char *input, int i)
 {
-    char    *new_str; 
-    size_t  len;
-
-    if (!s)
-        return (NULL);
-    len = ft_strlen(s);
-    new_str = ft_calloc(len + 2, sizeof(char));
-    if (!new_str)
-        return (NULL);
-    ft_memcpy(new_str, s, len);
-    new_str[len] = c;
-    return (new_str);
+    return (input[i + 1] == '?');
 }
 
-// Ajoute une chaîne à `new_input`
-static void append_str(char **str, char *addition)
+// Trouve la position de fin de la variable dans la chaîne d'entrée
+static int get_variable_end(const char *input, int start)
 {
-    char *temp;
-
-    temp = ft_strjoin(*str, addition);
-    if (!temp)
-        return ;
-    free(*str);
-    *str = temp;
-}
-
-// Trouve la fin du nom de la variable d'environnement
-static int find_var_end(char *input, int start)
-{
-    int j;
-
-    j = start;
-    while (input[j] && input[j] != ' ' && input[j] != '"' && input[j] != '\'' &&
-           is_valid_var_char(input[j]))
+    int j = start;
+    while (input[j] && input[j] != ' ' &&
+           input[j] != '"' && input[j] != '\'' &&
+           is_var_char(input[j]))
         j++;
-    return (j);
+    return j;
 }
 
-// Ajoute un caractère à la chaîne `new_input`
-static void append_char(char **str, char c)
+// Extrait le nom de la variable à partir des indices de début et de fin
+static char *extract_variable_name(const char *input, int start, int end)
 {
-    char *temp;
+    char *var_name;
 
-    temp = ft_strjoin_char(*str, c);
-    if (!temp)
-        return ;
-    free(*str);
-    *str = temp;
+    var_name = ft_substr(input, start, end - start);
+    if (!var_name)
+        return NULL;
+    return var_name;
 }
 
-// Récupère la valeur de la variable d'environnement
-static char *get_env_value(t_shell *shell, char *key)
+// Nouvelle fonction pour gérer les variables régulières
+static char *handle_regular_variable(t_shell *shell, const char *input, int i, int *end)
 {
-    char *value;
+    int start = i + 1;
+    char *var_value;
+    char *var_name;
 
-    if (ft_strcmp(key, "") == 0)
-        return (ft_strdup(""));
-    value = ft_getenv(shell, key);
-    if (value == NULL)
-        return (ft_strdup(""));
-    return (ft_strdup(value));
-}
-
-// Gère l'ajout de la valeur après `$?`
-static int handle_dollar_question(t_shell *shell, char **new_input, int i)
-{
-    char *key_env;
-
-    key_env = ft_itoa(shell->exit_status);
-    if (!key_env)
-        return (i + 1);
-    append_str(new_input, key_env);
-    free(key_env);
-    return (i + 2);
-}
-
-// Gère l'ajout de la valeur après `$VAR`
-static int handle_dollar_var(t_shell *shell, t_lexer *lexer, char **new_input, int i)
-{
-    char    *key;
-    char    *key_env;
-    int     j;
-
-    j = find_var_end(lexer->input, i + 1);
-    key = ft_substr(lexer->input, i + 1, j - (i + 1));
-    if (!key)
-        return (j);
-    if (ft_strcmp(key, "") == 0)
+    *end = get_variable_end(input, start);
+    var_name = extract_variable_name(input, start, *end);
+    if (!var_name)
+        return NULL;
+    if (ft_strlen(var_name) == 0)
     {
-        free(key);
-        return (i + 1);
+        free(var_name);
+        var_value = ft_strdup("$");
     }
-    key_env = get_env_value(shell, key);
-    if (!key_env)
-        key_env = ft_strdup("");
-    append_str(new_input, key_env);
-    free(key);
-    free(key_env);
-    return (j);
-}
-
-// Gère l'expansion après un symbole `$`
-static int handle_dollar(t_shell *shell, t_lexer *lexer, char **new_input, int i)
-{
-    if (lexer->input[i + 1] == '?')
-        return handle_dollar_question(shell, new_input, i);
     else
     {
-        return handle_dollar_var(shell, lexer, new_input, i);
+        var_value = ft_getenv(shell, var_name);
+        if (!var_value)
+            var_value = ft_strdup("");
+        free(var_name);
     }
+    return var_value;
 }
 
-// Gère le basculement de l'état de la citation simple
-static int toggle_single_quote(int single_quote)
+// Fonction refactorisée `get_variable_value`
+static char *get_variable_value(t_shell *shell, const char *input, int i, int *end)
 {
-    if (single_quote)
-        return (0);
-    return (1);
+    char *var_value;
+
+    if (is_special_variable(input, i))
+    {
+        var_value = ft_itoa(shell->exit_status);
+        if (!var_value)
+            return NULL;
+        *end = i + 2;
+    }
+    else
+    {
+        var_value = handle_regular_variable(shell, input, i, end);
+        if (!var_value)
+            return NULL;
+    }
+    return var_value;
 }
 
-// Gère l'expansion de la chaîne après le traitement du symbole `$`
-static void process_dollar(t_shell *shell, t_lexer *lexer, char **new_input, int *i)
+// Construit la nouvelle chaîne avec la variable remplacée
+static char *build_new_input(const char *input, int start, int end, const char *var_value)
 {
-    int new_i;
+    char *start_str;
+    char *end_str;
+    char *temp;
+    char *new_input;
 
-    new_i = handle_dollar(shell, lexer, new_input, *i);
-    if (new_i <= *i)
-        return ; // Gestion d'erreur ou autre traitement
-    *i = new_i;
+    start_str = ft_substr(input, 0, start);
+    if (!start_str)
+        return NULL;
+    end_str = ft_strdup(&input[end]);
+    if (!end_str)
+    {
+        free(start_str);
+        return NULL;
+    }
+    temp = ft_strjoin(start_str, var_value);
+    free(start_str);
+    if (!temp)
+    {
+        free(end_str);
+        return NULL;
+    }
+    new_input = ft_strjoin(temp, end_str);
+    free(temp);
+    free(end_str);
+    return new_input;
 }
 
-// Gère l'expansion des variables dans une chaîne d'entrée spécifique
-static void expand_input(t_shell *shell, t_lexer *lexer)
+// Remplace la variable dans la chaîne d'entrée avec sa valeur correspondante
+static int replace_variable_in_input(t_shell *shell, t_lexer *lexer, int start, int end, const char *var_value)
 {
-    int     i;
-    int     single_quote;
-    char    *new_input;
+    char *new_input;
 
-    i = 0;
-    single_quote = 0;
-    new_input = ft_strdup("");
+    // Utiliser lexer->input au lieu de input
+    new_input = build_new_input(lexer->input, start, end, var_value);
     if (!new_input)
-        return ;
+        return 0;
+    free(lexer->input);
+    lexer->input = new_input;
+    return 1;
+}
+
+// Gère l'expansion d'une variable à la position actuelle dans la chaîne d'entrée
+static int expand_variable_at(t_shell *shell, t_lexer *lexer, int *i)
+{
+    int end;
+    char *var_value;
+
+    var_value = get_variable_value(shell, lexer->input, *i, &end);
+    if (!var_value)
+        return 0;
+    if (!replace_variable_in_input(shell, lexer, *i, end, var_value))
+    {
+        if (!is_special_variable(lexer->input, *i))
+            free(var_value);
+        return 0;
+    }
+    if (!is_special_variable(lexer->input, *i))
+        free(var_value);
+    *i += ft_strlen(var_value);
+    return 1;
+}
+
+// Traite une seule entrée lexer->input et effectue les expansions nécessaires
+static int process_lexer_input(t_shell *shell, t_lexer *lexer)
+{
+    int i = 0;
+    int single_quote = 0;
+
     while (lexer->input[i])
     {
         if (lexer->input[i] == '\'')
-            single_quote = toggle_single_quote(single_quote);
+            single_quote = !single_quote;
         if (lexer->input[i] == '$' && !single_quote)
-            process_dollar(shell, lexer, &new_input, &i);
-        else
         {
-            append_char(&new_input, lexer->input[i]);
-            i++;
+            if (!expand_variable_at(shell, lexer, &i))
+                return 0;
         }
+        else
+            i++;
     }
-    free(lexer->input);
-    lexer->input = new_input;
+    return 1;
 }
 
-// Fonction principale
+// Fonction principale `expander` qui parcourt chaque lexer et effectue les expansions
 void expander(t_shell *shell)
 {
-    t_lexer *lexer;
+    t_lexer *lexer = shell->lexer;
 
-    lexer = shell->lexer;
     while (lexer)
     {
-        expand_input(shell, lexer);
+        if (!process_lexer_input(shell, lexer))
+            return; // En cas d'erreur, arrêter le processus d'expansion
         lexer = lexer->next;
     }
 }
 
-// Redéfinitions des fonctions statiques
-
-
-
-
-
-
-
-
-
-
-
-/* void expander(t_shell *shell)
-{
-    t_lexer *lexer;
-    int i;
-    int j;
-    int single_quote;
-    char *key;
-    char *key_env;
-    char *start;
-    char *end;
-    char *dest;
-
-    dest = NULL;
-    lexer = shell->lexer;
-    while (lexer)
-    {
-        i = 0;
-        single_quote = 0;
-        while (lexer->input[i])
-        {
-            if (lexer->input[i] == '\'')
-                single_quote = !single_quote;
-
-            if (lexer->input[i] == '$' && !single_quote)
-            {
-                if (lexer->input[i + 1] == '?')
-                {
-                    key_env = ft_itoa(shell->exit_status);
-                    if (!key_env)
-                        return ;
-                    j = i + 2;
-                }
-                else
-                {
-                    j = i + 1;
-                    while (lexer->input[j] && lexer->input[j] != ' ' &&
-                           lexer->input[j] != '"' && lexer->input[j] != '\'' &&
-                           ( (lexer->input[j] >= 'A' && lexer->input[j] <= 'Z') ||
-                             (lexer->input[j] >= 'a' && lexer->input[j] <= 'z') ||
-                             (lexer->input[j] >= '0' && lexer->input[j] <= '9') ||
-                             lexer->input[j] == '_'))
-                        j++;
-                    key = ft_substr(lexer->input, i + 1, j - i - 1);
-                    if (!key)
-                        return ;
-                    if (ft_strcmp(key, "") == 0)
-                    {
-                        free(key);
-                        i++;
-                        continue ;
-                    }
-                    key_env = ft_getenv(shell, key);
-                    if (key_env == NULL)
-                        key_env = "";
-                    free(key);
-                }
-                start = ft_substr(lexer->input, 0, i);
-                if (!start)
-                    return ;
-
-                end = ft_substr(lexer->input, j, strlen(lexer->input) - j);
-                if (!end)
-                {
-                    free(start);
-                    return ;
-                }
-                dest = ft_calloc(strlen(start) + strlen(key_env) + strlen(end) + 1, sizeof(char));
-                if (!dest)
-                {
-                    free(start);
-                    free(end);
-                    return ;
-                }
-                ft_strcat(dest, start);
-                ft_strcat(dest, key_env);
-                ft_strcat(dest, end);
-                free(lexer->input);
-                lexer->input = ft_strdup(dest);
-
-                if (!lexer->input)
-                {
-                    free(start);
-                    free(end);
-                    free(dest);
-                    return ;
-                }
-                free(start);
-                free(end);
-                free(dest);
-                i += strlen(key_env);
-            }
-            else
-                i++;
-        }
-        lexer = lexer->next;
-    }
-} */
-
-
-/*
-OLD OLD 
-void	expander(t_shell *shell)
-{
-	t_lexer * lexer;
-	int			i;
-	int			j;
-	int			single_quote;
-	char		*key;
-	char		*key_env;
-	char		*start;
-	char		*end;
-	char		*dest;
-	
-	dest = NULL;
-	lexer = shell->lexer;
-
-	//correct_single_quotes(shell->cmdline); // Chakib : not supposed to write here, should be done in executer
-	while (lexer)
-	{
-		i = 0;
-		single_quote = 0;
-		while (lexer->input[i])
-		{
-			if (lexer->input[i] == '\'')
-				single_quote = !single_quote;
-			if (lexer->input[i] == '$' && !single_quote)
-			{
-				start = ft_substr(lexer->input, 0,  i);
-				j = i;
-				while (lexer->input[j] != ' ' && lexer->input[j] != '"'  && lexer->input[j] != '\'' && lexer->input[j])
-					j++;
-				if (lexer->input[i + 1] == '?')
-				{
-					key_env = ft_itoa(shell->exit_status);
-				}
-				else
-				{
-					key = ft_substr(lexer->input, i + 1, j - i - 1);
-					if (ft_strcmp(key, "") == 0)
-					{
-						i++;
-						continue ;
-					}
-					key_env = ft_getenv(shell, key);
-					if (key_env == NULL)
-						key_env = "";
-					free(key);
-				}
-				end = ft_substr(lexer->input,j, ft_strlen(lexer->input) - j + 1);
-				dest = ft_calloc((ft_strlen(start) + ft_strlen(key_env) + ft_strlen(end) + 1), sizeof(char));
-				if (!dest)
-				 	return ;
-				dest = ft_strcat(dest, start);
-				dest = ft_strcat(dest, key_env);
-				dest = ft_strcat(dest, end);
-				lexer->input = ft_strdup(dest);
-
-				free(start);
-				//free(key_env); // Chakib : ATTENTION with SEGFAULT
-				free(end);
-				free(dest);
-				i = j;
-			}
-			i++;
-		}
-		lexer = lexer->next;
-	}
-} */
