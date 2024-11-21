@@ -6,10 +6,11 @@
 /*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 13:35:45 by emaydogd          #+#    #+#             */
-/*   Updated: 2024/11/20 22:21:23 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/11/21 10:27:22 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 
 void	ft_putstr_fd(char *s, int fd)
 {
