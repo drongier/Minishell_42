@@ -99,7 +99,13 @@ typedef struct s_shell
 	struct s_env	*env;
 }	t_shell;
 
+/* LEXER */
+
 void	lexer(t_shell *shell);
+char *add_spaces_around_redirection(const char *cmdline);
+void	free_split_res(char **split_res);
+static int	push(t_lexer **lexer, char *input, t_token_type type, size_t pos);
+
 void	expander(t_shell *shell);
 void	parser(t_shell *shell);
 

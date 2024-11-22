@@ -40,7 +40,7 @@ void exec_with_pipe(t_shell *shell)
             else
             {
                 if (execve(path, args, NULL) == -1)
-                    error(shell, "%s: command not found\n", args[0], 127);
+                    error(shell, ": command not found\n", args[0], 127);
             }
             exit(EXIT_FAILURE);
         }     

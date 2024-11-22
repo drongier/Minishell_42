@@ -4,10 +4,11 @@ RL		=	-lreadline
 CFLAGS	=	-g #-Wall -Wextra -Werror
 RM		=	rm -f -r
 
-SRCC	=	minishell.c lexer.c expander.c parser.c printers.c executer.c \
+SRCC	=	minishell.c expander.c parser.c printers.c executer.c \
 			environment.c bin/echo.c bin/pwd.c bin/cd.c bin/env.c bin/export.c \
 			bin/unset.c bin/exit.c pathfinder.c pipe.c free.c  error.c \
-			helper.c bin/clear.c signals.c heredoc.c
+			helper.c bin/clear.c signals.c heredoc.c \
+			lexer/lexer.c lexer/lexer_utils.c 
 OBJD	=	obj
 OBJDBIN	=	obj/bin
 SRCD	=	src
@@ -25,7 +26,7 @@ $(NAME):	$(LIBFT) $(OBJS)
 			@echo "Compile Minishell"
 
 $(OBJD)/%.o: $(SRCD)/%.c
-			@mkdir -p $(OBJD) $(OBJDBIN)
+			@mkdir -p $(dir $@)
 			@$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
