@@ -6,7 +6,7 @@
 /*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 18:51:01 by chbachir          #+#    #+#             */
-/*   Updated: 2024/11/21 11:46:46 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/11/25 14:03:45 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	exec_exit(t_shell *shell)
 	printf("exit\n");
 	if (ft_lstsize(shell->parser->args) > 2)
 	{
-		error(shell, "minishell: exit: too many arguments\n", NULL, 1);
+		error(shell, "minishell: exit: too many arguments\n", NULL);
 		cleanup(shell);
 		exit(1);
 	}
@@ -51,7 +51,7 @@ void	exec_exit(t_shell *shell)
 	}
 	else
 	{
-		error(shell, "minishell: exit: numeric argument required\n", (char *)shell->parser->args->next->content, 2);
+		error(shell, "minishell: exit: numeric argument required\n", (char *)shell->parser->args->next->content);
 		cleanup(shell);
 		exit(2);
 	}
