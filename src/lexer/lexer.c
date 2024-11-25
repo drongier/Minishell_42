@@ -47,8 +47,10 @@ void lexer(t_shell *shell)
     size_t pos;
     char **str;
     int error_flag = 0;
-    
-    str = custom_split(shell->cmdline, &error_flag); // Utilisation de custom_split avec gestion des erreurs
+    char *new_str;
+
+	new_str = add_spaces_around_redirection(shell->cmdline);
+    str = custom_split(new_str, &error_flag); // Utilisation de custom_split avec gestion des erreurs
     if (!str)
     {
         if (error_flag)
