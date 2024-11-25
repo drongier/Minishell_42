@@ -17,10 +17,12 @@ static void	exec_path(t_shell *shell, char *cmd, t_list *args)
 	char 			*cmd_path;
 	int				saved_out;
 	int				saved_in;
-	
-	cmd_path = get_external_cmd_path(shell, cmd);
-	if (ft_strchr(cmd, '/'))
-		cmd_path = ft_strdup(cmd); // Copier le chemin de la commande
+	char			*cmd_clean;
+
+	cmd_clean = remove_quotes(cmd);
+	cmd_path = get_external_cmd_path(shell, cmd_clean);
+	if (ft_strchr(cmd_clean, '/'))
+		cmd_path = ft_strdup(cmd_clean); // Copier le chemin de la commande
 	saved_out = dup(STDOUT_FILENO);
 	saved_in = dup(STDIN_FILENO);
 	if (shell->parser->outfile != STDOUT_FILENO)

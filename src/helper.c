@@ -71,7 +71,7 @@ char	**list_to_array(t_list *args)
     int i = 0;
     while (args2) 
     {
-        str[i] = (char *)args2->content;
+        str[i] = remove_quotes((char *)args2->content);
         args2 = args2->next;
         i++;
 	}
