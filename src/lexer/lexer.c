@@ -6,7 +6,7 @@
 /*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:54:47 by chbachir          #+#    #+#             */
-/*   Updated: 2024/11/25 12:19:19 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/11/25 14:04:25 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,9 @@ void lexer(t_shell *shell)
     if (!str)
     {
         if (error_flag)
-            error(shell, "Lexer: Mismatched quotes detected\n", NULL, 1);
+            error(shell, "Lexer: Mismatched quotes detected\n", NULL);
         else
-            error(shell, "Lexer: Memory allocation failed\n", NULL, 1);
+            error(shell, "Lexer: Memory allocation failed\n", NULL);
         return;
     }
     i = 0;

@@ -6,7 +6,7 @@
 /*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 14:45:30 by chbachir          #+#    #+#             */
-/*   Updated: 2024/11/20 14:36:30 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/11/25 14:59:40 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,48 +92,55 @@ char*	get_external_cmd_path(t_shell *shell, char * cmd)
 
 void	exec_cmd(char *path, t_list *args, t_shell *shell)
 {
-	pid_t	pid;
-	int		status;
-	t_list *arg_node = args;
+    pid_t	pid;
+    int		status;
+    t_list *arg_node = args;
+    int i;
 
-	pid = fork();
+    pid = fork();
 
-	if (pid == -1)
-	{
-		perror("fork");
-		return ;
-	}
-	else if (pid == 0)
-	{
-		int i;
-		char **envp = convert_env_to_array(shell->env);
-		if (!envp)
-			return ;
-		char *argv[] = {path, NULL};
-		i = 1;
-		while (arg_node)
-		{
-			argv[i] = (char *)arg_node->content;
-			i++;
-			arg_node = arg_node->next;
-		}
-		argv[i] = NULL;
-		if (execve(path, argv, envp) == -1)
-		{
-			if (ft_getenv(shell, "PATH") == NULL)
-				error(shell, ": No such file or directory\n", (char *)shell->parser->args->content, 127);
-			else
-            	error(shell, ": command not found\n", (char *)shell->parser->args->content, 127);
-		}
-	}
-	else
-	{
-		if (waitpid(pid, &status, 0) == -1)
-		{ 
-			perror("waitpid");
-			return ;
-		}
-		shell->exit_status = 0;
-	}
+    if (pid == -1)
+    {
+        perror("fork");
+        exit(EXIT_FAILURE);
+    }
+    else if (pid == 0)
+    {
+        char **envp = convert_env_to_array(shell->env);
+        if (!envp)
+            return ;
+        char *argv[] = {path, NULL};
+        i = 1;
+        while (arg_node)
+        {
+            argv[i] = (char *)arg_node->content;
+            i++;
+            arg_node = arg_node->next;
+        }
+        argv[i] = NULL;
+        if (execve(path, argv, envp) == -1)
+        {
+            if (errno == EACCES)
+            {
+                error(shell, ": Permission denied\n", (char *)shell->parser->args->content);
+                exit(126);
+            }
+            else if (ft_getenv(shell, "PATH") == NULL)
+                error(shell, ": No such file or directory\n", (char *)shell->parser->args->content);
+            else
+                error(shell, ": command not found !!! \n", (char *)shell->parser->args->content);
+            exit(127);
+        }
+        exit(EXIT_SUCCESS);
+    }
+    else
+    {
+        waitpid(pid, &status, 0);
+        if (WIFEXITED(status))
+            shell->exit_status = WEXITSTATUS(status);
+        else if (WIFSIGNALED(status))
+            shell->exit_status = 128 + WTERMSIG(status);
+    }
 }
+
 

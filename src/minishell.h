@@ -6,7 +6,7 @@
 /*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 15:02:35 by emaydogd          #+#    #+#             */
-/*   Updated: 2024/11/20 13:03:11 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/11/25 14:26:33 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include <sys/types.h>
 # include <sys/stat.h>
 # include <fcntl.h>
+# include <errno.h>
 # include "../libft/libft.h"
 
 # define BANNER "\
@@ -135,7 +136,7 @@ void	write_single_quotes(char *input);
 
 /* HELPER FUNCTIONS */
 char	*trim(char *str);
-void	error(t_shell *shell, char *err_msg, char *args, int err_num);
+void	error(t_shell *shell, char *err_msg, char *args);
 char 	**convert_env_to_array(t_env *env);
 char 	*remove_quotes(char *str);
 char	**list_to_array(t_list *args);
