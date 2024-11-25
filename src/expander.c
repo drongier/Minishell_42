@@ -6,7 +6,7 @@
 /*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 12:51:03 by chbachir          #+#    #+#             */
-/*   Updated: 2024/11/20 10:11:16 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/11/25 12:52:16 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,13 +65,16 @@ static char *handle_regular_variable(t_shell *shell, const char *input, int i, i
     {
         free(var_name);
         var_value = ft_strdup("$");
+        if (!var_value)
+            return NULL; // Gestion de l'échec de ft_strdup
     }
     else
     {
-        var_value = ft_getenv(shell, var_name);
-        if (!var_value)
-            var_value = ft_strdup("");
+        char *env_value = ft_getenv(shell, var_name);
+        var_value = env_value ? ft_strdup(env_value) : ft_strdup("");
         free(var_name);
+        if (!var_value)
+            return NULL; // Gestion de l'échec de ft_strdup
     }
     return var_value;
 }
