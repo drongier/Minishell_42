@@ -6,7 +6,7 @@
 /*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:54:47 by chbachir          #+#    #+#             */
-/*   Updated: 2024/11/25 11:47:49 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/11/25 12:19:19 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,15 +47,8 @@ void lexer(t_shell *shell)
     size_t pos;
     char **str;
     int error_flag = 0;
-    char *transformed_cmdline;
     
-    transformed_cmdline = add_spaces_around_redirection(shell->cmdline);
-    if (!transformed_cmdline) 
-    {
-        error(shell, "Lexer: Memory allocation failed\n", NULL, 1);
-        return;
-    }
-    str = custom_split(transformed_cmdline, &error_flag); // Utilisation de custom_split avec gestion des erreurs
+    str = custom_split(shell->cmdline, &error_flag); // Utilisation de custom_split avec gestion des erreurs
     if (!str)
     {
         if (error_flag)
