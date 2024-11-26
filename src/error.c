@@ -33,5 +33,4 @@ void	error(t_shell *shell, char *err_msg, char *args)
 		ft_putstr_fd(args, STDERR_FILENO);
 	if (err_msg)
 		ft_putstr_fd(err_msg, STDERR_FILENO);
-	
 }
