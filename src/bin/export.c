@@ -6,7 +6,7 @@
 /*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 21:32:10 by emaydogd          #+#    #+#             */
-/*   Updated: 2024/11/25 15:17:14 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/11/26 14:46:57 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,7 @@ void	exec_export(t_shell *shell)
 		key = ft_substr(shell->parser->args->content, 0, j);
 		if (!is_valid_key(key))
 		{
-			error(shell, "bash: export: `%s': not a valid identifier\n", (char *)shell->parser->args->content);
-			shell->exit_status = 1;
+			ft_error(shell, "bash: export: `%s': not a valid identifier\n", (char *)shell->parser->args->content, 1);
 			break ;
 			//exit(EXIT_FAILURE);
 		}
@@ -70,7 +69,6 @@ void	exec_export(t_shell *shell)
 		if (val[0])
 			env_push(&shell->env, key, val);
 		shell->parser->args = shell->parser->args->next;
-		error(shell, NULL, NULL);
 	}
 }
 /* void	exec_export(t_shell *shell)
@@ -93,7 +91,7 @@ void	exec_export(t_shell *shell)
 		key = ft_substr(shell->parser->args->content, 0, j);
 		if (!is_valid_key(key))
 		{
-			error(shell, "bash: export: `%s': not a valid identifier\n", (char *)shell->parser->args->content);
+			ft_error(shell, "bash: export: `%s': not a valid identifier\n", (char *)shell->parser->args->content);
 			break ;
 		}
 		val = ft_substr(shell->parser->args->content, j + 1, ft_strlen(shell->parser->args->content) - j + 1);
@@ -102,6 +100,6 @@ void	exec_export(t_shell *shell)
 		if (val[0])
 			env_push(&shell->env, key, val);
 		shell->parser->args = shell->parser->args->next;
-		error(shell, NULL, NULL);
+		ft_error(shell, NULL, NULL);
 	}
 } */

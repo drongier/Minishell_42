@@ -6,7 +6,7 @@
 /*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 14:45:30 by chbachir          #+#    #+#             */
-/*   Updated: 2024/11/25 14:59:40 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/11/26 15:34:29 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,9 +96,10 @@ void	exec_cmd(char *path, t_list *args, t_shell *shell)
     int		status;
     t_list *arg_node = args;
     int i;
+	char *cmd_name;
+	char *argv[100];
 
     pid = fork();
-
     if (pid == -1)
     {
         perror("fork");
@@ -106,10 +107,11 @@ void	exec_cmd(char *path, t_list *args, t_shell *shell)
     }
     else if (pid == 0)
     {
+		cmd_name = (char *)shell->parser->args->content;
         char **envp = convert_env_to_array(shell->env);
         if (!envp)
             return ;
-        char *argv[] = {path, NULL};
+    	argv[0] = cmd_name;
         i = 1;
         while (arg_node)
         {
@@ -121,15 +123,14 @@ void	exec_cmd(char *path, t_list *args, t_shell *shell)
         if (execve(path, argv, envp) == -1)
         {
             if (errno == EACCES)
-            {
-                error(shell, ": Permission denied\n", (char *)shell->parser->args->content);
                 exit(126);
-            }
-            else if (ft_getenv(shell, "PATH") == NULL)
-                error(shell, ": No such file or directory\n", (char *)shell->parser->args->content);
+			else if (errno == ENOENT)
+				exit (127);
             else
-                error(shell, ": command not found\n", (char *)shell->parser->args->content);
-            exit(127);
+			{
+                ft_error(shell, "%s : command not found\n", (char *)shell->parser->args->content, -1);
+            	exit(127);
+			}
         }
         exit(EXIT_SUCCESS);
     }

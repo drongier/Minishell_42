@@ -6,7 +6,7 @@
 /*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 12:13:52 by chbachir          #+#    #+#             */
-/*   Updated: 2024/11/25 13:53:22 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/11/26 14:55:04 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,19 +19,32 @@ int     check_error_token_redi(t_shell *shell)
         lexer = shell->lexer;
         if (!lexer->next)
         {
-                ft_putstr_fd("bash: syntax error near unexpected token `newline'\n", STDERR_FILENO);
-                return(0);
+			ft_error(shell, "bash: syntax error near unexpected token `newline'\n", NULL, -1);
+            return (0);
         }
         else
-                return (1);
+            return (1);
 }
 
-void	error(t_shell *shell, char *err_msg, char *args)
+void	ft_error(t_shell *shell, char *err_msg, char *args, int exit_status)
 {
-
-	if (args)
-		ft_putstr_fd(args, STDERR_FILENO);
-	if (err_msg)
-		ft_putstr_fd(err_msg, STDERR_FILENO);
-	
+	int i = 0;
+	while (err_msg && err_msg[i])
+	{
+		if (err_msg[i] == '%' && err_msg[i + 1] == 's')
+		{
+			if (args)
+			{
+				ft_putstr_fd(args, STDERR_FILENO);
+				i += 2; // je saute `%s`
+			}
+		}
+		else
+		{
+			ft_putchar_fd(err_msg[i], STDERR_FILENO);
+			i++;
+		}
+	}
+	if (exit_status != -1)
+		shell->exit_status = exit_status;
 }

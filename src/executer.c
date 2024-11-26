@@ -6,7 +6,7 @@
 /*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 12:10:13 by chbachir          #+#    #+#             */
-/*   Updated: 2024/11/18 22:53:38 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/11/26 15:33:12 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,50 @@ static void	exec_path(t_shell *shell, char *cmd, t_list *args)
 	char 			*cmd_path;
 	int				saved_out;
 	int				saved_in;
+	struct stat		cmd_stat;
+	int             is_direct_path;
 	char			*cmd_clean;
-
+	
 	cmd_clean = remove_quotes(cmd);
-	cmd_path = get_external_cmd_path(shell, cmd_clean);
-	if (ft_strchr(cmd_clean, '/'))
-		cmd_path = ft_strdup(cmd_clean); // Copier le chemin de la commande
+	is_direct_path = ft_strchr(cmd_clean, '/') != NULL;
+    if (is_direct_path)
+        cmd_path = ft_strdup(cmd_clean);
+	else
+        cmd_path = get_external_cmd_path(shell, cmd_clean);
+	if (!cmd_path)
+    {
+        ft_error(shell, "%s: Command not found\n", cmd_clean, 127);
+        return ;
+    }
+	if (stat(cmd_path, &cmd_stat) == 0)
+    {
+        // Vérifier si c'est un répertoire
+        if (S_ISDIR(cmd_stat.st_mode))
+        {
+            ft_error(shell, "minishell: %s: Is a directory\n", cmd_path, 126);
+            free(cmd_path); // Ne pas oublier de libérer la mémoire
+            return;
+        }
+
+        // Vérifier les permissions d'exécution
+        if (access(cmd_path, X_OK) != 0)
+        {
+            ft_error(shell, "minishell: %s: Permission denied\n", cmd_path, 126);
+            free(cmd_path); // Ne pas oublier de libérer la mémoire
+            return;
+        }
+    }
+	else
+    {
+        // Le fichier n'existe pas
+        if (is_direct_path)
+            ft_error(shell, "minishell: %s: No such file or directory\n", cmd_path, 127);
+        free(cmd_path);
+        return;
+    }
+	
+	/* if (ft_strchr(cmd, '/'))
+		cmd_path = ft_strdup(cmd); // Copier le chemin de la commande */
 	saved_out = dup(STDOUT_FILENO);
 	saved_in = dup(STDIN_FILENO);
 	if (shell->parser->outfile != STDOUT_FILENO)

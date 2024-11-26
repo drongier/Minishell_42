@@ -6,13 +6,14 @@
 /*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 15:02:35 by emaydogd          #+#    #+#             */
-/*   Updated: 2024/11/25 14:26:33 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/11/26 14:43:35 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 # define _POSIX_C_SOURCE 200809L
+# define NULL ((void*)0)
 # include <signal.h>
 # include <stdio.h>
 # include <stdlib.h>
@@ -136,7 +137,7 @@ void	write_single_quotes(char *input);
 
 /* HELPER FUNCTIONS */
 char	*trim(char *str);
-void	error(t_shell *shell, char *err_msg, char *args);
+void	ft_error(t_shell *shell, char *err_msg, char *args, int exit_status);
 char 	**convert_env_to_array(t_env *env);
 char 	*remove_quotes(char *str);
 char	**list_to_array(t_list *args);
