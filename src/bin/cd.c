@@ -6,7 +6,7 @@
 /*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 21:27:23 by emaydogd          #+#    #+#             */
-/*   Updated: 2024/11/25 14:03:04 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/11/26 10:15:07 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,6 @@ void	exec_cd(t_shell *shell, t_list *args)
 	int status;
 	pid_t pid;
 
-	/* pid = fork();
-	
-	if () */
 	home = ft_getenv(shell,"HOME");
 	if (home == NULL)
 	{

@@ -6,7 +6,7 @@
 /*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 14:45:30 by chbachir          #+#    #+#             */
-/*   Updated: 2024/11/25 14:59:40 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/11/26 12:05:28 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,9 +96,10 @@ void	exec_cmd(char *path, t_list *args, t_shell *shell)
     int		status;
     t_list *arg_node = args;
     int i;
+	char *copy_cmd;
 
     pid = fork();
-
+	copy_cmd = (char *)shell->parser->args->content;
     if (pid == -1)
     {
         perror("fork");
@@ -122,13 +123,19 @@ void	exec_cmd(char *path, t_list *args, t_shell *shell)
         {
             if (errno == EACCES)
             {
-                error(shell, ": Permission denied\n", (char *)shell->parser->args->content);
+				//printf("je suis perdu\n");
+                //error(shell, "%s: Permission denied\n", copy_cmd);
                 exit(126);
             }
-            else if (ft_getenv(shell, "PATH") == NULL)
-                error(shell, ": No such file or directory\n", (char *)shell->parser->args->content);
+			else if (errno == ENOENT)
+				exit (127);
+            /* else if (ft_getenv(shell, "PATH") == NULL)
+                error(shell, ": No such file or directory\n", (char *)&shell->parser->args->content); */
             else
-                error(shell, ": command not found !!! \n", (char *)shell->parser->args->content);
+			{
+				printf("??? %s\n", (char *)shell->parser->args->content);
+                error(shell, "%s : command not found !!!\n", (char *)shell->parser->args->content);
+			}
             exit(127);
         }
         exit(EXIT_SUCCESS);

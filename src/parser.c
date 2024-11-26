@@ -6,7 +6,7 @@
 /*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 15:36:16 by emaydogd          #+#    #+#             */
-/*   Updated: 2024/11/18 21:18:20 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/11/26 10:09:11 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void parser(t_shell *shell)
 			parser->infile = open(lexer->input, O_RDONLY, 777);
 			if (parser->infile == -1)
 			{
-				printf("open failed");
+				perror("open failed");
 				return ;
 			}
 		}
@@ -60,7 +60,7 @@ void parser(t_shell *shell)
 			parser->outfile = open(lexer->input, O_CREAT | O_RDWR | O_TRUNC, 0664);
 			if (parser->outfile == - 1)
 			{
-				printf("1 open failed");
+				perror("open failed");
 				return ;
 			}
 		}
@@ -72,7 +72,7 @@ void parser(t_shell *shell)
 			parser->outfile = open(lexer->input, O_CREAT | O_RDWR | O_APPEND, 0664);
 			if (parser->outfile == - 1)
 			{
-				printf("2 open failed");
+				perror("open failed");
 				return ;
 			}
 		}

@@ -6,7 +6,7 @@
 /*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 17:31:29 by chbachir          #+#    #+#             */
-/*   Updated: 2024/11/25 15:10:20 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/11/26 11:23:34 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void exec_with_pipe(t_shell *shell)
             {
                 if (execve(path, args, NULL) == -1)
 				{
-                    error(shell, ": command not found\n", args[0]);
+                    error(shell, "%s : command not found\n", args[0]);
 					exit(127);
 				}
             }

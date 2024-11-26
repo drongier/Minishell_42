@@ -6,7 +6,7 @@
 /*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 12:13:52 by chbachir          #+#    #+#             */
-/*   Updated: 2024/11/25 13:53:22 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/11/26 12:05:16 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,21 @@ int     check_error_token_redi(t_shell *shell)
 
 void	error(t_shell *shell, char *err_msg, char *args)
 {
-
-	if (args)
-		ft_putstr_fd(args, STDERR_FILENO);
-	if (err_msg)
-		ft_putstr_fd(err_msg, STDERR_FILENO);
-	
+	int i = 0;
+	while (err_msg && err_msg[i])
+	{
+		if (err_msg[i] == '%' && err_msg[i + 1] == 's')
+		{
+			if (args)
+			{
+				ft_putstr_fd(args, STDERR_FILENO);
+				i += 2; // je saute `%s`
+			}
+		}
+		else
+		{
+			ft_putchar_fd(err_msg[i], STDERR_FILENO);
+			i++;
+		}
+	}
 }
