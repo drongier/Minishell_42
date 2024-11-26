@@ -6,7 +6,7 @@
 /*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 12:10:13 by chbachir          #+#    #+#             */
-/*   Updated: 2024/11/26 15:22:43 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/11/26 15:29:18 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,17 @@ static void	exec_path(t_shell *shell, char *cmd, t_list *args)
 	int				saved_in;
 	struct stat		cmd_stat;
 	int             is_direct_path;
+	char			*cmd_clean;
 	
-
-	is_direct_path = ft_strchr(cmd, '/') != NULL;
+	cmd_clean = remove_quotes(cmd);
+	is_direct_path = ft_strchr(cmd_clean, '/') != NULL;
     if (is_direct_path)
-        cmd_path = ft_strdup(cmd);
+        cmd_path = ft_strdup(cmd_clean);
 	else
-        cmd_path = get_external_cmd_path(shell, cmd);
+        cmd_path = get_external_cmd_path(shell, cmd_clean);
 	if (!cmd_path)
     {
-        ft_error(shell, "%s: Command not found\n", cmd, 127);
+        ft_error(shell, "%s: Command not found\n", cmd_clean, 127);
         return ;
     }
 	if (stat(cmd_path, &cmd_stat) == 0)
