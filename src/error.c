@@ -6,7 +6,7 @@
 /*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 12:13:52 by chbachir          #+#    #+#             */
-/*   Updated: 2024/11/26 12:05:16 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/11/26 14:55:04 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,14 @@ int     check_error_token_redi(t_shell *shell)
         lexer = shell->lexer;
         if (!lexer->next)
         {
-                ft_putstr_fd("bash: syntax error near unexpected token `newline'\n", STDERR_FILENO);
-                return(0);
+			ft_error(shell, "bash: syntax error near unexpected token `newline'\n", NULL, -1);
+            return (0);
         }
         else
-                return (1);
+            return (1);
 }
 
-void	error(t_shell *shell, char *err_msg, char *args)
+void	ft_error(t_shell *shell, char *err_msg, char *args, int exit_status)
 {
 	int i = 0;
 	while (err_msg && err_msg[i])
@@ -45,4 +45,6 @@ void	error(t_shell *shell, char *err_msg, char *args)
 			i++;
 		}
 	}
+	if (exit_status != -1)
+		shell->exit_status = exit_status;
 }

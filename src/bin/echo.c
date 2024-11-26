@@ -6,7 +6,7 @@
 /*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 21:05:13 by emaydogd          #+#    #+#             */
-/*   Updated: 2024/10/15 14:31:27 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/11/26 14:20:56 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,4 +122,5 @@ void exec_echo(t_shell *shell, t_list *args)
         else
             printf("\n");
     }
+	shell->exit_status = 0;
 }
