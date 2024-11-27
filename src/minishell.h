@@ -106,7 +106,7 @@ typedef struct s_shell
 void	lexer(t_shell *shell);
 char *add_spaces_around_redirection(const char *cmdline);
 void	free_split_res(char **split_res);
-static int	push(t_lexer **lexer, char *input, t_token_type type, size_t pos);
+//static int	push(t_lexer **lexer, char *input, t_token_type type, size_t pos);
 
 void	expander(t_shell *shell);
 void	parser(t_shell *shell);
@@ -160,7 +160,7 @@ void 	exec_with_pipe(t_shell *shell);
 
 //error check
 
-int		check_error_token_redi(t_shell *shell);
+void		check_error_token_redi(t_shell *shell);
 int		ft_env_size(t_env *env);
 
 // Signals

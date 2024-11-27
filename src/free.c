@@ -12,20 +12,24 @@
 
 #include "minishell.h"
 
-void	cleanup(t_shell *shell)
+void cleanup(t_shell *shell)
 {
-	shell->parser->infile = STDIN_FILENO;
-	shell->parser->outfile = STDOUT_FILENO;
-	if (shell->lexer)
-	{
-		free_lexer(shell->lexer);
-		shell->lexer = NULL;
-	}
-	if (shell->parser)
-	{
-		free_parser(shell->parser);
-		shell->parser = NULL;
-	}
+    if (!shell)
+        return;
+
+    if (shell->parser)
+    {
+        shell->parser->infile = STDIN_FILENO;
+        shell->parser->outfile = STDOUT_FILENO;
+        free_parser(shell->parser);
+        shell->parser = NULL;
+    }
+
+    if (shell->lexer)
+    {
+        free_lexer(shell->lexer);
+        shell->lexer = NULL;
+    }
 }
 
 void	free_lexer(t_lexer *lexer)

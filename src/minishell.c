@@ -45,7 +45,6 @@ static void	minishell(char **env)
             cleanup(&shell);
             continue; // Revenir à l'invite principale sans exécuter les commandes
         }
-
         exec_start(&shell);
         cleanup(&shell);
     }

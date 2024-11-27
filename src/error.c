@@ -12,18 +12,10 @@
 
 #include "minishell.h"
 
-int     check_error_token_redi(t_shell *shell)
-{
-        t_lexer *lexer;
-
-        lexer = shell->lexer;
-        if (!lexer->next)
-        {
-			ft_error(shell, "bash: syntax error near unexpected token `newline'\n", NULL, -1);
-            return (0);
-        }
-        else
-            return (1);
+void check_error_token_redi(t_shell *shell)
+{ 
+    ft_error(shell, "bash: syntax error near unexpected token `newline'\n", NULL, 2);
+	return ; 
 }
 
 void	ft_error(t_shell *shell, char *err_msg, char *args, int exit_status)

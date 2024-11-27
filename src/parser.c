@@ -42,20 +42,31 @@ void parser(t_shell *shell)
 			ft_lstadd_back(&parser->args, node_input);
 		else if (lexer->type == TOKEN_REDIR_IN)
 		{
-			if (!check_error_token_redi(shell))
-				return ;
-			lexer = lexer->next;
-			parser->infile = open(lexer->input, O_RDONLY, 777);
-			if (parser->infile == -1)
+			if (!lexer || !lexer->next)
 			{
-				perror("open failed");
+				check_error_token_redi(shell);
+				shell->parser = NULL;
+				shell->exit_status = 2;
 				return ;
 			}
+				lexer = lexer->next;
+				char *clean_next_input = remove_quotes((char *)lexer->input);
+				parser->infile = open(clean_next_input, O_RDONLY, 777);
+				if (parser->infile == -1)
+				{
+					perror(clean_next_input);
+					return ;
+				}
 		}
 		else if (lexer->type == TOKEN_REDIR_OUT)
 		{
-			if (!check_error_token_redi(shell))
-				return ;
+			if (!lexer || !lexer->next)
+			{
+				check_error_token_redi(shell);
+				shell->parser = NULL;
+				shell->exit_status = 2;
+				return;
+			}
 			lexer = lexer->next;
 			parser->outfile = open(lexer->input, O_CREAT | O_RDWR | O_TRUNC, 0664);
 			if (parser->outfile == - 1)
@@ -66,8 +77,13 @@ void parser(t_shell *shell)
 		}
 		else if (lexer->type == TOKEN_REDIR_APPEND)
 		{
-			if (!check_error_token_redi(shell))
-				return ;
+			if (!lexer || !lexer->next)
+			{
+				check_error_token_redi(shell);
+				shell->parser = NULL;
+				shell->exit_status = 2;
+				return;
+			}
 			lexer = lexer->next;
 			parser->outfile = open(lexer->input, O_CREAT | O_RDWR | O_APPEND, 0664);
 			if (parser->outfile == - 1)
@@ -78,8 +94,13 @@ void parser(t_shell *shell)
 		}
 		else if (lexer->type == TOKEN_REDIR_HEREDOC)
 		{
-			if (!check_error_token_redi(shell))
-				return ;
+			if (!lexer || !lexer->next)
+			{
+				check_error_token_redi(shell);
+				shell->parser = NULL;
+				shell->exit_status = 2;
+				return;
+			}
 			lexer = lexer->next;
 			handle_heredoc(shell, parser, lexer->input);
 			if (parser->infile == -1)
@@ -91,14 +112,19 @@ void parser(t_shell *shell)
 		if (lexer->type == TOKEN_PIPE)
         {
             t_pipex pipex;
-
+			
+			if (!lexer || !lexer->next)
+			{
+				check_error_token_redi(shell);
+				shell->parser = NULL;
+				shell->exit_status = 2;
+				return;
+			}
             if (pipe((int *)&pipex) == -1) 
             {
                 perror("pipe");
                 return;
             }
-            if (!check_error_token_redi(shell))
-                return;
             parser->outfile = pipex.write_fd;
             parser->pipex = pipex;
             parser->next = new_cmd_node();
