@@ -6,7 +6,7 @@
 /*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 15:02:35 by emaydogd          #+#    #+#             */
-/*   Updated: 2024/11/26 14:43:35 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/11/27 13:53:45 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,7 @@ typedef struct s_shell
 	int				exit_status;
 	int				flag_pipe;
 	int				in_heredoc;
+	int				interrupted;
 	struct s_lexer	*lexer;
 	struct s_parser	*parser;
 	struct s_env	*env;

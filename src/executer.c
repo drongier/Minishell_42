@@ -6,7 +6,7 @@
 /*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 12:10:13 by chbachir          #+#    #+#             */
-/*   Updated: 2024/11/26 15:33:12 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/11/27 15:14:36 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,12 +96,11 @@ void	exec_bin(t_shell *shell, char *cmd, t_list *args)
 void	exec_start(t_shell *shell)
 {
 	t_parser *parser; 
-	if (shell->exit_status == 130)
+	/* if (shell->exit_status == 130)
     {
         // Interruption du heredoc, ne pas exécuter les commandes
         return;
-    }
-
+    } */
 
 	parser = shell->parser;
 	if (shell->flag_pipe == 1)

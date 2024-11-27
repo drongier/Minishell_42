@@ -6,7 +6,7 @@
 /*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 17:50:44 by chbachir          #+#    #+#             */
-/*   Updated: 2024/11/18 22:48:41 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/11/27 15:17:17 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,19 +17,18 @@ volatile sig_atomic_t g_signal = 0;
 void handle_sigint(int sig)
 {
     g_signal = sig;
+	//printf("g_signal = %d\n", g_signal);
     
-    // Si nous sommes dans readline principal
     if (rl_readline_state & RL_STATE_READCMD)
     {
-        write(STDOUT_FILENO, "\n", 1);
-        rl_replace_line("", 0);
+        write(STDOUT_FILENO, "^C\n", 3);
+		//printf("sig === %d\n", sig);
         rl_on_new_line();
+        rl_replace_line("", 0);
         rl_redisplay();
     }
-    else // Si nous sommes dans le heredoc
-    {
-        write(STDOUT_FILENO, "^C\n", 3);
-    }
+	/* else //garder pour notre heredoc... ou pas ?
+		write(STDOUT_FILENO, "^C\n", 3); */
 }
 
 void setup_signal_handlers(void)
@@ -38,19 +37,10 @@ void setup_signal_handlers(void)
 
     sa.sa_handler = handle_sigint;
     sigemptyset(&sa.sa_mask);
-    sa.sa_flags = 0; // Pour redémarrer les appels système interrompus
-
-    if (sigaction(SIGINT, &sa, NULL) == -1)
-    {
-        perror("sigaction");
-        exit(EXIT_FAILURE);
-    }
-
-    // Optionnel: Ignorer SIGQUIT (Ctrl+\)
+    sa.sa_flags = SA_RESTART; // mieux avec restart
+	
+    sigaction(SIGINT, &sa, NULL);
+    
     sa.sa_handler = SIG_IGN;
-    if (sigaction(SIGQUIT, &sa, NULL) == -1)
-    {
-        perror("sigaction");
-        exit(EXIT_FAILURE);
-    }
+    sigaction(SIGQUIT, &sa, NULL);
 }

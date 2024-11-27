@@ -6,7 +6,7 @@
 /*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 14:45:30 by chbachir          #+#    #+#             */
-/*   Updated: 2024/11/26 15:34:29 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/11/27 14:54:19 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,14 +90,14 @@ char*	get_external_cmd_path(t_shell *shell, char * cmd)
     return (NULL);
 }
 
-void	exec_cmd(char *path, t_list *args, t_shell *shell)
+void exec_cmd(char *path, t_list *args, t_shell *shell)
 {
-    pid_t	pid;
-    int		status;
+    pid_t pid;
+    int status;
     t_list *arg_node = args;
     int i;
-	char *cmd_name;
-	char *argv[100];
+    char *cmd_name;
+    char *argv[100];
 
     pid = fork();
     if (pid == -1)
@@ -107,11 +107,20 @@ void	exec_cmd(char *path, t_list *args, t_shell *shell)
     }
     else if (pid == 0)
     {
-		cmd_name = (char *)shell->parser->args->content;
+        // Restaurer les gestionnaires de signaux par défaut dans le processus enfant
+    	/* struct sigaction sa;
+    	sa.sa_handler = SIG_DFL;
+    	sigemptyset(&sa.sa_mask);
+    	sa.sa_flags = SA_RESTART;  // Ajout du flag SA_RESTART
+    
+    	sigaction(SIGINT, &sa, NULL);
+    	sigaction(SIGQUIT, &sa, NULL); */
+
+        cmd_name = (char *)shell->parser->args->content;
         char **envp = convert_env_to_array(shell->env);
         if (!envp)
-            return ;
-    	argv[0] = cmd_name;
+            return;
+        argv[0] = cmd_name;
         i = 1;
         while (arg_node)
         {
@@ -124,24 +133,33 @@ void	exec_cmd(char *path, t_list *args, t_shell *shell)
         {
             if (errno == EACCES)
                 exit(126);
-			else if (errno == ENOENT)
-				exit (127);
+            else if (errno == ENOENT)
+                exit(127);
             else
-			{
+            {
                 ft_error(shell, "%s : command not found\n", (char *)shell->parser->args->content, -1);
-            	exit(127);
-			}
+                exit(127);
+            }
         }
         exit(EXIT_SUCCESS);
     }
-    else
+else
+{
+    waitpid(pid, &status, 0);
+    
+    if (WIFSIGNALED(status))
     {
-        waitpid(pid, &status, 0);
-        if (WIFEXITED(status))
-            shell->exit_status = WEXITSTATUS(status);
-        else if (WIFSIGNALED(status))
-            shell->exit_status = 128 + WTERMSIG(status);
+        if (WTERMSIG(status) == SIGINT)
+        {
+            write(STDOUT_FILENO, "\n", 1);
+            g_signal = SIGINT;
+            // Au lieu de modifier directement exit_status ici
+            shell->exit_status = 128 + WTERMSIG(status);  // Ceci donnera 130 pour SIGINT
+        }
     }
+    else if (WIFEXITED(status))
+        shell->exit_status = WEXITSTATUS(status);
+}
 }
 
 

@@ -6,7 +6,7 @@
 /*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 16:31:07 by chbachir          #+#    #+#             */
-/*   Updated: 2024/11/18 22:24:05 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/11/27 15:23:45 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,14 +35,15 @@ void handle_heredoc(t_shell *shell, t_parser *parser, const char *delimiter)
         close(pipefd[0]);
 
         // Restaurer le comportement par défaut de SIGINT pour le processus fils
-        struct sigaction sa_child;
+        /* struct sigaction sa_child;
         sa_child.sa_handler = SIG_DFL;
         sigemptyset(&sa_child.sa_mask);
         sa_child.sa_flags = 0;
-        sigaction(SIGINT, &sa_child, NULL);
+        sigaction(SIGINT, &sa_child, NULL); */
 
         while (1)
         {
+			setup_signal_handlers();
             line = readline("heredoc> ");
             if (!line || strcmp(line, delimiter) == 0)
             {
