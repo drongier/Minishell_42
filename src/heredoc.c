@@ -6,7 +6,7 @@
 /*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 16:31:07 by chbachir          #+#    #+#             */
-/*   Updated: 2024/11/27 15:23:45 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/11/27 22:27:56 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,23 +27,15 @@ void handle_heredoc(t_shell *shell, t_parser *parser, const char *delimiter)
         return;
     }
 
-    g_signal = SIGUSR1; // Signaler le début du heredoc AVANT le fork
+    //g_signal = SIGUSR1; // Signaler le début du heredoc AVANT le fork
 
+	setup_signal_handlers();
     pid = fork();
     if (pid == 0) // Processus fils
     {
         close(pipefd[0]);
-
-        // Restaurer le comportement par défaut de SIGINT pour le processus fils
-        /* struct sigaction sa_child;
-        sa_child.sa_handler = SIG_DFL;
-        sigemptyset(&sa_child.sa_mask);
-        sa_child.sa_flags = 0;
-        sigaction(SIGINT, &sa_child, NULL); */
-
         while (1)
         {
-			setup_signal_handlers();
             line = readline("heredoc> ");
             if (!line || strcmp(line, delimiter) == 0)
             {
@@ -55,12 +47,11 @@ void handle_heredoc(t_shell *shell, t_parser *parser, const char *delimiter)
             {
                 char *tmp = ft_strjoin(content, "\n");
                 free(content);
-                content = ft_strjoin(tmp, line);
+                content = ft_strjoin(tmp, line); 
                 free(tmp);
             }
             else
                 content = ft_strdup(line);
-
             free(line);
         }
         if (content) // Écrire le contenu accumulé dans le pipe
@@ -84,11 +75,11 @@ void handle_heredoc(t_shell *shell, t_parser *parser, const char *delimiter)
             shell->exit_status = 130;
             close(pipefd[0]);
             parser->infile = -1;
-            g_signal = 0; // Remettre g_signal à 0 après la gestion du signal
+            //g_signal = 0; // Remettre g_signal à 0 après la gestion du signal
             return;
         }
 
         parser->infile = pipefd[0];
-        g_signal = 0; // Signaler la fin du heredoc APRÈS le waitpid
+        //g_signal = 0; // Signaler la fin du heredoc APRÈS le waitpid
     }
 }

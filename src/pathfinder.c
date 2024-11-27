@@ -6,7 +6,7 @@
 /*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 14:45:30 by chbachir          #+#    #+#             */
-/*   Updated: 2024/11/27 14:54:19 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/11/27 22:21:05 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,16 +106,7 @@ void exec_cmd(char *path, t_list *args, t_shell *shell)
         exit(EXIT_FAILURE);
     }
     else if (pid == 0)
-    {
-        // Restaurer les gestionnaires de signaux par défaut dans le processus enfant
-    	/* struct sigaction sa;
-    	sa.sa_handler = SIG_DFL;
-    	sigemptyset(&sa.sa_mask);
-    	sa.sa_flags = SA_RESTART;  // Ajout du flag SA_RESTART
-    
-    	sigaction(SIGINT, &sa, NULL);
-    	sigaction(SIGQUIT, &sa, NULL); */
-
+    {	
         cmd_name = (char *)shell->parser->args->content;
         char **envp = convert_env_to_array(shell->env);
         if (!envp)
@@ -147,15 +138,10 @@ else
 {
     waitpid(pid, &status, 0);
     
-    if (WIFSIGNALED(status))
+    if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
     {
-        if (WTERMSIG(status) == SIGINT)
-        {
             write(STDOUT_FILENO, "\n", 1);
             g_signal = SIGINT;
-            // Au lieu de modifier directement exit_status ici
-            shell->exit_status = 128 + WTERMSIG(status);  // Ceci donnera 130 pour SIGINT
-        }
     }
     else if (WIFEXITED(status))
         shell->exit_status = WEXITSTATUS(status);
