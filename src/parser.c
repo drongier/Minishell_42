@@ -54,8 +54,24 @@ void parser(t_shell *shell)
 				parser->infile = open(clean_next_input, O_RDONLY, 777);
 				if (parser->infile == -1)
 				{
-					perror(clean_next_input);
-					return ;
+					if (shell->flag_pipe == 1)
+					{
+						perror(clean_next_input);
+						shell->exit_status = 1;
+						shell->parser->args = NULL;
+						shell->parser->infile = STDIN_FILENO;
+						if (clean_next_input)
+            				free(clean_next_input);
+						lexer = lexer->next;
+						continue;
+					}
+					else 
+					{
+						perror(clean_next_input);
+						cleanup(shell);
+						shell->exit_status = 1;
+						return ;
+					}
 				}
 		}
 		else if (lexer->type == TOKEN_REDIR_OUT)
@@ -68,10 +84,13 @@ void parser(t_shell *shell)
 				return;
 			}
 			lexer = lexer->next;
-			parser->outfile = open(lexer->input, O_CREAT | O_RDWR | O_TRUNC, 0664);
+			char *clean_next_input = remove_quotes((char *)lexer->input);
+			parser->outfile = open(clean_next_input, O_CREAT | O_RDWR | O_TRUNC, 0664);
 			if (parser->outfile == - 1)
 			{
 				perror("open failed");
+				cleanup(shell);
+				shell->exit_status = 1;
 				return ;
 			}
 		}
@@ -85,10 +104,13 @@ void parser(t_shell *shell)
 				return;
 			}
 			lexer = lexer->next;
-			parser->outfile = open(lexer->input, O_CREAT | O_RDWR | O_APPEND, 0664);
+			char *clean_next_input = remove_quotes((char *)lexer->input);
+			parser->outfile = open(clean_next_input, O_CREAT | O_RDWR | O_APPEND, 0664);
 			if (parser->outfile == - 1)
 			{
 				perror("open failed");
+				cleanup(shell);
+				shell->exit_status = 1;
 				return ;
 			}
 		}
