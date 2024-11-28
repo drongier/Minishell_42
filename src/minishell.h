@@ -6,7 +6,7 @@
 /*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 15:02:35 by emaydogd          #+#    #+#             */
-/*   Updated: 2024/11/27 13:53:45 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/11/28 14:46:12 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@
 # include <sys/wait.h>
 # include <sys/types.h>
 # include <sys/stat.h>
+# include <termios.h>
+# define ECHOCTL 0000040 // needed pour tcgetattr et tcsetattr
 # include <fcntl.h>
 # include <errno.h>
 # include "../libft/libft.h"
@@ -173,6 +175,8 @@ void	setup_signal_handlers(void);
 void	handle_heredoc(t_shell *shell, t_parser *parser, const char *delimiter);
 
 // signals
-void use_signals(void);
+void	use_signals(void);
+void	restore_terminal_settings(void);
+void	save_terminal_settings(void);
 
 #endif

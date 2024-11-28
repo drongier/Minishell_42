@@ -6,13 +6,12 @@
 /*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 16:31:07 by chbachir          #+#    #+#             */
-/*   Updated: 2024/11/27 22:27:56 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/11/28 14:47:19 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// Nouvelle version de handle_heredoc
 void handle_heredoc(t_shell *shell, t_parser *parser, const char *delimiter)
 {
     pid_t pid;
@@ -21,18 +20,18 @@ void handle_heredoc(t_shell *shell, t_parser *parser, const char *delimiter)
     char *line;
     char *content = NULL;
 
+
     if (pipe(pipefd) == -1)
     {
         perror("pipe");
         return;
     }
-
-    //g_signal = SIGUSR1; // Signaler le début du heredoc AVANT le fork
-
-	setup_signal_handlers();
+	
     pid = fork();
-    if (pid == 0) // Processus fils
+    if (pid == 0)
     {
+		signal(SIGINT, SIG_DFL);
+		save_terminal_settings();
         close(pipefd[0]);
         while (1)
         {
@@ -64,22 +63,26 @@ void handle_heredoc(t_shell *shell, t_parser *parser, const char *delimiter)
         close(pipefd[1]);
         exit(EXIT_SUCCESS); // Le fils se termine toujours avec EXIT_SUCCESS
     }
-    else // Processus parent
+    else if (pid > 0)
     {
         close(pipefd[1]);
         waitpid(pid, &status, 0);
 
-        // Gestion du status pour détecter l'interruption par SIGINT dans le fils
         if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
         {
-            shell->exit_status = 130;
+			write(STDOUT_FILENO, "^C\n", 3);
             close(pipefd[0]);
+			g_signal = WTERMSIG(status);
+			restore_terminal_settings();
+            rl_on_new_line();
+        	rl_replace_line("", 0);
+        	rl_redisplay();
             parser->infile = -1;
-            //g_signal = 0; // Remettre g_signal à 0 après la gestion du signal
-            return;
+			return;
         }
+		else if (WIFEXITED(status))
+        	shell->exit_status = WEXITSTATUS(status);
 
         parser->infile = pipefd[0];
-        //g_signal = 0; // Signaler la fin du heredoc APRÈS le waitpid
     }
 }

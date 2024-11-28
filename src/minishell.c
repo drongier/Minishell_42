@@ -6,7 +6,7 @@
 /*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 15:02:35 by emaydogd          #+#    #+#             */
-/*   Updated: 2024/11/27 21:56:06 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/11/28 14:30:09 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ static void minishell(char **env)
     shell.parser = NULL;
     shell.exit_status = 0;
     shell.in_heredoc = 0;
-    
     init_env(&shell, env);
     
     while (1)
@@ -70,7 +69,9 @@ int	main(int ac, char **av, char **env)
 	(void) ac;
 	(void) av;
 	rl_catch_signals = 0;
+	save_terminal_settings();
 	setup_signal_handlers();
 	minishell(env);
+	restore_terminal_settings();
 	return (0);
 }

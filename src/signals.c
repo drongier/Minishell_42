@@ -6,11 +6,27 @@
 /*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 17:50:44 by chbachir          #+#    #+#             */
-/*   Updated: 2024/11/27 22:17:20 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/11/28 14:52:59 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void save_terminal_settings(void)
+{
+    struct termios term;
+    tcgetattr(STDIN_FILENO, &term);
+    term.c_lflag &= ~ECHOCTL;  // Désactive l'affichage des caractères de contrôle
+    tcsetattr(STDIN_FILENO, TCSANOW, &term);
+}
+
+void restore_terminal_settings(void)
+{
+    struct termios term;
+    tcgetattr(STDIN_FILENO, &term);
+    term.c_lflag |= ECHOCTL;   // Réactive l'affichage des caractères de contrôle
+    tcsetattr(STDIN_FILENO, TCSANOW, &term);
+}
 
 void handle_sigint(int sig)
 {
