@@ -21,7 +21,7 @@ char *create_env_str(t_env *env)
 	
 	key_len = ft_strlen(env->key);
 	val_len = ft_strlen(env->value);
-	env_str = malloc(sizeof(char *) + key_len + val_len + 2); // +1 for = + 1 for '\0'
+	env_str = malloc(sizeof(char) * (key_len + val_len + 2)); // +1 for = + 1 for '\0'
 	if (!env_str)
 		return NULL;
 	ft_strcpy(env_str, env->key);
@@ -43,7 +43,7 @@ int	ft_env_size(t_env *env)
 
 char	**convert_env_to_array(t_env *env)
 {
-	char **envp = malloc(sizeof(char *) * (ft_env_size(env)) + 1);
+	char **envp = malloc(sizeof(char *) * (ft_env_size(env) + 1));
 	if(!envp)
 		return NULL;
 	int i = 0;
