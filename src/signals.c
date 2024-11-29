@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: drongier <drongier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 17:50:44 by chbachir          #+#    #+#             */
-/*   Updated: 2024/11/18 22:48:41 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/11/29 11:32:57 by drongier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@ volatile sig_atomic_t g_signal = 0;
 void handle_sigint(int sig)
 {
     g_signal = sig;
-    
-    // Si nous sommes dans readline principal
     if (rl_readline_state & RL_STATE_READCMD)
     {
         write(STDOUT_FILENO, "\n", 1);

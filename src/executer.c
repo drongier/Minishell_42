@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executer.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: drongier <drongier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 12:10:13 by chbachir          #+#    #+#             */
-/*   Updated: 2024/11/26 15:33:12 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/11/29 12:36:21 by drongier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,6 @@ static void	exec_path(t_shell *shell, char *cmd, t_list *args)
 
 void	exec_bin(t_shell *shell, char *cmd, t_list *args)
 {
-
 	if (ft_strncmp(cmd, "echo", 4) == 0)
 		exec_echo(shell, args);
 	else if (ft_strncmp(cmd, "pwd", 3) == 0)
@@ -95,14 +94,8 @@ void	exec_bin(t_shell *shell, char *cmd, t_list *args)
 
 void	exec_start(t_shell *shell)
 {
-	t_parser *parser; 
-	if (shell->exit_status == 130)
-    {
-        // Interruption du heredoc, ne pas exécuter les commandes
-        return;
-    }
-
-
+	t_parser *parser;
+	
 	parser = shell->parser;
 	if (shell->flag_pipe == 1)
 		exec_with_pipe(shell);
