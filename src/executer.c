@@ -6,7 +6,7 @@
 /*   By: drongier <drongier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 12:10:13 by chbachir          #+#    #+#             */
-/*   Updated: 2024/11/29 12:36:21 by drongier         ###   ########.fr       */
+/*   Updated: 2024/11/29 13:54:34 by drongier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,19 +74,19 @@ static void	exec_path(t_shell *shell, char *cmd, t_list *args)
 
 void	exec_bin(t_shell *shell, char *cmd, t_list *args)
 {
-	if (ft_strncmp(cmd, "echo", 4) == 0)
+	if (ft_strcmp(cmd, "echo") == 0)
 		exec_echo(shell, args);
-	else if (ft_strncmp(cmd, "pwd", 3) == 0)
+	else if (ft_strcmp(cmd, "pwd") == 0)
 		exec_pwd(shell);
-	else if (ft_strncmp(cmd, "cd", 2) == 0)
+	else if (ft_strcmp(cmd, "cd") == 0)
 		exec_cd(shell, args);
-	else if (ft_strncmp(cmd, "export", 6) == 0)
+	else if (ft_strcmp(cmd, "export") == 0)
 		exec_export(shell);
-	else if (ft_strncmp(cmd, "unset", 5) == 0)
+	else if (ft_strcmp(cmd, "unset") == 0)
 		exec_unset(shell);
-	else if (ft_strncmp(cmd, "env", 3) == 0)
+	else if (ft_strcmp(cmd, "env") == 0)
 		exec_env(*shell);
-	else if (ft_strncmp(cmd, "exit", 4) == 0 && (shell->cmdline[4] == '\0' || shell->cmdline[4] == ' '))
+	else if (ft_strcmp(cmd, "exit") == 0 && (shell->cmdline[4] == '\0' || shell->cmdline[4] == ' '))
 		exec_exit(shell);
 	else
 		exec_path(shell, cmd, args);
