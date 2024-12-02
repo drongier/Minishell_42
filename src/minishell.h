@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: drongier <drongier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 15:02:35 by emaydogd          #+#    #+#             */
-/*   Updated: 2024/11/26 14:43:35 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/12/02 15:03:36 by drongier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 # define MINISHELL_H
 # define _POSIX_C_SOURCE 200809L
 # define NULL ((void*)0)
+# define NSFOD "No such file or directory"
+
 # include <signal.h>
 # include <stdio.h>
 # include <stdlib.h>
