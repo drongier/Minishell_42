@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: drongier <drongier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 10:18:44 by chbachir          #+#    #+#             */
-/*   Updated: 2024/11/26 10:18:45 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/11/29 14:19:22 by drongier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ char *add_spaces_around_redirection(const char *cmdline)
 {
     size_t len = ft_strlen(cmdline);
     size_t new_len = len * 3;
-    char *new_cmdline = malloc(new_len + 1);
+    char *new_cmdline = malloc(new_len * 2 + 1);
     if (!new_cmdline) return NULL;
 
     size_t j = 0;
@@ -58,5 +58,7 @@ char *add_spaces_around_redirection(const char *cmdline)
         }
     }
     new_cmdline[j] = '\0';
-    return new_cmdline;
+    char *result = strdup(new_cmdline);
+    free(new_cmdline);   
+    return (result);
 }

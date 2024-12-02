@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: drongier <drongier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 09:50:30 by chbachir          #+#    #+#             */
-/*   Updated: 2024/11/11 16:26:06 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/11/29 14:05:23 by drongier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,20 +70,17 @@ void	free_parser(t_parser *parser)
 		parser = tmp;
 	}
 }
-void	free_env(t_env *env)
+void free_env(t_env *env)
 {
-	t_env *tmp;
-	while(env)
-	{
-		tmp = env->next;
-		if (env->key)
-		{
-			free(env->key);
-			env->key = NULL;
-		}
-		free(env);
-		env = tmp;
-	}
+    t_env *tmp;
+    while (env)
+    {
+        tmp = env->next;
+        free(env->key);
+        free(env->value);
+        free(env);
+        env = tmp;
+    }
 }
 
 void free_envp(char **envp, int idx)

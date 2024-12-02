@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: drongier <drongier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 18:51:01 by chbachir          #+#    #+#             */
-/*   Updated: 2024/11/26 14:55:49 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/11/29 14:08:44 by drongier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,14 @@ static int	exit_val_isdigit(char *s)
 void	exec_exit(t_shell *shell)
 {
 	int exit_value;
-	char * cleaned_exit_code;
+	char *cleaned_exit_code;
 
 	printf("exit\n");
+	if (!shell->parser->args->next)
+    {
+        cleanup(shell);
+        exit(shell->exit_status);
+    }
 	if (ft_lstsize(shell->parser->args) > 2)
 		ft_error(shell, "minishell: exit: too many arguments\n", NULL, 1);
 	else if ((ft_lstsize(shell->parser->args) == 2) && (exit_val_isdigit(remove_quotes((char *)shell->parser->args->next->content))))

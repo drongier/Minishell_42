@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: drongier <drongier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 15:36:16 by emaydogd          #+#    #+#             */
-/*   Updated: 2024/11/26 10:09:11 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/12/02 12:59:02 by drongier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ void parser(t_shell *shell)
 						return ;
 					}
 				}
+				free(clean_next_input);
 		}
 		else if (lexer->type == TOKEN_REDIR_OUT)
 		{
@@ -154,5 +155,7 @@ void parser(t_shell *shell)
             parser->infile = pipex.read_fd;
         }
 		lexer = lexer->next;
+		free(clean_str);
 	}
+	free(lexer);
 }

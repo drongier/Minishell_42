@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: drongier <drongier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 21:05:13 by emaydogd          #+#    #+#             */
-/*   Updated: 2024/11/26 14:20:56 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/12/02 14:34:55 by drongier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@ char *remove_quotes(char *str)
         i++;
     }
     result[j] = '\0';
-
     return result;
 }
 

@@ -6,7 +6,7 @@
 /*   By: drongier <drongier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 15:02:35 by emaydogd          #+#    #+#             */
-/*   Updated: 2024/11/29 12:41:11 by drongier         ###   ########.fr       */
+/*   Updated: 2024/12/02 14:33:42 by drongier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ static void	minishell(char **env)
         if (!shell.cmdline)
         {
             write(STDOUT_FILENO, "exit\n", 5);
+            clear_history();
+            cleanup(&shell);
             break ;
         }
         if (shell.cmdline && shell.cmdline[0] != '\0')
@@ -45,7 +47,6 @@ static void	minishell(char **env)
         exec_start(&shell);
         cleanup(&shell);
     }
-    
     if (shell.env)
     {
         free_env(shell.env);

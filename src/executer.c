@@ -6,7 +6,7 @@
 /*   By: drongier <drongier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 12:10:13 by chbachir          #+#    #+#             */
-/*   Updated: 2024/11/29 13:54:34 by drongier         ###   ########.fr       */
+/*   Updated: 2024/11/29 14:24:16 by drongier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ static void	exec_path(t_shell *shell, char *cmd, t_list *args)
             free(cmd_path); // Ne pas oublier de libérer la mémoire
             return;
         }
+		free(cmd_clean);
     }
 	else
     {
@@ -56,6 +57,7 @@ static void	exec_path(t_shell *shell, char *cmd, t_list *args)
         if (is_direct_path)
             ft_error(shell, "minishell: %s: No such file or directory\n", cmd_path, 127);
         free(cmd_path);
+		free(cmd_clean);
         return;
     }
 	
