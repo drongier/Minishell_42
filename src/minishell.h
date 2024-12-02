@@ -6,7 +6,7 @@
 /*   By: drongier <drongier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 15:02:35 by emaydogd          #+#    #+#             */
-/*   Updated: 2024/12/02 15:03:36 by drongier         ###   ########.fr       */
+/*   Updated: 2024/12/02 18:39:07 by drongier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 # define _POSIX_C_SOURCE 200809L
 # define NULL ((void*)0)
 # define NSFOD "No such file or directory"
+# define M "minishell: exit: numeric argument required"
 
 # include <signal.h>
 # include <stdio.h>
@@ -60,6 +61,12 @@ typedef enum	s_token_type
 	TOKEN_REDIR_IN,
 	TOKEN_COMMAND
 }	t_token_type;
+
+typedef struct s_quotes 
+{
+	int	single;
+	int	double_q;
+} t_quotes;
 
 typedef struct s_lexer
 {
