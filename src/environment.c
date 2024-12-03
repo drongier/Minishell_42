@@ -6,7 +6,7 @@
 /*   By: drongier <drongier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 21:39:05 by emaydogd          #+#    #+#             */
-/*   Updated: 2024/12/03 11:43:33 by drongier         ###   ########.fr       */
+/*   Updated: 2024/12/03 13:17:15 by drongier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,11 @@ int	env_push(t_env **env, char *key, char *value)
 		last = last->next;
 	return (last->next = node, 1);
 }
+
 int	env_pop(t_env **env, char *key)
 {
-	t_env 	*prev;
-	t_env	*tmp;
+	t_env		*prev;
+	t_env		*tmp;
 
 	tmp = *env;
 	prev = NULL;
@@ -78,9 +79,9 @@ void	init_env(t_shell *shell, char **env)
 	}
 }
 
-char *ft_getenv(t_shell *shell, char *key)
+char	*ft_getenv(t_shell *shell, char *key)
 {
-	t_env *tmp;
+	t_env	*tmp;
 
 	tmp = shell->env;
 	while (tmp)
