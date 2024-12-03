@@ -6,59 +6,83 @@
 /*   By: drongier <drongier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 10:18:44 by chbachir          #+#    #+#             */
-/*   Updated: 2024/11/29 14:19:22 by drongier         ###   ########.fr       */
+/*   Updated: 2024/12/03 13:09:31 by drongier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	free_split_res(char **split_res)
+static void	handle_quotes(char c, int *in_quotes, char *new_str, size_t *j)
 {
-	int i;
-
-	i = 0;
-	while (split_res[i])
+	if (c == '"' || c == '\'')
 	{
-		free(split_res[i]);
-		i++;
+		*in_quotes = !*in_quotes;
+		new_str[(*j)++] = c;
 	}
-	free(split_res);
 }
 
-char *add_spaces_around_redirection(const char *cmdline) 
+static void	handle_red(const char *cmd, size_t *i, char *new_str, size_t *j)
 {
-    size_t len = ft_strlen(cmdline);
-    size_t new_len = len * 3;
-    char *new_cmdline = malloc(new_len * 2 + 1);
-    if (!new_cmdline) return NULL;
+	if (*i > 0 && !isspace(cmd[*i - 1]))
+		new_str[(*j)++] = ' ';
+	new_str[(*j)++] = cmd[*i];
+	if (cmd[*i] == '>' && cmd[*i + 1] == '>')
+	{
+		new_str[(*j)++] = cmd[++(*i)];
+	}
+	if (cmd[*i] == '<' && cmd[*i + 1] == '<')
+	{
+		new_str[(*j)++] = cmd[++(*i)];
+	}
+	if (cmd[*i + 1] && !isspace(cmd[*i + 1]))
+		new_str[(*j)++] = ' ';
+}
 
-    size_t j = 0;
-    int in_quotes = 0;
+static char	*init_cmdline(const char *cmdline, size_t *i, size_t *j)
+{
+	char	*new_cmdline;
 
-    for (size_t i = 0; i < len; i++) {
-        if (cmdline[i] == '"' || cmdline[i] == '\'' ) {
-            in_quotes = !in_quotes;
-            new_cmdline[j++] = cmdline[i];
-        } else if (!in_quotes && (cmdline[i] == '|' || cmdline[i] == '<' || cmdline[i] == '>' || (cmdline[i] == '>' && cmdline[i+1] == '>'))) {
-            if (i > 0 && !isspace(cmdline[i-1])) {
-                new_cmdline[j++] = ' ';
-            }
-            new_cmdline[j++] = cmdline[i];
-            if (cmdline[i] == '>' && cmdline[i+1] == '>') {
-                new_cmdline[j++] = cmdline[++i];
-            }
-			if (cmdline[i] == '<' && cmdline[i+1] == '<') {
-                new_cmdline[j++] = cmdline[++i];
-            }
-            if (i < len - 1 && !isspace(cmdline[i+1])) {
-                new_cmdline[j++] = ' ';
-            }
-        } else {
-            new_cmdline[j++] = cmdline[i];
-        }
-    }
-    new_cmdline[j] = '\0';
-    char *result = strdup(new_cmdline);
-    free(new_cmdline);   
-    return (result);
+	if (!cmdline)
+		return (NULL);
+	new_cmdline = malloc(ft_strlen(cmdline) * 3 + 1);
+	if (!new_cmdline)
+		return (NULL);
+	*i = 0;
+	*j = 0;
+	return (new_cmdline);
+}
+
+static void	process_cmdline(const char *cmd, char *new, size_t *i, size_t *j)
+{
+	int	in_quotes;
+
+	in_quotes = 0;
+	while (cmd[*i])
+	{
+		if (cmd[*i] == '"' || cmd[*i] == '\'')
+			handle_quotes(cmd[*i], &in_quotes, new, j);
+		else if (!in_quotes && (cmd[*i] == '|' || cmd[*i] == '<'
+				|| cmd[*i] == '>'))
+			handle_red(cmd, i, new, j);
+		else
+			new[(*j)++] = cmd[*i];
+		(*i)++;
+	}
+	new[*j] = '\0';
+}
+
+char	*add_spaces_around_redirection(const char *cmdline)
+{
+	size_t	i;
+	size_t	j;
+	char	*new_cmdline;
+	char	*result;
+
+	new_cmdline = init_cmdline(cmdline, &i, &j);
+	if (!new_cmdline)
+		return (NULL);
+	process_cmdline(cmdline, new_cmdline, &i, &j);
+	result = ft_strdup(new_cmdline);
+	free(new_cmdline);
+	return (result);
 }
