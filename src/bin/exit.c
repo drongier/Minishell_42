@@ -6,7 +6,7 @@
 /*   By: drongier <drongier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 18:51:01 by chbachir          #+#    #+#             */
-/*   Updated: 2024/12/02 19:20:29 by drongier         ###   ########.fr       */
+/*   Updated: 2024/12/03 11:40:58 by drongier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ static int	handle_exit_value(t_shell *shell)
 	exit_val = ft_atoi(arg);
 	if (exit_val > 256)
 		exit_val = exit_val % 256;
+	free(arg);
 	return (exit_val);
 }
 
