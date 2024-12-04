@@ -6,21 +6,24 @@
 /*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 12:13:52 by chbachir          #+#    #+#             */
-/*   Updated: 2024/11/26 14:55:04 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/12/04 11:33:35 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void check_error_token_redi(t_shell *shell)
-{ 
-    ft_error(shell, "bash: syntax error near unexpected token `newline'\n", NULL, 2);
-	return ; 
+void	check_error_token_redi(t_shell *shell)
+{
+	ft_error(shell, "bash: syntax error near \
+	unexpected token `newline'\n", NULL, 2);
+	return ;
 }
 
 void	ft_error(t_shell *shell, char *err_msg, char *args, int exit_status)
 {
-	int i = 0;
+	int	i;
+
+	i = 0;
 	while (err_msg && err_msg[i])
 	{
 		if (err_msg[i] == '%' && err_msg[i + 1] == 's')
@@ -28,7 +31,7 @@ void	ft_error(t_shell *shell, char *err_msg, char *args, int exit_status)
 			if (args)
 			{
 				ft_putstr_fd(args, STDERR_FILENO);
-				i += 2; // je saute `%s`
+				i += 2;
 			}
 		}
 		else

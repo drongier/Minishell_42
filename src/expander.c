@@ -6,7 +6,7 @@
 /*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 12:51:03 by chbachir          #+#    #+#             */
-/*   Updated: 2024/11/25 12:52:16 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/12/04 11:37:22 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,37 +101,37 @@ static char *get_variable_value(t_shell *shell, const char *input, int i, int *e
 }
 
 // Construit la nouvelle chaîne avec la variable remplacée
-static char *build_new_input(const char *input, int start, int end, const char *var_value)
+static char	*build_new_input(const char *input, int start, int end, const char *var_value)
 {
-    char *start_str;
-    char *end_str;
-    char *temp;
-    char *new_input;
+	char	*start_str;
+	char	*end_str;
+	char	*temp;
+	char	*new_input;
 
-    start_str = ft_substr(input, 0, start);
-    if (!start_str)
-        return NULL;
-    end_str = ft_strdup(&input[end]);
-    if (!end_str)
-    {
-        free(start_str);
-        return NULL;
-    }
-    temp = ft_strjoin(start_str, var_value);
-    free(start_str);
-    if (!temp)
-    {
-        free(end_str);
-        return NULL;
-    }
-    new_input = ft_strjoin(temp, end_str);
-    free(temp);
-    free(end_str);
-    return new_input;
+	start_str = ft_substr(input, 0, start);
+	if (!start_str)
+		return (NULL);
+	end_str = ft_strdup(&input[end]);
+	if (!end_str)
+	{
+	free (start_str);
+		return (NULL);
+	}
+	temp = ft_strjoin(start_str, var_value);
+	free(start_str);
+	if (!temp)
+	{
+		free(end_str);
+		return (NULL);
+	}
+	new_input = ft_strjoin(temp, end_str);
+	free(temp);
+	free(end_str);
+	return (new_input);
 }
 
 // Remplace la variable dans la chaîne d'entrée avec sa valeur correspondante
-static int replace_variable_in_input(t_shell *shell, t_lexer *lexer, int start, int end, const char *var_value)
+static int	replace_variable_in_input(t_shell *shell, t_lexer *lexer, int start, int end, const char *var_value)
 {
     char *new_input;
 

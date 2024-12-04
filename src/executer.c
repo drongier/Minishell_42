@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executer.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: drongier <drongier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 12:10:13 by chbachir          #+#    #+#             */
-/*   Updated: 2024/11/29 14:24:16 by drongier         ###   ########.fr       */
+/*   Updated: 2024/12/04 11:35:27 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,8 @@ void	exec_bin(t_shell *shell, char *cmd, t_list *args)
 		exec_unset(shell);
 	else if (ft_strcmp(cmd, "env") == 0)
 		exec_env(*shell);
-	else if (ft_strcmp(cmd, "exit") == 0 && (shell->cmdline[4] == '\0' || shell->cmdline[4] == ' '))
+	else if (ft_strcmp(cmd, "exit") == 0 && \
+	(shell->cmdline[4] == '\0' || shell->cmdline[4] == ' '))
 		exec_exit(shell);
 	else
 		exec_path(shell, cmd, args);
@@ -96,22 +97,26 @@ void	exec_bin(t_shell *shell, char *cmd, t_list *args)
 
 void	exec_start(t_shell *shell)
 {
-	t_parser *parser;
-	
+	t_parser	*parser;
+	t_list		*args;
+	char		*cmd_name;
+
 	parser = shell->parser;
 	if (shell->flag_pipe == 1)
 		exec_with_pipe(shell);
 	else
+	{
 		while (parser)
 		{
-			t_list *args = parser->args;
+			args = parser->args;
 			while (args)
 			{
-				char *cmd_name = (char *)args->content;
+				cmd_name = (char *)args->content;
 				args = args->next;
 				exec_bin(shell, cmd_name, args);
 				break ;
 			}
 			parser = parser->next;
 		}
+	}
 }
