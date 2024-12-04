@@ -4,9 +4,9 @@ RL		=	-lreadline
 CFLAGS	=	#-g -fsanitize=address #-Wall -Wextra -Werror
 RM		=	rm -f -r
 
-SRCC	=	minishell.c expander.c utils.c parser.c printers.c executer.c \
-			environment.c bin/echo.c bin/pwd.c bin/cd.c bin/env.c bin/export.c \
-			bin/unset.c bin/exit.c pathfinder.c pipe.c free.c  error.c \
+SRCC	=	minishell.c expander.c utils.c parser.c printers.c executer/executer.c \
+			executer/exec_utils.c environment.c bin/echo.c bin/pwd.c bin/cd.c bin/env.c bin/export.c \
+			bin/unset.c bin/exit.c executer/pathfinder.c pipe.c free.c  error.c \
 			helper.c signals.c heredoc.c \
 			lexer/lexer.c lexer/lexer_utils.c lexer/lexer_utils2.c
 OBJD	=	obj
