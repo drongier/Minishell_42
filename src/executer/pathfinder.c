@@ -6,11 +6,11 @@
 /*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 14:45:30 by chbachir          #+#    #+#             */
-/*   Updated: 2024/12/04 12:09:08 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/12/04 15:11:37 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 #define MAX_PATH_LENGTH 1024
 
 char	*create_env_str(t_env *env)

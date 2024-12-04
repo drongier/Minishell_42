@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: drongier <drongier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 15:02:35 by emaydogd          #+#    #+#             */
-/*   Updated: 2024/12/02 18:39:07 by drongier         ###   ########.fr       */
+/*   Updated: 2024/12/04 15:07:38 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 # define _POSIX_C_SOURCE 200809L
 # define NULL ((void*)0)
 # define NSFOD "No such file or directory"
+# define PD "Permission Denied"
 # define M "minishell: exit: numeric argument required"
 
 # include <signal.h>
@@ -166,8 +167,11 @@ char	*ft_getenv(t_shell *shell, char *key);
 int		dollar_at_beginning(char *cmdline);
 int		ft_isspace(char c);
 void 	exec_with_pipe(t_shell *shell);
+void	restore_redirections(int saved_out, int saved_in);
+int		handle_redirections(t_shell *shell, int *saved_out, int *saved_in);
+int	validate_command(t_shell *shell, char *cmd_path, int is_direct_path);
 
-//error check
+//error checkf
 
 void		check_error_token_redi(t_shell *shell);
 int		ft_env_size(t_env *env);
