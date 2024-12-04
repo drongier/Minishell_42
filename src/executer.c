@@ -6,7 +6,7 @@
 /*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 12:10:13 by chbachir          #+#    #+#             */
-/*   Updated: 2024/12/04 11:35:27 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/12/04 12:19:09 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,49 +20,44 @@ static void	exec_path(t_shell *shell, char *cmd, t_list *args)
 	struct stat		cmd_stat;
 	int             is_direct_path;
 	char			*cmd_clean;
-	
+
 	cmd_clean = remove_quotes(cmd);
 	is_direct_path = ft_strchr(cmd_clean, '/') != NULL;
-    if (is_direct_path)
-        cmd_path = ft_strdup(cmd_clean);
+	if (is_direct_path)
+		cmd_path = ft_strdup(cmd_clean);
 	else
-        cmd_path = get_external_cmd_path(shell, cmd_clean);
+		cmd_path = get_external_cmd_path(shell, cmd_clean);
 	if (!cmd_path)
-    {
-        ft_error(shell, "%s: command not found\n", cmd_clean, 127);
-        return ;
-    }
+	{
+		ft_error(shell, "%s: command not found\n", cmd_clean, 127);
+		return ;
+	}
 	if (stat(cmd_path, &cmd_stat) == 0)
-    {
-        // Vérifier si c'est un répertoire
-        if (S_ISDIR(cmd_stat.st_mode))
-        {
-            ft_error(shell, "minishell: %s: Is a directory\n", cmd_path, 126);
-            free(cmd_path); // Ne pas oublier de libérer la mémoire
-            return;
-        }
-
-        // Vérifier les permissions d'exécution
-        if (access(cmd_path, X_OK) != 0)
-        {
-            ft_error(shell, "minishell: %s: Permission denied\n", cmd_path, 126);
-            free(cmd_path); // Ne pas oublier de libérer la mémoire
-            return;
-        }
+	{
+		if (S_ISDIR(cmd_stat.st_mode))
+		{
+			ft_error(shell, "minishell: %s: Is a directory\n", cmd_path, 126);
+			free(cmd_path);
+			return ;
+		}
+		if (access(cmd_path, X_OK) != 0)
+		{
+			ft_error(shell, "minishell: %s: Permission denied\n", cmd_path, 126);
+			free(cmd_path);
+			return ;
+		}
 		free(cmd_clean);
-    }
+	}
 	else
-    {
-        // Le fichier n'existe pas
-        if (is_direct_path)
-            ft_error(shell, "minishell: %s: No such file or directory\n", cmd_path, 127);
-        free(cmd_path);
+	{
+
+		if (is_direct_path)
+			ft_error(shell, "minishell: %s: No such file or directory\n", cmd_path, 127);
+		free(cmd_path);
 		free(cmd_clean);
-        return;
-    }
-	
-	/* if (ft_strchr(cmd, '/'))
-		cmd_path = ft_strdup(cmd); // Copier le chemin de la commande */
+		return ;
+	}
+
 	saved_out = dup(STDOUT_FILENO);
 	saved_in = dup(STDIN_FILENO);
 	if (shell->parser->outfile != STDOUT_FILENO)
