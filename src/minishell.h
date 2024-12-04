@@ -6,7 +6,7 @@
 /*   By: drongier <drongier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 15:02:35 by emaydogd          #+#    #+#             */
-/*   Updated: 2024/12/02 18:39:07 by drongier         ###   ########.fr       */
+/*   Updated: 2024/12/04 17:29:46 by drongier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,5 +182,16 @@ void	handle_heredoc(t_shell *shell, t_parser *parser, const char *delimiter);
 
 // signals
 void use_signals(void);
+
+// PARSER 
+
+void		exit_no_lexer(t_shell *shell);
+void		failed_open_pipe(t_shell *shell, char *clean_next_input);
+void		exit_redir_in_open_failed(t_shell *shell, char *clean_next_input);
+void		exit_failed_open(t_shell *shell);
+int			exit_no_lexer_int(t_shell *shell);
+int 		handle_pipe(t_shell *shell, t_parser **parser, t_lexer **lexer);
+int			handle_heredoc_redir(t_shell *shell, t_parser *parser, t_lexer **lexer);
+t_parser 	*new_cmd_node();
 
 #endif
