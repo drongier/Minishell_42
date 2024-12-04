@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: drongier <drongier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 17:35:42 by drongier          #+#    #+#             */
-/*   Updated: 2024/12/02 17:36:37 by drongier         ###   ########.fr       */
+/*   Updated: 2024/12/04 12:14:20 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static void	update_quotes(char c, t_quotes *q)
 
 char	*remove_quotes(char *str)
 {
-	size_t		i; 
+	size_t		i;
 	size_t		j;
 	char		*result;
 	t_quotes	q;
