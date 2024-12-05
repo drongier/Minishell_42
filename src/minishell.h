@@ -6,7 +6,7 @@
 /*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 15:02:35 by emaydogd          #+#    #+#             */
-/*   Updated: 2024/12/04 15:07:38 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/12/05 12:52:52 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,24 @@ char *add_spaces_around_redirection(const char *cmdline);
 void	free_split_res(char **split_res);
 //static int	push(t_lexer **lexer, char *input, t_token_type type, size_t pos);
 
+/* EXPANDER */
+
 void	expander(t_shell *shell);
+int		is_var_char(char c);
+int		is_special_variable(const char *input, int i);
+int		get_variable_end(const char *input, int start);
+char	*get_regular_var_value(t_shell *shell, char *var_name);
+char	*handle_empty_var(void);
+char	*handle_reg_var(t_shell *shell, const char *input, int i, int *end);
+char	*get_var_value(t_shell *shell, const char *input, int i, int *end);
+char	*build_new_input(char *input, int start, int end, char *var_value);
+int		replace_variable_in_input(t_lexer *lexer, \
+							int start, int end, char *var_value);
+void	free_var_value_if_needed(const char *input, int i, char *var_value);
+int		expand_variable_at(t_shell *shell, t_lexer *lexer, int *i);
+int		process_lexer_input(t_shell *shell, t_lexer *lexer);
+
+/* PARSER */
 void	parser(t_shell *shell);
 
 void	init_env(t_shell *shell, char **env);
