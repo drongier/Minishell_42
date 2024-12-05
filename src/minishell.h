@@ -6,7 +6,7 @@
 /*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 15:02:35 by emaydogd          #+#    #+#             */
-/*   Updated: 2024/12/05 12:52:52 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/12/05 13:31:12 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,6 +141,19 @@ void	parser(t_shell *shell);
 void	init_env(t_shell *shell, char **env);
 int		env_push(t_env **env, char* key, char *value);
 int		env_pop(t_env **env, char *key);
+
+int	is_redirection(int type);
+t_parser	*new_cmd_node(void);
+int	check_redir_error(t_shell *shell);
+int	open_file(t_shell *shell, char *filename, int flags, int mode);
+void	reset_parser_on_pipe_error(t_shell *shell, t_parser *parser, char *clean_input);
+int	handle_input_redirection(t_shell *shell, t_parser *parser, t_lexer **lexer);
+int	handle_output_redirection(t_shell *shell, t_parser *parser, t_lexer **lexer, int flags);
+int	handle_heredoc_redirection(t_shell *shell, t_parser *parser, t_lexer **lexer);
+int	process_redirection(t_shell *shell, t_parser *parser, t_lexer **lexer);
+int	create_new_pipe(t_shell *shell, t_parser **parser, t_lexer *lexer);
+
+
 
 /* BUILTINS */
 int		is_bin(char *cmd);
