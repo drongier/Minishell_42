@@ -6,7 +6,7 @@
 /*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 17:50:44 by chbachir          #+#    #+#             */
-/*   Updated: 2024/12/04 12:13:55 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/12/05 11:36:11 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	handle_sigint(int sig)
 		rl_on_new_line();
 		rl_redisplay();
 	}
-	else // Si nous sommes dans le heredoc
+	else
 		write(STDOUT_FILENO, "^C\n", 3);
 }
 
@@ -34,15 +34,13 @@ void	setup_signal_handlers(void)
 
 	sa.sa_handler = handle_sigint;
 	sigemptyset(&sa.sa_mask);
-	sa.sa_flags = 0; // Pour redémarrer les appels système interrompus
+	sa.sa_flags = 0;
 
 	if (sigaction(SIGINT, &sa, NULL) == -1)
 	{
 		perror("sigaction");
 		exit(EXIT_FAILURE);
 	}
-
-	// Optionnel: Ignorer SIGQUIT (Ctrl+\)
 	sa.sa_handler = SIG_IGN;
 	if (sigaction(SIGQUIT, &sa, NULL) == -1)
 	{
