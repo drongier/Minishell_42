@@ -6,7 +6,7 @@
 /*   By: drongier <drongier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 15:02:35 by emaydogd          #+#    #+#             */
-/*   Updated: 2024/12/04 17:29:46 by drongier         ###   ########.fr       */
+/*   Updated: 2024/12/05 17:36:28 by drongier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,6 +192,9 @@ void		exit_failed_open(t_shell *shell);
 int			exit_no_lexer_int(t_shell *shell);
 int 		handle_pipe(t_shell *shell, t_parser **parser, t_lexer **lexer);
 int			handle_heredoc_redir(t_shell *shell, t_parser *parser, t_lexer **lexer);
+int			handle_append_redir(t_shell *shell, t_parser **parser, t_lexer **lexer);
+int			handle_out_redir(t_shell *shell, t_parser **parser, t_lexer **lexer);
+int			handle_in_redir(t_shell *shell, t_parser **parser, t_lexer **lexer);
 t_parser 	*new_cmd_node();
 
 #endif

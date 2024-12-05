@@ -10,7 +10,7 @@ SRCC	=	minishell.c expander.c utils.c printers.c executer.c \
 			helper.c signals.c heredoc.c \
 			lexer/lexer.c lexer/lexer_utils.c lexer/lexer_utils2.c \
 			parser/parser.c parser/redir_in.c parser/parser_utils.c parser/redir_pipe.c \
-			parser/redir_heredoc.c
+			parser/redir_heredoc.c parser/redir_append.c parser/redir_out.c
 OBJD	=	obj
 OBJDBIN	=	obj/bin
 SRCD	=	src
