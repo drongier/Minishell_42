@@ -6,7 +6,7 @@
 /*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 15:36:16 by emaydogd          #+#    #+#             */
-/*   Updated: 2024/12/05 13:33:33 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/12/06 16:37:30 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,27 +56,30 @@ static int	process_pipe(t_shell *shell, t_parser **parser, t_lexer *lexer)
 	return (create_new_pipe(shell, parser, lexer));
 }
 
-static int	handle_token(t_shell *shell, t_parser *parser, t_lexer **lexer)
+static int	handle_token(t_shell *shell, t_parser **parser, t_lexer **lexer)
 {
-	t_list	*node_input;
-	char	*clean_str;
-	int		status;
+	t_list		*node_input;
+	char		*clean_str;
+	int			status;
 
+	if (!(*lexer))
+		return (-1);
 	clean_str = remove_quotes((char *)(*lexer)->input);
-	node_input = ft_lstnew((*lexer)->input);
 	if ((*lexer)->type == TOKEN_ARG)
-		ft_lstadd_back(&parser->args, node_input);
+	{
+		node_input = ft_lstnew((*lexer)->input);
+		if (node_input)
+			ft_lstadd_back(&(*parser)->args, node_input);
+	}
 	else if (is_redirection((*lexer)->type))
 	{
-		status = process_redirection(shell, parser, lexer);
 		free(clean_str);
-		return (status);
+		return (process_redirection(shell, *parser, lexer));
 	}
 	else if ((*lexer)->type == TOKEN_PIPE)
 	{
-		status = process_pipe(shell, &parser, *lexer);
 		free(clean_str);
-		return (status);
+		return (process_pipe(shell, parser, *lexer));
 	}
 	free(clean_str);
 	return (0);
@@ -91,16 +94,17 @@ void	parser(t_shell *shell)
 	int			status;
 
 	shell->parser = new_cmd_node();
+	if (!shell->parser)
+		return ;
 	parser = shell->parser;
 	lexer = shell->lexer;
 	while (lexer)
 	{
-		status = handle_token(shell, parser, &lexer);
+		status = handle_token(shell, &parser, &lexer);
 		if (status == -1)
 			break ;
 		lexer = lexer->next;
 	}
-	free_lexer(lexer);
 }
 
 /* 
