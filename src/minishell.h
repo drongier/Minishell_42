@@ -6,7 +6,7 @@
 /*   By: drongier <drongier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 15:02:35 by emaydogd          #+#    #+#             */
-/*   Updated: 2024/12/09 13:30:16 by drongier         ###   ########.fr       */
+/*   Updated: 2024/12/09 14:01:47 by drongier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,12 @@ typedef struct s_shell
 	struct s_parser	*parser;
 	struct s_env	*env;
 }	t_shell;
+
+
+/* MINISHELL UTILS */
+
+void	clean_no_cmdline(t_shell *shell);
+void	update_status_g(t_shell *shell);
 
 /* LEXER */
 
