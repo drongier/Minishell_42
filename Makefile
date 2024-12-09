@@ -8,7 +8,7 @@ SRCC	=	minishell.c expander/expander.c expander/expander_utils_1.c expander/expa
 			parser/parser_utils_1.c parser/parser_utils_2.c printers.c executer/executer.c \
 			executer/exec_utils.c environment.c bin/echo.c bin/pwd.c bin/cd.c bin/env.c bin/export.c \
 			bin/unset.c bin/exit.c executer/pathfinder.c pipe.c free.c  error.c \
-			helper.c signals.c heredoc.c \
+			helper.c signals.c heredoc.c executer/exec_utils2.c \
 			lexer/lexer.c lexer/lexer_utils.c lexer/lexer_utils2.c
 OBJD	=	obj
 OBJDBIN	=	obj/bin

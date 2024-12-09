@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: drongier <drongier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 15:05:03 by chbachir          #+#    #+#             */
-/*   Updated: 2024/12/04 15:08:49 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/12/09 13:34:01 by drongier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,4 +62,33 @@ int	validate_command(t_shell *shell, char *cmd_path, int is_direct_path)
 			ft_error(shell, "minishell: %s: "NSFOD"\n", cmd_path, 127);
 		return (0);
 	}
+}
+
+char	*get_external_cmd_path(t_shell *shell, char *cmd)
+{
+	static char		cmd_path[MAX_PATH_LENGTH];
+	int				dir_length;
+	char			*cur_dir;
+
+	if (ft_getenv(shell, "PATH") == NULL)
+		return (NULL);
+	cur_dir = ft_getenv(shell, "PATH");
+	while (*cur_dir != '\0')
+	{
+		dir_length = 0;
+		while ((cur_dir[dir_length] != ':') && (cur_dir[dir_length] != '\0'))
+			dir_length++;
+		if (dir_length + 4 < MAX_PATH_LENGTH)
+		{
+			ft_strncpy(cmd_path, cur_dir, dir_length);
+			cmd_path[dir_length] = '/';
+			ft_strcpy(cmd_path + dir_length + 1, cmd);
+			if (access(cmd_path, X_OK) == 0)
+				return (cmd_path);
+		}
+		cur_dir += dir_length;
+		if (*cur_dir == ':')
+			cur_dir++;
+	}
+	return (NULL);
 }

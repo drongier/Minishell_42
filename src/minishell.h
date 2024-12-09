@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: drongier <drongier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 15:02:35 by emaydogd          #+#    #+#             */
-/*   Updated: 2024/12/05 13:31:12 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/12/09 13:30:16 by drongier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 # define _POSIX_C_SOURCE 200809L
+# define MAX_PATH_LENGTH 1024
 # define NULL ((void*)0)
 # define NSFOD "No such file or directory"
 # define PD "Permission Denied"
@@ -199,7 +200,13 @@ int		ft_isspace(char c);
 void 	exec_with_pipe(t_shell *shell);
 void	restore_redirections(int saved_out, int saved_in);
 int		handle_redirections(t_shell *shell, int *saved_out, int *saved_in);
-int	validate_command(t_shell *shell, char *cmd_path, int is_direct_path);
+int		validate_command(t_shell *shell, char *cmd_path, int is_direct_path);
+void	parent_process(pid_t pid, t_shell *shell);
+void	child_process(char *path, t_list *args, t_shell *shell);
+char	*get_command_path(t_shell *shell, char *cmd_clean, int is_direct_path);
+char	*create_env_str(t_env *env);
+int		ft_env_size(t_env *env);
+char	**convert_env_to_array(t_env *env);
 
 //error checkf
 
@@ -215,6 +222,6 @@ void	setup_signal_handlers(void);
 void	handle_heredoc(t_shell *shell, t_parser *parser, const char *delimiter);
 
 // signals
-void use_signals(void);
+void	use_signals(void);
 
 #endif

@@ -3,25 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   executer.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: drongier <drongier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 12:10:13 by chbachir          #+#    #+#             */
-/*   Updated: 2024/12/04 15:09:06 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/12/09 13:26:42 by drongier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static char	*get_command_path(t_shell *shell, char *cmd_clean, \
-							int is_direct_path)
+void	exec_cmd(char *path, t_list *args, t_shell *shell)
 {
-	char	*cmd_path;
+	pid_t	pid;
 
-	if (is_direct_path)
-		cmd_path = ft_strdup(cmd_clean);
+	pid = fork();
+	if (pid == -1)
+	{
+		perror("fork");
+		exit(EXIT_FAILURE);
+	}
+	else if (pid == 0)
+		child_process(path, args, shell);
 	else
-		cmd_path = get_external_cmd_path(shell, cmd_clean);
-	return (cmd_path);
+		parent_process(pid, shell);
 }
 
 static void	execute_command_path(t_shell *shell, char *cmd_path, t_list *args)
