@@ -6,7 +6,7 @@
 /*   By: drongier <drongier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 14:45:30 by chbachir          #+#    #+#             */
-/*   Updated: 2024/12/09 13:34:25 by drongier         ###   ########.fr       */
+/*   Updated: 2024/12/09 14:11:19 by drongier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ void	child_process(char *path, t_list *args, t_shell *shell)
 	envp = convert_env_to_array(shell->env);
 	if (!envp)
 		exit(EXIT_FAILURE);
-
 	setup_args(args, cmd_name, argv);
 	if (execve(path, argv, envp) == -1)
 		handle_exec_error(shell);

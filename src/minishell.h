@@ -6,7 +6,7 @@
 /*   By: drongier <drongier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 15:02:35 by emaydogd          #+#    #+#             */
-/*   Updated: 2024/12/09 14:01:47 by drongier         ###   ########.fr       */
+/*   Updated: 2024/12/09 14:13:21 by drongier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,10 +174,6 @@ void	exec_unset(t_shell *shell);
 void	exec_exit(t_shell *shell);
 void	exec_start(t_shell *shell);
 void	exec_cmd(char *path, t_list *args, t_shell *shell);
-
-/* todo: DELETE */
-void	print_lexer(t_shell shell);
-void	print_cmdtable(t_shell shell);
 
 int		correct_single_quotes(char * input);
 void	write_single_quotes(char *input);

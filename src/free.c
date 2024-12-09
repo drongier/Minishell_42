@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: drongier <drongier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 09:50:30 by chbachir          #+#    #+#             */
-/*   Updated: 2024/12/04 11:55:46 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/12/09 14:06:54 by drongier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ void	cleanup(t_shell *shell)
 {
 	if (!shell)
 		return ;
-
 	if (shell->parser)
 	{
 		shell->parser->infile = STDIN_FILENO;
@@ -24,7 +23,6 @@ void	cleanup(t_shell *shell)
 		free_parser(shell->parser);
 		shell->parser = NULL;
 	}
-
 	if (shell->lexer)
 	{
 		free_lexer(shell->lexer);

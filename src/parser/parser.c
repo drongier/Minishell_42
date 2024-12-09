@@ -3,13 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: drongier <drongier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 15:36:16 by emaydogd          #+#    #+#             */
-/*   Updated: 2024/12/06 16:37:30 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/12/09 14:07:54 by drongier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "../minishell.h"
 
@@ -84,8 +83,6 @@ static int	handle_token(t_shell *shell, t_parser **parser, t_lexer **lexer)
 	free(clean_str);
 	return (0);
 }
-
-
 
 void	parser(t_shell *shell)
 {

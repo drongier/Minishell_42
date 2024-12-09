@@ -6,7 +6,7 @@
 /*   By: drongier <drongier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 12:10:13 by chbachir          #+#    #+#             */
-/*   Updated: 2024/12/09 13:26:42 by drongier         ###   ########.fr       */
+/*   Updated: 2024/12/09 14:12:09 by drongier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ void	exec_bin(t_shell *shell, char *cmd, t_list *args)
 		exec_unset(shell);
 	else if (ft_strcmp(cmd, "env") == 0)
 		exec_env(*shell);
-	else if (ft_strcmp(cmd, "exit") == 0 &&
+	else if (ft_strcmp(cmd, "exit") == 0 && \
 		(shell->cmdline[4] == '\0' || shell->cmdline[4] == ' '))
 		exec_exit(shell);
 	else
@@ -117,4 +117,3 @@ void	exec_start(t_shell *shell)
 		}
 	}
 }
-
