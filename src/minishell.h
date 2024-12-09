@@ -6,7 +6,7 @@
 /*   By: drongier <drongier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 15:02:35 by emaydogd          #+#    #+#             */
-/*   Updated: 2024/12/09 14:13:21 by drongier         ###   ########.fr       */
+/*   Updated: 2024/12/09 14:27:35 by drongier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,6 +184,7 @@ void	ft_error(t_shell *shell, char *err_msg, char *args, int exit_status);
 char 	**convert_env_to_array(t_env *env);
 char 	*remove_quotes(char *str);
 char	**list_to_array(t_list *args);
+void	close_fds(t_parser *parser);
 
 // Cleaning
 void	cleanup(t_shell *shell);
