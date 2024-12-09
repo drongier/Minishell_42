@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils_2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: drongier <drongier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 13:28:24 by chbachir          #+#    #+#             */
-/*   Updated: 2024/12/05 13:33:09 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/12/09 16:08:26 by drongier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	handle_input_redirection(t_shell *shell, t_parser *parser, t_lexer **lexer)
+int	handle_input_redir(t_shell *shell, t_parser *parser, t_lexer **lexer)
 {
 	char	*clean_input;
 	int		fd;
@@ -26,7 +26,7 @@ int	handle_input_redirection(t_shell *shell, t_parser *parser, t_lexer **lexer)
 	{
 		if (shell->flag_pipe == 1)
 		{
-			reset_parser_on_pipe_error(shell, parser, clean_input);
+			reset_p_pipe_error(shell, parser, clean_input);
 			*lexer = (*lexer)->next;
 			return (0);
 		}

@@ -6,7 +6,7 @@
 /*   By: drongier <drongier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 17:50:44 by chbachir          #+#    #+#             */
-/*   Updated: 2024/12/09 13:35:47 by drongier         ###   ########.fr       */
+/*   Updated: 2024/12/09 15:51:51 by drongier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ void	setup_signal_handlers(void)
 	sa.sa_handler = handle_sigint;
 	sigemptyset(&sa.sa_mask);
 	sa.sa_flags = 0;
-
 	if (sigaction(SIGINT, &sa, NULL) == -1)
 	{
 		perror("sigaction");

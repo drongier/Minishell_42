@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils_1.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: drongier <drongier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 13:25:12 by chbachir          #+#    #+#             */
-/*   Updated: 2024/12/05 13:32:14 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/12/09 16:08:40 by drongier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	open_file(t_shell *shell, char *filename, int flags, int mode)
 	return (fd);
 }
 
-void	reset_parser_on_pipe_error(t_shell *shell, \
+void	reset_p_pipe_error(t_shell *shell, \
 				t_parser *parser, char *clean_input)
 {
 	perror(clean_input);

@@ -6,7 +6,7 @@
 /*   By: drongier <drongier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 15:36:16 by emaydogd          #+#    #+#             */
-/*   Updated: 2024/12/09 14:07:54 by drongier         ###   ########.fr       */
+/*   Updated: 2024/12/09 16:01:51 by drongier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	process_redirection(t_shell *shell, t_parser *parser, t_lexer **lexer)
 	int	status;
 
 	if ((*lexer)->type == TOKEN_REDIR_IN)
-		status = handle_input_redirection(shell, parser, lexer);
+		status = handle_input_redir(shell, parser, lexer);
 	else if ((*lexer)->type == TOKEN_REDIR_OUT)
 		status = handle_output_redirection(shell, parser, lexer, \
 										O_CREAT | O_RDWR | O_TRUNC);
