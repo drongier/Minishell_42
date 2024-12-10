@@ -2,5 +2,7 @@
 
 
 
- `➜ minishell$ cat <`
-zsh: segmentation fault (core dumped)  ./minishell
+`cat`
+^\Quit (core dumped)
+
+
