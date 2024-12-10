@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executer.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: drongier <drongier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 12:10:13 by chbachir          #+#    #+#             */
-/*   Updated: 2024/12/09 14:12:09 by drongier         ###   ########.fr       */
+/*   Updated: 2024/12/10 11:12:59 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void	exec_bin(t_shell *shell, char *cmd, t_list *args)
 	if (ft_strcmp(cmd, "echo") == 0)
 		exec_echo(shell, args);
 	else if (ft_strcmp(cmd, "pwd") == 0)
-		exec_pwd(shell);
+		exec_pwd();
 	else if (ft_strcmp(cmd, "cd") == 0)
 		exec_cd(shell, args);
 	else if (ft_strcmp(cmd, "export") == 0)

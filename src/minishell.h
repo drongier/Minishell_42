@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: drongier <drongier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 15:02:35 by emaydogd          #+#    #+#             */
-/*   Updated: 2024/12/09 16:14:18 by drongier         ###   ########.fr       */
+/*   Updated: 2024/12/10 11:19:45 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,13 +154,13 @@ int			open_file(t_shell *shell, char *filename, int flags, int mode);
 void		reset_p_pipe_error(t_shell *shell, t_parser *parser, \
 	char *clean_input);
 int			handle_input_redir(t_shell *shell, t_parser *parser, \
-	t_lexer **lexer);
+							t_lexer **lexer);
 int			handle_output_redirection(t_shell *shell, t_parser *parser, \
-	t_lexer **lexer, int flags);
+								t_lexer **lexer, int flags);
 int			handle_heredoc_redirection(t_shell *shell, t_parser *parser, \
-	t_lexer **lexer);
+								t_lexer **lexer);
 int			process_redirection(t_shell *shell, t_parser *parser, \
-	t_lexer **lexer);
+								t_lexer **lexer);
 int			create_new_pipe(t_shell *shell, t_parser **parser, t_lexer *lexer);
 
 /* BUILTINS */
@@ -168,7 +168,7 @@ int			create_new_pipe(t_shell *shell, t_parser **parser, t_lexer *lexer);
 void		exec_bin(t_shell *shell, char *cmd, t_list *args);
 void		exec_echo(t_shell *parser, t_list *args);
 void		exec_cd(t_shell *shell, t_list *args);
-void		exec_pwd(t_shell *shell);
+void		exec_pwd(void);
 void		exec_env(t_shell shell);
 void		exec_export(t_shell *shell);
 void		exec_unset(t_shell *shell);
@@ -179,7 +179,7 @@ void		exec_cmd(char *path, t_list *args, t_shell *shell);
 /* HELPER FUNCTIONS */
 char		*trim(char *str);
 void		ft_error(t_shell *shell, char *err_msg, \
-	char *args, int exit_status);
+						char *args, int exit_status);
 char		**convert_env_to_array(t_env *env);
 char		*remove_quotes(char *str);
 char		**list_to_array(t_list *args);
@@ -200,11 +200,11 @@ void		exec_with_pipe(t_shell *shell);
 void		restore_redirections(int saved_out, int saved_in);
 int			handle_redirections(t_shell *shell, int *saved_out, int *saved_in);
 int			validate_command(t_shell *shell, char *cmd_path, \
-		int is_direct_path);
+							int is_direct_path);
 void		parent_process(pid_t pid, t_shell *shell);
 void		child_process(char *path, t_list *args, t_shell *shell);
 char		*get_command_path(t_shell *shell, char *cmd_clean, \
-		int is_direct_path);
+							int is_direct_path);
 char		*create_env_str(t_env *env);
 int			ft_env_size(t_env *env);
 char		**convert_env_to_array(t_env *env);
@@ -220,8 +220,7 @@ void		handle_sigint(int sig);
 void		setup_signal_handlers(void);
 
 // heredoc
-void		handle_heredoc(t_shell *shell, t_parser *parser, \
-		const char *delimiter);
+void		handle_heredoc(t_parser *parser, const char *delimiter);
 void		heredoc_signal_handler(int sig);
 void		setup_heredoc_signals(struct sigaction *sa);
 

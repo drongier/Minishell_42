@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: drongier <drongier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 21:27:23 by emaydogd          #+#    #+#             */
-/*   Updated: 2024/12/02 15:25:42 by drongier         ###   ########.fr       */
+/*   Updated: 2024/12/10 11:13:38 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,6 @@
 void	exec_cd(t_shell *shell, t_list *args)
 {
 	char	*home;
-	int		status;
-	pid_t	pid;
 
 	home = ft_getenv(shell, "HOME");
 	if (home == NULL)

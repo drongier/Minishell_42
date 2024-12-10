@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils_2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: drongier <drongier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 13:28:24 by chbachir          #+#    #+#             */
-/*   Updated: 2024/12/09 16:08:26 by drongier         ###   ########.fr       */
+/*   Updated: 2024/12/10 11:16:20 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int	handle_heredoc_redirection(t_shell *shell, \
 	if (!(*lexer) || !(*lexer)->next)
 		return (check_redir_error(shell));
 	*lexer = (*lexer)->next;
-	handle_heredoc(shell, parser, (*lexer)->input);
+	handle_heredoc(parser, (*lexer)->input);
 	if (parser->infile == -1)
 	{
 		shell->exit_status = 130;

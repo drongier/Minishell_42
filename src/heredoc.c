@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: drongier <drongier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 16:31:07 by chbachir          #+#    #+#             */
-/*   Updated: 2024/12/09 15:50:04 by drongier         ###   ########.fr       */
+/*   Updated: 2024/12/10 11:14:00 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ static void	handle_parent_process(t_parser *parser, int *pipefd, pid_t pid)
 	parser->infile = pipefd[0];
 }
 
-void	handle_heredoc(t_shell *shell, t_parser *parser, const char *delimiter)
+void	handle_heredoc(t_parser *parser, const char *delimiter)
 {
 	pid_t	pid;
 	int		pipefd[2];

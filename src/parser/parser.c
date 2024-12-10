@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: drongier <drongier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 15:36:16 by emaydogd          #+#    #+#             */
-/*   Updated: 2024/12/09 16:01:51 by drongier         ###   ########.fr       */
+/*   Updated: 2024/12/10 11:12:11 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ static int	handle_token(t_shell *shell, t_parser **parser, t_lexer **lexer)
 {
 	t_list		*node_input;
 	char		*clean_str;
-	int			status;
 
 	if (!(*lexer))
 		return (-1);
