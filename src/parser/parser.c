@@ -6,7 +6,7 @@
 /*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 15:36:16 by emaydogd          #+#    #+#             */
-/*   Updated: 2024/12/10 11:12:11 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/12/10 12:51:40 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ int	create_new_pipe(t_shell *shell, t_parser **parser, t_lexer *lexer)
 int	process_redirection(t_shell *shell, t_parser *parser, t_lexer **lexer)
 {
 	int	status;
-
 	if ((*lexer)->type == TOKEN_REDIR_IN)
 		status = handle_input_redir(shell, parser, lexer);
 	else if ((*lexer)->type == TOKEN_REDIR_OUT)
