@@ -6,7 +6,7 @@
 /*   By: drongier <drongier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 15:02:35 by emaydogd          #+#    #+#             */
-/*   Updated: 2024/12/09 14:00:49 by drongier         ###   ########.fr       */
+/*   Updated: 2024/12/10 13:25:43 by drongier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,7 @@ static void	minishell(char **env)
 	}
 	if (shell.env)
 		free_mini_env(&shell);
-	if (shell.cmdline)
-		free_mini_env(&shell);
+	free(shell.cmdline);
 }
 
 int	main(int ac, char **av, char **env)
