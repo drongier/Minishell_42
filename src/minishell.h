@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: drongier <drongier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 15:02:35 by emaydogd          #+#    #+#             */
-/*   Updated: 2024/12/10 11:19:45 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/12/10 14:19:56 by drongier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,7 +168,7 @@ int			create_new_pipe(t_shell *shell, t_parser **parser, t_lexer *lexer);
 void		exec_bin(t_shell *shell, char *cmd, t_list *args);
 void		exec_echo(t_shell *parser, t_list *args);
 void		exec_cd(t_shell *shell, t_list *args);
-void		exec_pwd(void);
+void		exec_pwd(t_shell *shell);
 void		exec_env(t_shell shell);
 void		exec_export(t_shell *shell);
 void		exec_unset(t_shell *shell);
