@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: drongier <drongier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 15:36:16 by emaydogd          #+#    #+#             */
-/*   Updated: 2024/12/10 12:51:40 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/12/11 12:43:16 by drongier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,17 +23,18 @@ int	create_new_pipe(t_shell *shell, t_parser **parser, t_lexer *lexer)
 		perror("pipe");
 		return (-1);
 	}
-	(*parser)->outfile = pipex.write_fd;
+	(*parser)->outfile = pipex.fd[1];
 	(*parser)->pipex = pipex;
 	(*parser)->next = new_cmd_node();
 	*parser = (*parser)->next;
-	(*parser)->infile = pipex.read_fd;
+	(*parser)->infile = pipex.fd[0];
 	return (0);
 }
 
 int	process_redirection(t_shell *shell, t_parser *parser, t_lexer **lexer)
 {
 	int	status;
+
 	if ((*lexer)->type == TOKEN_REDIR_IN)
 		status = handle_input_redir(shell, parser, lexer);
 	else if ((*lexer)->type == TOKEN_REDIR_OUT)

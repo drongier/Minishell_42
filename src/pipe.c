@@ -6,81 +6,78 @@
 /*   By: drongier <drongier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 17:31:29 by chbachir          #+#    #+#             */
-/*   Updated: 2024/12/09 14:27:01 by drongier         ###   ########.fr       */
+/*   Updated: 2024/12/11 12:40:22 by drongier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	handle_redirections_pipes(t_parser *parser)
+static void	handle_child_redirections(int prev_fd, t_parser *parser)
 {
-	if (parser->infile != STDIN_FILENO)
+	if (prev_fd != -1)
 	{
-		dup2(parser->infile, STDIN_FILENO);
-		close(parser->infile);
+		if (dup2(prev_fd, STDIN_FILENO) == -1)
+			exit(1);
+		close(prev_fd);
 	}
-	if (parser->outfile != STDOUT_FILENO)
+	if (parser->next)
 	{
-		dup2(parser->outfile, STDOUT_FILENO);
+		if (dup2(parser->outfile, STDOUT_FILENO) == -1)
+			exit(1);
 		close(parser->outfile);
+		close(parser->next->infile);
 	}
 }
 
-static void	execute_command(t_shell *shell, t_parser *parser)
+static void	handle_parent_pipes(int *prev_fd, t_parser *parser)
 {
-	char	**args;
-	char	*path;
-
-	args = list_to_array(parser->args);
-	path = get_external_cmd_path(shell, args[0]);
-	if (ft_strncmp(args[0], "env", 3) == 0)
-		exec_env(*shell);
-	else if (execve(path, args, NULL) == -1)
+	if (*prev_fd != -1)
+		close(*prev_fd);
+	if (parser->next)
 	{
-		ft_error(shell, "%s : command not found\n", args[0], -1);
-		exit(127);
+		close(parser->outfile);
+		*prev_fd = parser->next->infile;
 	}
 }
 
-static void	handle_child_process(t_shell *shell, t_parser *parser)
+static void	handle_child(t_shell *shell, t_parser *parser, int prev_fd)
 {
+	handle_child_redirections(prev_fd, parser);
 	handle_redirections_pipes(parser);
 	execute_command(shell, parser);
-	exit(EXIT_SUCCESS);
 }
 
-static void	wait_for_children(t_shell *shell)
+static void	process_pipe(t_shell *shell, t_parser *parser, int *prev_fd)
 {
-	int	status;
+	int		pipe_fd[2];
+	pid_t	pid;
 
-	while (wait(&status) > 0)
+	if (parser->next)
+		setup_pipe(parser, pipe_fd);
+	pid = fork();
+	if (pid < 0)
 	{
-		if (WIFEXITED(status))
-			shell->exit_status = WEXITSTATUS(status);
-		else if (WIFSIGNALED(status))
-			shell->exit_status = 128 + WTERMSIG(status);
-		else
-			shell->exit_status = 1;
-		shell->flag_pipe = 0;
+		handle_pipe_error(*prev_fd, parser);
+		return ;
 	}
+	if (pid == 0)
+		handle_child(shell, parser, *prev_fd);
+	handle_parent_pipes(prev_fd, parser);
 }
 
 void	exec_with_pipe(t_shell *shell)
 {
 	t_parser	*parser;
-	pid_t		pid;
+	int			prev_fd;
 
 	parser = shell->parser;
+	prev_fd = -1;
 	while (parser)
 	{
-		pid = fork();
-		if (pid == 0)
-			handle_child_process(shell, parser);
-		else
-		{
-			close_fds(parser);
-			parser = parser->next;
-		}
+		process_pipe(shell, parser, &prev_fd);
+		parser = parser->next;
 	}
+	if (prev_fd != -1)
+		close(prev_fd);
 	wait_for_children(shell);
 }

@@ -6,7 +6,7 @@
 /*   By: drongier <drongier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 15:02:35 by emaydogd          #+#    #+#             */
-/*   Updated: 2024/12/10 14:19:56 by drongier         ###   ########.fr       */
+/*   Updated: 2024/12/11 12:42:11 by drongier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ typedef struct s_lexer
 
 typedef struct s_pipe 
 {
+	int	fd[2];
 	int	read_fd;
 	int	write_fd;
 }	t_pipex;
@@ -223,5 +224,13 @@ void		setup_signal_handlers(void);
 void		handle_heredoc(t_parser *parser, const char *delimiter);
 void		heredoc_signal_handler(int sig);
 void		setup_heredoc_signals(struct sigaction *sa);
+
+// PIPES
+
+void		handle_redirections_pipes(t_parser *parser);
+void		execute_command(t_shell *shell, t_parser *parser);
+void		wait_for_children(t_shell *shell);
+void		setup_pipe(t_parser *parser, int pipe_fd[2]);
+void		handle_pipe_error(int prev_fd, t_parser *parser);
 
 #endif
