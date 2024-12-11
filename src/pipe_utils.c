@@ -6,7 +6,7 @@
 /*   By: drongier <drongier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 14:26:33 by drongier          #+#    #+#             */
-/*   Updated: 2024/12/11 12:42:53 by drongier         ###   ########.fr       */
+/*   Updated: 2024/12/11 14:47:04 by drongier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,15 @@ void	handle_redirections_pipes(t_parser *parser)
 void	execute_command(t_shell *shell, t_parser *parser)
 {
 	char	**args;
-	char	*path;
+	int		is_direct_path;
+	char	*cmd_path;
 
 	args = list_to_array(parser->args);
-	path = get_external_cmd_path(shell, args[0]);
+	is_direct_path = ft_strchr(args[0], '/') != NULL;
+	cmd_path = get_command_path(shell, args[0], is_direct_path);
 	if (ft_strncmp(args[0], "env", 3) == 0)
 		exec_env(*shell);
-	else if (execve(path, args, NULL) == -1)
+	else if (execve(cmd_path, args, NULL) == -1)
 	{
 		ft_error(shell, "%s : command not found\n", args[0], -1);
 		exit(127);

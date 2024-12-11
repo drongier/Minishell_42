@@ -6,7 +6,7 @@
 /*   By: drongier <drongier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 12:10:13 by chbachir          #+#    #+#             */
-/*   Updated: 2024/12/10 14:20:12 by drongier         ###   ########.fr       */
+/*   Updated: 2024/12/11 14:26:09 by drongier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ static void	exec_path(t_shell *shell, char *cmd, t_list *args)
 	{
 		ft_error(shell, "%s: command not found\n", cmd_clean, 127);
 		free(cmd_clean);
+		free(cmd_path);
 		return ;
 	}
 	if (validate_command(shell, cmd_path, is_direct_path))
