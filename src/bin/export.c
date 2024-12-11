@@ -6,7 +6,7 @@
 /*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 21:32:10 by emaydogd          #+#    #+#             */
-/*   Updated: 2024/12/03 14:26:50 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/12/11 15:54:25 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,11 @@ void	exec_export(t_shell *shell)
 			env_pop(&shell->env, key);
 		if (val[0])
 			env_push(&shell->env, key, val);
+		else
+		{
+			free(key);
+			free(val);
+		}
 		shell->parser->args = shell->parser->args->next;
 	}
 }

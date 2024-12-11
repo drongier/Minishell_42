@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executer.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: drongier <drongier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 12:10:13 by chbachir          #+#    #+#             */
-/*   Updated: 2024/12/11 14:26:09 by drongier         ###   ########.fr       */
+/*   Updated: 2024/12/11 15:22:29 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,13 +62,11 @@ static void	exec_path(t_shell *shell, char *cmd, t_list *args)
 	{
 		ft_error(shell, "%s: command not found\n", cmd_clean, 127);
 		free(cmd_clean);
-		free(cmd_path);
 		return ;
 	}
 	if (validate_command(shell, cmd_path, is_direct_path))
 		execute_command_path(shell, cmd_path, args);
-	else
-		free(cmd_path);
+	free(cmd_path);
 	free(cmd_clean);
 }
 

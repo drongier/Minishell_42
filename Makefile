@@ -1,7 +1,7 @@
 NAME	=	minishell
 CC		=	cc
 RL		=	-lreadline
-CFLAGS	=	-g -Wall -Wextra -Werror #-fsanitize=address
+CFLAGS	=	-g -Wall -Wextra -Werror -fsanitize=address
 RM		=	rm -f -r
 
 SRCC	=	minishell.c expander/expander.c expander/expander_utils_1.c expander/expander_utils_2.c utils.c parser/parser.c \
