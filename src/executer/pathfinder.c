@@ -6,7 +6,7 @@
 /*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 14:45:30 by chbachir          #+#    #+#             */
-/*   Updated: 2024/12/11 12:27:14 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/12/11 13:58:24 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static void	handle_exec_error(t_shell *shell)
 		exit(127);
 	else
 	{
-		ft_error(shell, "%s : command not found\n", 
+		ft_error(shell, "%s : command not found\n",
 			(char *)shell->parser->args->content, -1);
 		exit(127);
 	}
@@ -53,6 +53,7 @@ void	child_process(char *path, t_list *args, t_shell *shell)
 	sa.sa_handler = SIG_DFL;
 	sigemptyset(&sa.sa_mask);
 	sa.sa_flags = 0;
+	sigaction(SIGINT, &sa, NULL);
 	sigaction(SIGQUIT, &sa, NULL);
 	cmd_name = (char *)shell->parser->args->content;
 	envp = convert_env_to_array(shell->env);

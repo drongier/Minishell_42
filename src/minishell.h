@@ -6,7 +6,7 @@
 /*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 15:02:35 by emaydogd          #+#    #+#             */
-/*   Updated: 2024/12/11 12:08:07 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/12/11 14:41:20 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ typedef enum s_token_type
 	TOKEN_COMMAND
 }	t_token_type;
 
-typedef struct s_quotes 
+typedef struct s_quotes
 {
 	int	single;
 	int	double_q;
@@ -78,7 +78,7 @@ typedef struct s_lexer
 	struct s_lexer	*next;
 }	t_lexer;
 
-typedef struct s_pipe 
+typedef struct s_pipe
 {
 	int	read_fd;
 	int	write_fd;
@@ -222,6 +222,6 @@ void		setup_signal_handlers(void);
 // heredoc
 void		handle_heredoc(t_parser *parser, const char *delimiter);
 void		heredoc_signal_handler(int sig);
-void		setup_heredoc_signals(struct sigaction *sa);
+void		setup_heredoc_signals();
 
 #endif

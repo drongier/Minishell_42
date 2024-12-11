@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: drongier <drongier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:54:47 by chbachir          #+#    #+#             */
-/*   Updated: 2024/12/03 12:30:07 by drongier         ###   ########.fr       */
+/*   Updated: 2024/12/11 12:41:56 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static int	push(t_lexer **lexer, char *input, t_token_type type, size_t pos)
 	if (!token->input)
 	{
 		free(token);
-		return (0); 
+		return (0);
 	}
 	token->type = type;
 	token->pos = pos;

@@ -6,7 +6,7 @@
 /*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 21:32:10 by emaydogd          #+#    #+#             */
-/*   Updated: 2024/12/10 13:16:40 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/12/11 12:38:46 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@ void	exec_env(t_shell shell)
 	{
 		write(shell.parser->outfile, shell.env->key, ft_strlen(shell.env->key));
 		write(shell.parser->outfile, "=", 1);
-		write(shell.parser->outfile, shell.env->value, ft_strlen(shell.env->value));
+		write(shell.parser->outfile, shell.env->value, \
+							ft_strlen(shell.env->value));
 		write(shell.parser->outfile, "\n", 1);
-		//printf("%s=%s\n", shell.env->key, shell.env->value);
 		shell.env = shell.env->next;
 	}
 }
