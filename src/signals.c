@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: drongier <drongier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 17:50:44 by chbachir          #+#    #+#             */
-/*   Updated: 2024/12/09 15:51:51 by drongier         ###   ########.fr       */
+/*   Updated: 2024/12/11 13:57:20 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	handle_sigint(int sig)
 		rl_redisplay();
 	}
 	else
-		write(STDOUT_FILENO, "^C\n", 3);
+		write(STDOUT_FILENO, "\n", 1);
 }
 
 void	setup_signal_handlers(void)

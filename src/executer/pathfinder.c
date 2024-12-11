@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pathfinder.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: drongier <drongier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 14:45:30 by chbachir          #+#    #+#             */
-/*   Updated: 2024/12/09 14:11:19 by drongier         ###   ########.fr       */
+/*   Updated: 2024/12/11 13:58:24 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static void	handle_exec_error(t_shell *shell)
 		exit(127);
 	else
 	{
-		ft_error(shell, "%s : command not found\n", 
+		ft_error(shell, "%s : command not found\n",
 			(char *)shell->parser->args->content, -1);
 		exit(127);
 	}
@@ -45,10 +45,16 @@ static void	handle_exec_error(t_shell *shell)
 
 void	child_process(char *path, t_list *args, t_shell *shell)
 {
-	char	*cmd_name;
-	char	*argv[100];
-	char	**envp;
+	char				*cmd_name;
+	char				*argv[100];
+	char				**envp;
+	struct sigaction	sa;
 
+	sa.sa_handler = SIG_DFL;
+	sigemptyset(&sa.sa_mask);
+	sa.sa_flags = 0;
+	sigaction(SIGINT, &sa, NULL);
+	sigaction(SIGQUIT, &sa, NULL);
 	cmd_name = (char *)shell->parser->args->content;
 	envp = convert_env_to_array(shell->env);
 	if (!envp)
@@ -67,5 +73,9 @@ void	parent_process(pid_t pid, t_shell *shell)
 	if (WIFEXITED(status))
 		shell->exit_status = WEXITSTATUS(status);
 	else if (WIFSIGNALED(status))
+	{
 		shell->exit_status = 128 + WTERMSIG(status);
+		if (WTERMSIG(status) == SIGQUIT)
+			ft_putstr_fd("Quit (core dumped)\n", 2);
+	}
 }

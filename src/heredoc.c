@@ -6,7 +6,7 @@
 /*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 16:31:07 by chbachir          #+#    #+#             */
-/*   Updated: 2024/12/10 11:14:00 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/12/11 15:06:09 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,11 @@ static void	write_heredoc_content(int fd, char *content)
 
 static void	handle_child_process(int *pipefd, const char *delimiter)
 {
-	struct sigaction	sa;
 	char				*line;
 	char				*content;
 
 	content = NULL;
-	setup_heredoc_signals(&sa);
+	setup_heredoc_signals();
 	close(pipefd[0]);
 	while (1)
 	{
@@ -64,19 +63,11 @@ static void	handle_child_process(int *pipefd, const char *delimiter)
 	exit(EXIT_SUCCESS);
 }
 
-static void	handle_parent_process(t_parser *parser, int *pipefd, pid_t pid)
-{
-	int	status;
-
-	close(pipefd[1]);
-	waitpid(pid, &status, 0);
-	parser->infile = pipefd[0];
-}
-
 void	handle_heredoc(t_parser *parser, const char *delimiter)
 {
 	pid_t	pid;
 	int		pipefd[2];
+	int		status;
 
 	if (pipe(pipefd) == -1)
 	{
@@ -85,7 +76,13 @@ void	handle_heredoc(t_parser *parser, const char *delimiter)
 	}
 	pid = fork();
 	if (pid == 0)
+	{
 		handle_child_process(pipefd, delimiter);
+	}
 	else
-		handle_parent_process(parser, pipefd, pid);
+	{
+		close(pipefd[1]);
+		waitpid(pid, &status, 0);
+		parser->infile = pipefd[0];
+	}
 }

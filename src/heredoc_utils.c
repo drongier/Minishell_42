@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: drongier <drongier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 15:42:32 by drongier          #+#    #+#             */
-/*   Updated: 2024/12/09 15:43:38 by drongier         ###   ########.fr       */
+/*   Updated: 2024/12/11 15:05:05 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,18 @@
 void	heredoc_signal_handler(int sig)
 {
 	if (sig == SIGINT)
+	{
+		//write(STDOUT_FILENO, "^C\n", 3);
 		exit(EXIT_FAILURE);
+	}
 }
 
-void	setup_heredoc_signals(struct sigaction *sa)
+void	setup_heredoc_signals(void)
 {
-	sa->sa_handler = heredoc_signal_handler;
-	sa->sa_flags = 0;
-	sigemptyset(&sa->sa_mask);
-	sigaction(SIGINT, sa, NULL);
+	struct sigaction	sa;
+
+	sa.sa_handler = heredoc_signal_handler;
+	sigemptyset(&sa.sa_mask);
+	sa.sa_flags = 0;
+	sigaction(SIGINT, &sa, NULL);
 }

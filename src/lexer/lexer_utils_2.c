@@ -1,28 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   lexer_utils2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/08 21:32:10 by emaydogd          #+#    #+#             */
-/*   Updated: 2024/12/11 15:12:42 by chbachir         ###   ########.fr       */
+/*   Created: 2024/12/03 13:05:53 by drongier          #+#    #+#             */
+/*   Updated: 2024/12/11 11:12:36 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	exec_env(t_shell shell)
+void	free_split_res(char **split_res)
 {
-	if (shell.env == NULL)
-		ft_error(&shell, "env: empty environment", NULL, 1);
-	while (shell.env != NULL)
+	int	i;
+
+	i = 0;
+	while (split_res[i])
 	{
-		write(shell.parser->outfile, shell.env->key, ft_strlen(shell.env->key));
-		write(shell.parser->outfile, "=", 1);
-		write(shell.parser->outfile, shell.env->value, \
-							ft_strlen(shell.env->value));
-		write(shell.parser->outfile, "\n", 1);
-		shell.env = shell.env->next;
+		free(split_res[i]);
+		i++;
 	}
+	free(split_res);
 }
