@@ -6,7 +6,7 @@
 /*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 13:26:58 by drongier          #+#    #+#             */
-/*   Updated: 2024/12/12 11:29:50 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/12/12 13:04:59 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,4 +76,33 @@ char	**convert_env_to_array(t_env *env)
 	}
 	envp[i] = NULL;
 	return (envp);
+}
+
+char	**ft_exec_split(const char *s, char c)
+{
+	char	**result;
+	int		i;
+	int		j;
+	int		index;
+
+	i = 0;
+	j = 0;
+	index = 0;
+	if (!s)
+		return (NULL);
+	result = malloc(sizeof(char *) * (count_words(s, c) + 1));
+	if (!result)
+		return (NULL);
+	while (s[i])
+	{
+		while (s[i] && is_delim(s[i], c))
+			i++;
+		j = i;
+		while (s[i] && !is_delim(s[i], c))
+			i++;
+		if (j < i)
+			result[index++] = malloc_word(s, j, i);
+	}
+	result[index] = NULL;
+	return (result);
 }

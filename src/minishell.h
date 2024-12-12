@@ -6,7 +6,7 @@
 /*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 15:02:35 by emaydogd          #+#    #+#             */
-/*   Updated: 2024/12/12 12:31:19 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/12/12 13:06:32 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -210,7 +210,9 @@ char		*create_env_str(t_env *env);
 int			ft_env_size(t_env *env);
 char		**convert_env_to_array(t_env *env);
 char		**ft_exec_split(const char *s, char c);
-
+char		*malloc_word(const char *str, int start, int end);
+int			count_words(const char *str, char delim);
+int			is_delim(char c, char delim);
 
 //error checkf
 

@@ -6,7 +6,7 @@
 /*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 12:12:24 by chbachir          #+#    #+#             */
-/*   Updated: 2024/12/12 12:30:40 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/12/12 13:06:21 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,20 +56,18 @@ int	handle_redirections(t_shell *shell, int *saved_out, int *saved_in)
 	return (1);
 }
 
-// ft_split.c
-
-#include <stdlib.h>
-
-static int	is_delim(char c, char delim)
+int	is_delim(char c, char delim)
 {
 	return (c == delim);
 }
 
-static int	count_words(const char *str, char delim)
+int	count_words(const char *str, char delim)
 {
-	int	count = 0;
-	int i = 0;
+	int	count;
+	int	i;
 
+	count = 0;
+	i = 0;
 	while (str[i])
 	{
 		while (str[i] && is_delim(str[i], delim))
@@ -84,11 +82,12 @@ static int	count_words(const char *str, char delim)
 	return (count);
 }
 
-static char	*malloc_word(const char *str, int start, int end)
+char	*malloc_word(const char *str, int start, int end)
 {
 	char	*word;
-	int		i = 0;
+	int		i;
 
+	i = 0;
 	word = malloc(sizeof(char) * (end - start + 1));
 	if (!word)
 		return (NULL);
@@ -96,30 +95,4 @@ static char	*malloc_word(const char *str, int start, int end)
 		word[i++] = str[start++];
 	word[i] = '\0';
 	return (word);
-}
-
-char	**ft_exec_split(const char *s, char c)
-{
-	char	**result;
-	int		i = 0;
-	int		j = 0;
-	int		index = 0;
-
-	if (!s)
-		return (NULL);
-	result = malloc(sizeof(char *) * (count_words(s, c) + 1));
-	if (!result)
-		return (NULL);
-	while (s[i])
-	{
-		while (s[i] && is_delim(s[i], c))
-			i++;
-		j = i;
-		while (s[i] && !is_delim(s[i], c))
-			i++;
-		if (j < i)
-			result[index++] = malloc_word(s, j, i);
-	}
-	result[index] = NULL;
-	return (result);
 }
