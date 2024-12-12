@@ -6,7 +6,7 @@
 /*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 09:50:30 by chbachir          #+#    #+#             */
-/*   Updated: 2024/12/12 23:32:19 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/12/12 23:37:59 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,36 +47,31 @@ void	free_lexer(t_lexer *lexer)
 	}
 }
 
-void    free_parser(t_parser *parser)
+void	free_parser(t_parser *parser)
 {
-    t_parser    *tmp_parser;
-    t_list      *tmp_args;
-    t_list      *current_arg;
+	t_parser	*tmp_parser;
+	t_list		*tmp_args;
+	t_list		*current_arg;
 
-    while (parser)
-    {
-        tmp_parser = parser->next;
-        
-        // Libérer la liste des arguments
-        current_arg = parser->args;
-        while (current_arg)
-        {
-            tmp_args = current_arg->next;
-            if (current_arg->content)
-                free(current_arg->content);
-            free(current_arg);
-            current_arg = tmp_args;
-        }
-        
-        // Fermer les descripteurs de fichiers si nécessaire
-        if (parser->infile != STDIN_FILENO)
-            close(parser->infile);
-        if (parser->outfile != STDOUT_FILENO)
-            close(parser->outfile);
-            
-        free(parser);
-        parser = tmp_parser;
-    }
+	while (parser)
+	{
+		tmp_parser = parser->next;
+		current_arg = parser->args;
+		while (current_arg)
+		{
+			tmp_args = current_arg->next;
+			if (current_arg->content)
+				free(current_arg->content);
+			free(current_arg);
+			current_arg = tmp_args;
+		}
+		if (parser->infile != STDIN_FILENO)
+			close(parser->infile);
+		if (parser->outfile != STDOUT_FILENO)
+			close(parser->outfile);
+		free(parser);
+		parser = tmp_parser;
+	}
 }
 
 void	free_env(t_env *env)
