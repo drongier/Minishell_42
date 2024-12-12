@@ -6,7 +6,7 @@
 /*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 15:42:32 by drongier          #+#    #+#             */
-/*   Updated: 2024/12/11 15:05:05 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/12/12 11:06:02 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ void	heredoc_signal_handler(int sig)
 {
 	if (sig == SIGINT)
 	{
-		//write(STDOUT_FILENO, "^C\n", 3);
 		exit(EXIT_FAILURE);
 	}
 }

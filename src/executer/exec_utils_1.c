@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_utils.c                                       :+:      :+:    :+:   */
+/*   exec_utils_1.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: drongier <drongier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 15:05:03 by chbachir          #+#    #+#             */
-/*   Updated: 2024/12/09 14:09:10 by drongier         ###   ########.fr       */
+/*   Updated: 2024/12/12 12:31:08 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,76 +19,59 @@ void	restore_redirections(int saved_out, int saved_in)
 	close(saved_out);
 	close(saved_in);
 }
-
-int	handle_redirections(t_shell *shell, int *saved_out, int *saved_in)
+static void free_exec_split(char **strs)
 {
-	*saved_out = dup(STDOUT_FILENO);
-	if (*saved_out == -1)
-		return (0);
-	*saved_in = dup(STDIN_FILENO);
-	if (*saved_in == -1)
-	{
-		close(*saved_out);
-		return (0);
-	}
-	if (shell->parser->outfile != STDOUT_FILENO)
-		dup2(shell->parser->outfile, STDOUT_FILENO);
-	if (shell->parser->infile != STDIN_FILENO)
-		dup2(shell->parser->infile, STDIN_FILENO);
-	return (1);
+    int i;
+
+    if (!strs)
+        return;
+    i = 0;
+    while (strs[i])
+    {
+        free(strs[i]);
+        i++;
+    }
+    free(strs);
 }
 
-int	validate_command(t_shell *shell, char *cmd_path, int is_direct_path)
+static char *ft_strjoin_three(char *s1, char *s2, char *s3)
 {
-	struct stat		cmd_stat;
+    char *temp;
+    char *result;
 
-	if (stat(cmd_path, &cmd_stat) == 0)
-	{
-		if (S_ISDIR(cmd_stat.st_mode))
-		{
-			ft_error(shell, "minishell: %s: Is a directory\n", cmd_path, 126);
-			return (0);
-		}
-		if (access(cmd_path, X_OK) != 0)
-		{
-			ft_error(shell, "minishell: %s: "PD"\n", cmd_path, 126);
-			return (0);
-		}
-		return (1);
-	}
-	else
-	{
-		if (is_direct_path)
-			ft_error(shell, "minishell: %s: "NSFOD"\n", cmd_path, 127);
-		return (0);
-	}
+    temp = ft_strjoin(s1, s2);
+    if (!temp)
+        return NULL;
+    result = ft_strjoin(temp, s3);
+    free(temp);
+    return result;
 }
 
-char	*get_external_cmd_path(t_shell *shell, char *cmd)
+char *get_external_cmd_path(t_shell *shell, char *cmd)
 {
-	static char		cmd_path[MAX_PATH_LENGTH];
-	int				dir_length;
-	char			*cur_dir;
+    char **paths;
+    char *path_env;
+    char *cmd_path;
+    int i;
 
-	if (ft_getenv(shell, "PATH") == NULL)
-		return (NULL);
-	cur_dir = ft_getenv(shell, "PATH");
-	while (*cur_dir != '\0')
-	{
-		dir_length = 0;
-		while ((cur_dir[dir_length] != ':') && (cur_dir[dir_length] != '\0'))
-			dir_length++;
-		if (dir_length + 4 < MAX_PATH_LENGTH)
-		{
-			ft_strncpy(cmd_path, cur_dir, dir_length);
-			cmd_path[dir_length] = '/';
-			ft_strcpy(cmd_path + dir_length + 1, cmd);
-			if (access(cmd_path, X_OK) == 0)
-				return (cmd_path);
-		}
-		cur_dir += dir_length;
-		if (*cur_dir == ':')
-			cur_dir++;
-	}
-	return (NULL);
+    path_env = ft_getenv(shell, "PATH");
+    if (!path_env)
+        return NULL;
+    paths = ft_exec_split(path_env, ':');
+    if (!paths)
+        return NULL;
+    i = 0;
+    while (paths[i])
+    {
+        cmd_path = ft_strjoin_three(paths[i], "/", cmd);
+        if (access(cmd_path, X_OK) == 0)
+        {
+            free_exec_split(paths);
+            return cmd_path;
+        }
+        free(cmd_path);
+        i++;
+    }
+    free_exec_split(paths);
+    return NULL;
 }

@@ -6,7 +6,7 @@
 /*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 15:02:35 by emaydogd          #+#    #+#             */
-/*   Updated: 2024/12/11 15:11:43 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/12/12 12:31:19 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -209,6 +209,8 @@ char		*get_command_path(t_shell *shell, char *cmd_clean, \
 char		*create_env_str(t_env *env);
 int			ft_env_size(t_env *env);
 char		**convert_env_to_array(t_env *env);
+char		**ft_exec_split(const char *s, char c);
+
 
 //error checkf
 

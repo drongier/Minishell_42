@@ -4,12 +4,15 @@ RL		=	-lreadline
 CFLAGS	=	-g -Wall -Wextra -Werror -fsanitize=address
 RM		=	rm -f -r
 
-SRCC	=	minishell.c expander/expander.c expander/expander_utils_1.c expander/expander_utils_2.c utils.c parser/parser.c \
-			parser/parser_utils_1.c parser/parser_utils_2.c executer/executer.c \
-			executer/exec_utils.c environment.c bin/echo.c bin/pwd.c bin/cd.c bin/env.c bin/export.c \
-			bin/unset.c bin/exit.c executer/pathfinder.c pipe.c free.c  error.c \
-			helper.c signals.c heredoc.c executer/exec_utils2.c \
-			lexer/lexer.c lexer/lexer_utils.c lexer/lexer_utils2.c mini_utils.c pipe_utils.c heredoc_utils.c
+SRCC	=	minishell.c \
+			lexer/lexer.c lexer/lexer_utils_1.c lexer/lexer_utils_2.c \
+			expander/expander.c expander/expander_utils_1.c expander/expander_utils_2.c \
+			parser/parser.c parser/parser_utils_1.c parser/parser_utils_2.c \
+			executer/executer.c executer/pathfinder.c executer/exec_utils_1.c executer/exec_utils_2.c executer/exec_utils_3.c \
+			environment.c bin/echo.c bin/pwd.c bin/cd.c bin/env.c bin/export.c \
+			bin/unset.c bin/exit.c pipe.c free.c  error.c \
+			helper.c signals.c heredoc.c \
+			mini_utils.c pipe_utils.c heredoc_utils.c utils.c
 OBJD	=	obj
 OBJDBIN	=	obj/bin
 SRCD	=	src

@@ -11,3 +11,7 @@
 export AA=BB --->> leaks
 
 
+
+
+
+LSAN_OPTIONS=suppressions=lsan.supp
