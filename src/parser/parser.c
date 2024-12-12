@@ -6,7 +6,7 @@
 /*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 15:36:16 by emaydogd          #+#    #+#             */
-/*   Updated: 2024/12/12 11:22:22 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/12/12 23:31:33 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,32 +55,46 @@ static int	process_pipe(t_shell *shell, t_parser **parser, t_lexer *lexer)
 	return (create_new_pipe(shell, parser, lexer));
 }
 
-static int	handle_token(t_shell *shell, t_parser **parser, t_lexer **lexer)
+static int handle_token(t_shell *shell, t_parser **parser, t_lexer **lexer)
 {
-	t_list		*node_input;
-	char		*clean_str;
+    t_list      *node_input;
+    char        *clean_str;
+    char        *input_copy;
 
-	if (!(*lexer))
-		return (-1);
-	clean_str = remove_quotes((char *)(*lexer)->input);
-	if ((*lexer)->type == TOKEN_ARG)
-	{
-		node_input = ft_lstnew((*lexer)->input);
-		if (node_input)
-			ft_lstadd_back(&(*parser)->args, node_input);
-	}
-	else if (is_redirection((*lexer)->type))
-	{
-		free(clean_str);
-		return (process_redirection(shell, *parser, lexer));
-	}
-	else if ((*lexer)->type == TOKEN_PIPE)
-	{
-		free(clean_str);
-		return (process_pipe(shell, parser, *lexer));
-	}
-	free(clean_str);
-	return (0);
+    if (!(*lexer))
+        return (-1);
+    
+    // Faire une copie de l'input avant de le nettoyer
+    input_copy = ft_strdup((*lexer)->input);
+    if (!input_copy)
+        return (-1);
+        
+    clean_str = remove_quotes(input_copy);
+    free(input_copy); // Libérer la copie
+
+    if ((*lexer)->type == TOKEN_ARG)
+    {
+        node_input = ft_lstnew(ft_strdup((*lexer)->input)); // Utiliser une copie
+        if (!node_input)
+        {
+            free(clean_str);
+            return (-1);
+        }
+        ft_lstadd_back(&(*parser)->args, node_input);
+    }
+    else if (is_redirection((*lexer)->type))
+    {
+        free(clean_str);
+        return (process_redirection(shell, *parser, lexer));
+    }
+    else if ((*lexer)->type == TOKEN_PIPE)
+    {
+        free(clean_str);
+        return (process_pipe(shell, parser, *lexer));
+    }
+    
+    free(clean_str);
+    return (0);
 }
 
 void	parser(t_shell *shell)
