@@ -6,7 +6,7 @@
 /*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 15:02:35 by emaydogd          #+#    #+#             */
-/*   Updated: 2024/12/12 13:06:32 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/12/12 13:11:52 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -227,7 +227,7 @@ void		setup_signal_handlers(void);
 // heredoc
 void		handle_heredoc(t_parser *parser, const char *delimiter);
 void		heredoc_signal_handler(int sig);
-void		setup_heredoc_signals();
+void		setup_heredoc_signals(void);
 
 // PIPES
 
