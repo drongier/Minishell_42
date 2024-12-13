@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: drongier <drongier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 18:51:01 by chbachir          #+#    #+#             */
-/*   Updated: 2024/12/03 11:40:58 by drongier         ###   ########.fr       */
+/*   Updated: 2024/12/13 16:41:56 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ static int	handle_exit_value(t_shell *shell)
 	if (!exit_val_isdigit(arg))
 	{
 		ft_error(shell, ""M"\n", arg, -1);
+		free(arg);
 		return (2);
 	}
 	exit_val = ft_atoi(arg);

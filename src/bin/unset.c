@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: drongier <drongier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 21:32:10 by emaydogd          #+#    #+#             */
-/*   Updated: 2024/12/09 14:14:06 by drongier         ###   ########.fr       */
+/*   Updated: 2024/12/13 15:39:49 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,17 @@
 
 void	exec_unset(t_shell *shell)
 {
-	while (shell->parser->args)
+	t_list	*current_arg;
+	t_list	*next_arg;
+
+	current_arg = shell->parser->args;
+	while (current_arg)
 	{
-		env_pop(&shell->env, shell->parser->args->content);
-		shell->parser->args = shell->parser->args->next;
+		env_pop(&shell->env, (char *)current_arg->content);
+		next_arg = current_arg->next;
+		free(current_arg->content);
+		free(current_arg);
+		current_arg = next_arg;
 	}
+	shell->parser->args = NULL;
 }

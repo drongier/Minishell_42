@@ -6,11 +6,11 @@
 /*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 21:39:05 by emaydogd          #+#    #+#             */
-/*   Updated: 2024/12/12 11:08:45 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/12/13 16:38:23 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 int	env_push(t_env **env, char *key, char *value)
 {
@@ -40,12 +40,14 @@ int	env_pop(t_env **env, char *key)
 	prev = NULL;
 	while (tmp)
 	{
-		if (ft_strncmp(key, tmp->key, ft_strlen(tmp->key)) == 0)
+		if (ft_strcmp(key, tmp->key) == 0)
 		{
 			if (!prev)
 				*env = tmp->next;
 			else
 				prev->next = tmp->next;
+			free(tmp->key);
+			free(tmp->value);
 			free(tmp);
 			return (1);
 		}

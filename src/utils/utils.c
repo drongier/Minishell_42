@@ -6,11 +6,11 @@
 /*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 17:35:42 by drongier          #+#    #+#             */
-/*   Updated: 2024/12/12 11:02:22 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/12/13 16:32:13 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 static void	update_quotes(char c, t_quotes *q)
 {

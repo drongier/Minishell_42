@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: drongier <drongier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 15:02:35 by emaydogd          #+#    #+#             */
-/*   Updated: 2024/12/13 12:25:27 by drongier         ###   ########.fr       */
+/*   Updated: 2024/12/13 17:10:41 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,12 @@ typedef struct s_quotes
 	int	double_q;
 }	t_quotes;
 
+typedef struct s_state
+{
+	int		in_quotes;
+	char	quote_char;
+}			t_state;
+
 typedef struct s_lexer
 {
 	char			*input;
@@ -123,6 +129,15 @@ void		update_status_g(t_shell *shell);
 void		lexer(t_shell *shell);
 char		*add_spaces_around_redirection(const char *cmdline);
 void		free_split_res(char **split_res);
+char		**custom_split(const char *str, int *error_flag);
+int			extract_token(const char *str, size_t *i, t_state *state, \
+														char **token);
+void		free_tokens(char **tokens, size_t count);
+void		skip_spaces(const char *str, size_t *i);
+void		process_token(const char *str, size_t *i, t_state *state);
+size_t		count_tokens(const char *str, int *error_flag);
+char		**allocate_result_array(size_t tokens);
+void		initialize_parse_state(size_t *i, size_t *j, t_state *state);
 
 /* EXPANDER */
 
@@ -238,5 +253,6 @@ void		execute_command(t_shell *shell, t_parser *parser);
 void		wait_for_children(t_shell *shell);
 void		setup_pipe(t_parser *parser, int pipe_fd[2]);
 void		handle_pipe_error(int prev_fd, t_parser *parser);
+char		**custom_split(const char *str, int *error_flag);
 
 #endif

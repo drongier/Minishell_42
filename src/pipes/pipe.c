@@ -6,11 +6,11 @@
 /*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 17:31:29 by chbachir          #+#    #+#             */
-/*   Updated: 2024/12/12 11:03:15 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/12/13 16:32:03 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 static void	handle_child_redirections(int prev_fd, t_parser *parser)
 {

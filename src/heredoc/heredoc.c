@@ -6,11 +6,11 @@
 /*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 16:31:07 by chbachir          #+#    #+#             */
-/*   Updated: 2024/12/12 11:04:54 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/12/13 16:31:51 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 static char	*append_content(char *content, char *line)
 {

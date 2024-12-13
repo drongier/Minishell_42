@@ -6,11 +6,11 @@
 /*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 15:42:32 by drongier          #+#    #+#             */
-/*   Updated: 2024/12/12 11:06:02 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/12/13 16:31:48 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 void	heredoc_signal_handler(int sig)
 {

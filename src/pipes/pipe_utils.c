@@ -6,11 +6,11 @@
 /*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 14:26:33 by drongier          #+#    #+#             */
-/*   Updated: 2024/12/12 11:04:22 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/12/13 16:31:59 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 void	handle_redirections_pipes(t_parser *parser)
 {
