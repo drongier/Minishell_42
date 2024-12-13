@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: drongier <drongier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 15:36:16 by emaydogd          #+#    #+#             */
-/*   Updated: 2024/12/12 23:56:56 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/12/13 12:25:48 by drongier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ static int	process_pipe(t_shell *shell, t_parser **parser, t_lexer *lexer)
 
 static int	handle_token(t_shell *shell, t_parser **parser, t_lexer **lexer)
 {
-	t_list		*node_input;
 	char		*clean_str;
 	char		*input_copy;
 
@@ -68,16 +67,8 @@ static int	handle_token(t_shell *shell, t_parser **parser, t_lexer **lexer)
 		return (-1);
 	clean_str = remove_quotes(input_copy);
 	free(input_copy);
-	if ((*lexer)->type == TOKEN_ARG)
-	{
-		node_input = ft_lstnew(ft_strdup((*lexer)->input));
-		if (!node_input)
-		{
-			free(clean_str);
-			return (-1);
-		}
-		ft_lstadd_back(&(*parser)->args, node_input);
-	}
+	if (handle_token_arg(lexer, parser, clean_str) == -1)
+		return (-1);
 	else if (is_redirection((*lexer)->type))
 	{
 		free(clean_str);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils_2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: drongier <drongier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 13:28:24 by chbachir          #+#    #+#             */
-/*   Updated: 2024/12/12 11:09:53 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/12/13 12:24:29 by drongier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,20 @@ int	handle_heredoc_redirection(t_shell *shell, \
 	{
 		shell->exit_status = 130;
 		return (-1);
+	}
+	return (0);
+}
+
+int	handle_token_arg(t_lexer **lexer, t_parser **parser, char *clean_str)
+{
+	t_list	*node_input;
+
+	if ((*lexer)->type == TOKEN_ARG)
+	{
+		node_input = ft_lstnew(ft_strdup((*lexer)->input));
+		if (!node_input)
+			return (free(clean_str), -1);
+		ft_lstadd_back(&(*parser)->args, node_input);
 	}
 	return (0);
 }

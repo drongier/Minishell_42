@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: drongier <drongier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 21:32:10 by emaydogd          #+#    #+#             */
-/*   Updated: 2024/12/12 23:41:20 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/12/13 12:16:19 by drongier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,45 +51,55 @@ static char	*remove_quotes_export(char *val)
 	return (val);
 }
 
+void	update_environment(t_shell *shell, char *key, char *val)
+{
+	if (ft_getenv(shell, key))
+		env_pop(&shell->env, key);
+	if (val && val[0])
+		env_push(&shell->env, key, val);
+	else
+	{
+		free(key);
+		free(val);
+	}
+}
+
+void	process_key_value(t_shell *shell, char *content)
+{
+	int		i;
+	char	*key;
+	char	*val;
+	char	*tmp_val;
+
+	i = 0;
+	while (content[i])
+	{
+		if (content[i] == '=')
+			break ;
+		i++;
+	}
+	key = ft_substr(content, 0, i);
+	if (!is_valid_key(shell, key))
+	{
+		free(key);
+		return ;
+	}
+	val = ft_substr(content, i + 1, ft_strlen(content) - i - 1);
+	tmp_val = val;
+	val = remove_quotes_export(val);
+	if (tmp_val != val)
+		free(tmp_val);
+	update_environment(shell, key, val);
+}
+
 void	exec_export(t_shell *shell)
 {
-	int			i;
-	char		*key;
-	char		*val;
-	char		*tmp_val;
-	t_list		*current_arg;
+	t_list	*current_arg;
 
 	current_arg = shell->parser->args;
 	while (current_arg)
 	{
-		i = 0;
-		while (((char *)current_arg->content)[i])
-		{
-			if (((char *)current_arg->content)[i] == '=')
-				break ;
-			i++;
-		}
-		key = ft_substr(current_arg->content, 0, i);
-		if (!is_valid_key(shell, key))
-		{
-			free(key);
-			break ;
-		}
-		val = ft_substr(current_arg->content, i + 1, \
-			ft_strlen(current_arg->content) - i - 1);
-		tmp_val = val;
-		val = remove_quotes_export(val);
-		if (tmp_val != val)
-			free(tmp_val);
-		if (ft_getenv(shell, key))
-			env_pop(&shell->env, key);
-		if (val && val[0])
-			env_push(&shell->env, key, val);
-		else
-		{
-			free(key);
-			free(val);
-		}
+		process_key_value(shell, (char *)current_arg->content);
 		current_arg = current_arg->next;
 	}
 }
