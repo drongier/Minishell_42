@@ -6,7 +6,7 @@
 /*   By: drongier <drongier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:54:47 by chbachir          #+#    #+#             */
-/*   Updated: 2024/12/13 19:33:44 by drongier         ###   ########.fr       */
+/*   Updated: 2024/12/13 21:03:34 by drongier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,18 +56,18 @@ static int	handle_lexer_error(t_shell *shell, char **str, int error_flag)
 
 static void	identify_token(t_shell *shell, char *token, size_t *pos)
 {
-	if (ft_strncmp(token, "|", 1) == 0)
+	if (ft_strcmp(token, "|") == 0)
 	{
 		shell->flag_pipe = 1;
 		push(&shell->lexer, "|", TOKEN_PIPE, *pos);
 	}
-	else if (ft_strncmp(token, "<<", 2) == 0)
+	else if (ft_strcmp(token, "<<") == 0)
 		push(&shell->lexer, "<<", TOKEN_REDIR_HEREDOC, *pos);
-	else if (ft_strncmp(token, ">>", 2) == 0)
+	else if (ft_strcmp(token, ">>") == 0)
 		push(&shell->lexer, ">>", TOKEN_REDIR_APPEND, *pos);
-	else if (ft_strncmp(token, "<", 1) == 0)
+	else if (ft_strcmp(token, "<") == 0)
 		push(&shell->lexer, "<", TOKEN_REDIR_IN, *pos);
-	else if (ft_strncmp(token, ">", 1) == 0)
+	else if (ft_strcmp(token, ">") == 0)
 		push(&shell->lexer, ">", TOKEN_REDIR_OUT, *pos);
 	else
 		push(&shell->lexer, token, TOKEN_ARG, *pos);
