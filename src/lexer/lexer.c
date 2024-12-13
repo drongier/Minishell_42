@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: drongier <drongier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:54:47 by chbachir          #+#    #+#             */
-/*   Updated: 2024/12/12 11:24:36 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/12/12 16:36:23 by drongier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ void	lexer(t_shell *shell)
 	i = 0;
 	pos = 0;
 	new_str = add_spaces_around_redirection(shell->cmdline);
-	str = custom_split(new_str, &error_flag);
+	str = ft_split(new_str, ' ');
 	if (!handle_lexer_error(shell, str, error_flag))
 		return ;
 	shell->lexer = NULL;
