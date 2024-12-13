@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: drongier <drongier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 18:51:01 by chbachir          #+#    #+#             */
-/*   Updated: 2024/12/13 16:41:56 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/12/13 19:40:22 by drongier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,12 +54,13 @@ void	exec_exit(t_shell *shell)
 		cleanup(shell);
 		exit(shell->exit_status);
 	}
-	exit_val = handle_exit_value(shell);
 	if (ft_lstsize(shell->parser->args) > 2)
 	{
 		ft_error(shell, "minishell: exit: too many arguments\n", NULL, 1);
 		return ;
 	}
+	else
+		exit_val = handle_exit_value(shell);
 	cleanup(shell);
 	exit(exit_val);
 }
