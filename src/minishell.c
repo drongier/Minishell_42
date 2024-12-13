@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: drongier <drongier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 15:02:35 by emaydogd          #+#    #+#             */
-/*   Updated: 2024/12/12 10:59:01 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/12/13 12:03:50 by drongier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +57,11 @@ static void	minishell(char **env)
 		if (g_signal != 0)
 			update_status_g(&shell);
 		run_minishell(&shell);
+		free(shell.cmdline);
+		shell.cmdline = NULL;
 	}
 	if (shell.env)
 		free_mini_env(&shell);
-	free(shell.cmdline);
 }
 
 int	main(int ac, char **av, char **env)
