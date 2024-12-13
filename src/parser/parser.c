@@ -6,7 +6,7 @@
 /*   By: drongier <drongier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 15:36:16 by emaydogd          #+#    #+#             */
-/*   Updated: 2024/12/13 12:25:48 by drongier         ###   ########.fr       */
+/*   Updated: 2024/12/13 20:55:10 by drongier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,10 @@ void	parser(t_shell *shell)
 
 	shell->parser = new_cmd_node();
 	if (!shell->parser)
+	{
+		free(shell->parser);
 		return ;
+	}
 	parser = shell->parser;
 	lexer = shell->lexer;
 	while (lexer)

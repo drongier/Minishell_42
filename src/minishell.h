@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: drongier <drongier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 15:02:35 by emaydogd          #+#    #+#             */
-/*   Updated: 2024/12/13 17:10:41 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/12/13 20:51:37 by drongier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # define NSFOD "No such file or directory"
 # define PD "Permission Denied"
 # define M "minishell: exit: numeric argument required"
+# define SYNT "bash: syntax error near unexpected token `newline'"
 
 # define BANNER "\
 ######################################################################################\n\

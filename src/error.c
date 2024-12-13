@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: drongier <drongier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 12:13:52 by chbachir          #+#    #+#             */
-/*   Updated: 2024/12/12 11:08:00 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/12/13 20:53:09 by drongier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 void	check_error_token_redi(t_shell *shell)
 {
-	ft_error(shell, "bash: syntax error near \
-	unexpected token `newline'\n", NULL, 2);
+	ft_error(shell, ""SYNT"\n", NULL, 2);
+	cleanup(shell);
 }
 
 void	ft_error(t_shell *shell, char *err_msg, char *args, int exit_status)
