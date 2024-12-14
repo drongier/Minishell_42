@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander_utils_1.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: drongier <drongier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 12:14:31 by chbachir          #+#    #+#             */
-/*   Updated: 2024/12/12 11:25:54 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/12/14 15:47:35 by drongier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,9 @@ char	*get_regular_var_value(t_shell *shell, char *var_name)
 	else
 		var_value = ft_strdup("");
 	return (var_value);
+}
+
+int	variable_exists(t_shell *shell, char *var_name)
+{
+	return ((ft_getenv(shell, var_name)) != NULL);
 }

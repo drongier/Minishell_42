@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: drongier <drongier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 12:51:03 by chbachir          #+#    #+#             */
-/*   Updated: 2024/12/12 11:27:50 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/12/14 15:49:41 by drongier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,13 @@ int	expand_variable_at(t_shell *shell, t_lexer *lexer, int *i)
 	var_value = get_var_value(shell, lexer->input, *i, &end);
 	if (!var_value)
 		return (0);
+	if (!variable_exists(shell, var_value))
+	{
+		free(var_value);
+		printf("\n");
+		cleanup(shell);
+		return (0);
+	}
 	if (!replace_variable_in_input(lexer, *i, end, var_value))
 	{
 		free_var_value_if_needed(lexer->input, *i, var_value);

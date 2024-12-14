@@ -6,7 +6,7 @@
 /*   By: drongier <drongier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 15:02:35 by emaydogd          #+#    #+#             */
-/*   Updated: 2024/12/14 15:25:36 by drongier         ###   ########.fr       */
+/*   Updated: 2024/12/14 15:48:04 by drongier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,6 +140,7 @@ int			replace_variable_in_input(t_lexer *lexer, \
 void		free_var_value_if_needed(const char *input, int i, char *var_value);
 int			expand_variable_at(t_shell *shell, t_lexer *lexer, int *i);
 int			process_lexer_input(t_shell *shell, t_lexer *lexer);
+int			variable_exists(t_shell *shell, char *var_name);
 
 /* PARSER */
 void		parser(t_shell *shell);
