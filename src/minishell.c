@@ -6,7 +6,7 @@
 /*   By: drongier <drongier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 15:02:35 by emaydogd          #+#    #+#             */
-/*   Updated: 2024/12/13 12:03:50 by drongier         ###   ########.fr       */
+/*   Updated: 2024/12/14 13:45:33 by drongier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ static void	init_shell(t_shell *shell)
 	shell->parser = NULL;
 	shell->exit_status = 0;
 	shell->in_heredoc = 0;
+	shell->flag_pipe = 0;
 }
 
 static void	run_minishell(t_shell *shell)
