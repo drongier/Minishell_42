@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: drongier <drongier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 17:35:42 by drongier          #+#    #+#             */
-/*   Updated: 2024/12/13 16:32:13 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/12/14 15:27:08 by drongier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,4 +45,50 @@ char	*remove_quotes(char *str)
 	}
 	result[j] = '\0';
 	return (result);
+}
+
+int	skip_sp(const char *in, int i)
+{
+	while (in[i] && isspace(in[i]))
+		i++;
+	return (i);
+}
+
+int	handle_redirection(const char *in, int i)
+{
+	char	current;
+	char	next;
+
+	current = in[i];
+	next = in[i + 1];
+	if ((current == '>' || current == '<') && next == current)
+		i++;
+	i++;
+	i = skip_sp(in, i);
+	if (!in[i] || in[i] == '>' || in[i] == '<' || in[i] == '|')
+		return (-1);
+	return (i);
+}
+
+int	is_valid_syntax(const char *in)
+{
+	int	i;
+
+	i = 0;
+	while (in[i])
+	{
+		i = skip_sp(in, i);
+		if (in[i] == '>' || in[i] == '<' || in[i] == '|')
+		{
+			i = handle_redirection(in, i);
+			if (i == -1)
+				return (0);
+		}
+		else
+		{
+			while (in[i] && in[i] != '>' && in[i] != '<' && in[i] != '|')
+				i++;
+		}
+	}
+	return (1);
 }

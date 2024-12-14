@@ -6,7 +6,7 @@
 /*   By: drongier <drongier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 15:02:35 by emaydogd          #+#    #+#             */
-/*   Updated: 2024/12/14 13:43:20 by drongier         ###   ########.fr       */
+/*   Updated: 2024/12/14 15:25:36 by drongier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # define PD "Permission Denied"
 # define M "minishell: exit: numeric argument required"
 # define SYNT "bash: syntax error near unexpected token `newline'"
+# define NL "minishell: syntax error near unexpected token `newline'"
 
 # include <signal.h>
 # include <stdio.h>
@@ -121,6 +122,7 @@ void		process_token(const char *str, size_t *i, t_state *state);
 size_t		count_tokens(const char *str, int *error_flag);
 char		**allocate_result_array(size_t tokens);
 void		initialize_parse_state(size_t *i, size_t *j, t_state *state);
+int			is_valid_syntax(const char *input);
 
 /* EXPANDER */
 
