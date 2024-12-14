@@ -6,7 +6,7 @@
 /*   By: drongier <drongier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 15:02:35 by emaydogd          #+#    #+#             */
-/*   Updated: 2024/12/14 16:23:20 by drongier         ###   ########.fr       */
+/*   Updated: 2024/12/14 16:32:07 by drongier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 # define MINISHELL_H
 # define _POSIX_C_SOURCE 200809L
 # define MAX_PATH_LENGTH 1024
-// # define NULL ((void*)0)
 # define NSFOD "No such file or directory"
 # define PD "Permission Denied"
 # define M "minishell: exit: numeric argument required"
@@ -140,7 +139,6 @@ int			replace_variable_in_input(t_lexer *lexer, \
 void		free_var_value_if_needed(const char *input, int i, char *var_value);
 int			expand_variable_at(t_shell *shell, t_lexer *lexer, int *i);
 int			process_lexer_input(t_shell *shell, t_lexer *lexer);
-int			variable_exists(t_shell *shell, char *var_name);
 
 /* PARSER */
 void		parser(t_shell *shell);
@@ -181,13 +179,11 @@ void		exec_start(t_shell *shell);
 void		exec_cmd(char *path, t_list *args, t_shell *shell);
 
 /* HELPER FUNCTIONS */
-char		*trim(char *str);
 void		ft_error(t_shell *shell, char *err_msg, \
 						char *args, int exit_status);
 char		**convert_env_to_array(t_env *env);
 char		*remove_quotes(char *str);
 char		**list_to_array(t_list *args);
-void		close_fds(t_parser *parser);
 
 // Cleaning
 void		cleanup(t_shell *shell);

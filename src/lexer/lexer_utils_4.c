@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils_4.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: drongier <drongier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 16:34:23 by chbachir          #+#    #+#             */
-/*   Updated: 2024/12/14 14:12:35 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/12/14 16:28:24 by drongier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-// Function to free allocated tokens in case of error
 void	free_tokens(char **tokens, size_t count)
 {
 	size_t	k;
@@ -26,7 +25,6 @@ void	free_tokens(char **tokens, size_t count)
 	free(tokens);
 }
 
-// Function to extract a token from the string
 int	extract_token(const char *str, size_t *i, t_state *state, char **token)
 {
 	size_t	start;
@@ -56,7 +54,6 @@ int	extract_token(const char *str, size_t *i, t_state *state, char **token)
 	return (1);
 }
 
-// Main function to split the string into tokens
 char	**custom_split(const char *str, int *error_flag)
 {
 	size_t		tokens;

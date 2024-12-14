@@ -3,23 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils_3.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: drongier <drongier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 16:32:52 by chbachir          #+#    #+#             */
-/*   Updated: 2024/12/13 17:10:09 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/12/14 16:28:07 by drongier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-// Function to skip spaces in the string
 void	skip_spaces(const char *str, size_t *i)
 {
 	while (str[*i] == ' ')
 		(*i)++;
 }
 
-// Function to process a token during counting
 void	process_token(const char *str, size_t *i, t_state *state)
 {
 	while (str[*i] && (state->in_quotes || str[*i] != ' '))
@@ -38,7 +36,6 @@ void	process_token(const char *str, size_t *i, t_state *state)
 	}
 }
 
-// Function to count the number of tokens in the string
 size_t	count_tokens(const char *str, int *error_flag)
 {
 	size_t		count;
@@ -63,7 +60,6 @@ size_t	count_tokens(const char *str, int *error_flag)
 	return (count);
 }
 
-// Function to allocate the result array
 char	**allocate_result_array(size_t tokens)
 {
 	char	**result;
@@ -72,7 +68,6 @@ char	**allocate_result_array(size_t tokens)
 	return (result);
 }
 
-// Function to initialize parsing indices and state
 void	initialize_parse_state(size_t *i, size_t *j, t_state *state)
 {
 	*i = 0;
