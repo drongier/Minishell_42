@@ -1,7 +1,7 @@
 NAME	=	minishell
 CC		=	cc
 RL		=	-lreadline
-CFLAGS	=	-g -Wall -Wextra -Werror #-fsanitize=address
+CFLAGS	=	-g -Wall -Wextra -Werror -fsanitize=address
 RM		=	rm -f -r
 
 SRCC	=	minishell.c \
@@ -11,7 +11,7 @@ SRCC	=	minishell.c \
 			executer/executer.c executer/pathfinder.c executer/exec_utils_1.c executer/exec_utils_2.c executer/exec_utils_3.c \
 			env/environment.c bin/echo.c bin/pwd.c bin/cd.c bin/env.c bin/export.c \
 			bin/unset.c bin/exit.c pipes/pipe.c free.c  error.c \
-			helper.c signals.c heredoc/heredoc.c \
+			helper.c signals.c heredoc/heredoc.c utils/utils_2.c \
 			utils/mini_utils.c pipes/pipe_utils.c heredoc/heredoc_utils.c utils/utils.c
 OBJD	=	obj
 OBJDBIN	=	obj/bin
