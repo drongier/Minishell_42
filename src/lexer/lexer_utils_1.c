@@ -6,7 +6,7 @@
 /*   By: drongier <drongier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 10:18:44 by chbachir          #+#    #+#             */
-/*   Updated: 2024/12/14 15:21:45 by drongier         ###   ########.fr       */
+/*   Updated: 2024/12/14 19:12:11 by drongier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static void	handle_quotes(char c, int *in_quotes, char *new_str, size_t *j)
 
 static void	handle_red(const char *cmd, size_t *i, char *new_str, size_t *j)
 {
-	if (*i > 0 && !isspace(cmd[*i - 1]))
+	if (*i > 0 && !ft_isspace(cmd[*i - 1]))
 		new_str[(*j)++] = ' ';
 	new_str[(*j)++] = cmd[*i];
 	if (cmd[*i] == '>' && cmd[*i + 1] == '>')
@@ -34,7 +34,7 @@ static void	handle_red(const char *cmd, size_t *i, char *new_str, size_t *j)
 	{
 		new_str[(*j)++] = cmd[++(*i)];
 	}
-	if (cmd[*i + 1] && !isspace(cmd[*i + 1]))
+	if (cmd[*i + 1] && !ft_isspace(cmd[*i + 1]))
 		new_str[(*j)++] = ' ';
 }
 

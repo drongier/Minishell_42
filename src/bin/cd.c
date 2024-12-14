@@ -6,7 +6,7 @@
 /*   By: drongier <drongier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 21:27:23 by emaydogd          #+#    #+#             */
-/*   Updated: 2024/12/13 20:02:20 by drongier         ###   ########.fr       */
+/*   Updated: 2024/12/14 19:21:39 by drongier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,13 @@ void	exec_cd(t_shell *shell, t_list *args)
 		return (ft_error(shell, "bash: cd: HOME not set\n", NULL, 1));
 	if (ft_lstsize(args) >= 2)
 		return (ft_error(shell, "bash: cd: too many arguments\n", NULL, 1));
-	clean_arg = remove_quotes((char *)args->content);
-	if (args == NULL || clean_arg == NULL)
+	if (args == NULL)
 	{
 		if (chdir(home) != 0)
 			ft_error(shell, "bash: cd: %s: "NSFOD"\n", home, 1);
-		free(clean_arg);
 		return ;
 	}
+	clean_arg = remove_quotes((char *)args->content);
 	if (ft_strncmp(clean_arg, "~", 1) == 0)
 	{
 		if (chdir(home) != 0)

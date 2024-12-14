@@ -6,7 +6,7 @@
 /*   By: drongier <drongier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 17:35:42 by drongier          #+#    #+#             */
-/*   Updated: 2024/12/14 15:27:08 by drongier         ###   ########.fr       */
+/*   Updated: 2024/12/14 19:12:39 by drongier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ char	*remove_quotes(char *str)
 
 int	skip_sp(const char *in, int i)
 {
-	while (in[i] && isspace(in[i]))
+	while (in[i] && ft_isspace(in[i]))
 		i++;
 	return (i);
 }
