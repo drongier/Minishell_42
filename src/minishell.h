@@ -6,7 +6,7 @@
 /*   By: drongier <drongier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 15:02:35 by emaydogd          #+#    #+#             */
-/*   Updated: 2024/12/14 15:48:04 by drongier         ###   ########.fr       */
+/*   Updated: 2024/12/14 16:23:20 by drongier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -228,7 +228,7 @@ void		handle_sigint(int sig);
 void		setup_signal_handlers(void);
 
 // heredoc
-void		handle_heredoc(t_parser *parser, const char *delimiter);
+void		handle_heredoc(t_parser *parser, char *delimiter);
 void		heredoc_signal_handler(int sig);
 void		setup_heredoc_signals(void);
 

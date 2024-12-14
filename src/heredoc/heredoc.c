@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: drongier <drongier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 16:31:07 by chbachir          #+#    #+#             */
-/*   Updated: 2024/12/13 16:31:51 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/12/14 16:23:09 by drongier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static void	write_heredoc_content(int fd, char *content)
 	}
 }
 
-static void	handle_child_process(int *pipefd, const char *delimiter)
+static void	handle_child_process(int *pipefd, char *delimiter)
 {
 	char				*line;
 	char				*content;
@@ -49,7 +49,7 @@ static void	handle_child_process(int *pipefd, const char *delimiter)
 	while (1)
 	{
 		line = readline("heredoc> ");
-		if (!line || strcmp(line, delimiter) == 0)
+		if (!line || ft_strcmp(line, delimiter) == 0)
 		{
 			free(line);
 			break ;
@@ -63,7 +63,7 @@ static void	handle_child_process(int *pipefd, const char *delimiter)
 	exit(EXIT_SUCCESS);
 }
 
-void	handle_heredoc(t_parser *parser, const char *delimiter)
+void	handle_heredoc(t_parser *parser, char *delimiter)
 {
 	pid_t	pid;
 	int		pipefd[2];
