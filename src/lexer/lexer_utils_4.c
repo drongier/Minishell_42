@@ -6,7 +6,7 @@
 /*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 16:34:23 by chbachir          #+#    #+#             */
-/*   Updated: 2024/12/13 16:36:17 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/12/14 14:12:35 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	extract_token(const char *str, size_t *i, t_state *state, char **token)
 	*token = malloc(len + 1);
 	if (!(*token))
 		return (0);
-	strncpy(*token, &str[start], len);
+	ft_strncpy(*token, &str[start], len);
 	(*token)[len] = '\0';
 	return (1);
 }
