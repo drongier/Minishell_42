@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: drongier <drongier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 15:02:35 by emaydogd          #+#    #+#             */
-/*   Updated: 2024/12/14 13:45:33 by drongier         ###   ########.fr       */
+/*   Updated: 2024/12/15 16:21:46 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static void	minishell(char **env)
 		if (!shell.cmdline)
 		{
 			clean_no_cmdline(&shell);
-			break ;
+			exit(130);
 		}
 		if (shell.cmdline && shell.cmdline[0] != '\0')
 			add_history(shell.cmdline);
