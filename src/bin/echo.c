@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: drongier <drongier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 21:05:13 by emaydogd          #+#    #+#             */
-/*   Updated: 2024/12/02 18:09:06 by drongier         ###   ########.fr       */
+/*   Updated: 2024/12/15 22:16:10 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static int	check_n_option(t_list **args, char *content)
 {
 	char	*minus_n;
 
-	if (!content)
+	if (!(*args) || !content)
 		return (1);
 	minus_n = remove_quotes(content);
 	if (ft_strcmp(minus_n, "-n") == 0)

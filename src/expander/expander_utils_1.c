@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander_utils_1.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: drongier <drongier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 12:14:31 by chbachir          #+#    #+#             */
-/*   Updated: 2024/12/14 16:08:30 by drongier         ###   ########.fr       */
+/*   Updated: 2024/12/15 22:17:49 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ int	is_var_char(char c)
 
 int	is_special_variable(const char *input, int i)
 {
+	if (i + 1 >= (int)ft_strlen(input))
+		return (0);
 	return (input[i + 1] == '?');
 }
 
