@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: drongier <drongier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 21:32:10 by emaydogd          #+#    #+#             */
-/*   Updated: 2024/12/13 12:16:19 by drongier         ###   ########.fr       */
+/*   Updated: 2024/12/16 16:39:24 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,8 +95,15 @@ void	process_key_value(t_shell *shell, char *content)
 void	exec_export(t_shell *shell)
 {
 	t_list	*current_arg;
+	t_list	*export_no_arg;
 
 	current_arg = shell->parser->args;
+	export_no_arg = shell->parser->args->next;
+	if (!export_no_arg)
+	{
+		exec_export_no_args(*shell);
+		return ;
+	}
 	while (current_arg)
 	{
 		process_key_value(shell, (char *)current_arg->content);
