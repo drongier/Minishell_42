@@ -6,7 +6,7 @@
 /*   By: drongier <drongier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 12:51:03 by chbachir          #+#    #+#             */
-/*   Updated: 2024/12/14 16:07:45 by drongier         ###   ########.fr       */
+/*   Updated: 2024/12/16 13:16:18 by drongier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,8 @@ int	expand_variable_at(t_shell *shell, t_lexer *lexer, int *i)
 		free_var_value_if_needed(lexer->input, *i, var_value);
 		return (0);
 	}
-	free_var_value_if_needed(lexer->input, *i, var_value);
 	*i += ft_strlen(var_value);
+	free_var_value_if_needed(lexer->input, *i, var_value);
 	return (1);
 }
 

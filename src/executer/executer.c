@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executer.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: drongier <drongier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 12:10:13 by chbachir          #+#    #+#             */
-/*   Updated: 2024/12/12 13:09:02 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/12/16 13:15:50 by drongier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static void	execute_command_path(t_shell *shell, char *cmd_path, t_list *args)
 	restore_redirections(saved_out, saved_in);
 }
 
-static void	exec_path(t_shell *shell, char *cmd, t_list *args)
+/* static void	exec_path(t_shell *shell, char *cmd, t_list *args)
 {
 	char	*cmd_clean;
 	char	*cmd_path;
@@ -53,6 +53,32 @@ static void	exec_path(t_shell *shell, char *cmd, t_list *args)
 	cmd_clean = remove_quotes(cmd);
 	if (!cmd_clean)
 		return (ft_error(shell, "Memory allocation error\n", NULL, 1));
+	is_direct_path = ft_strchr(cmd_clean, '/') != NULL;
+	cmd_path = get_command_path(shell, cmd_clean, is_direct_path);
+	if (!cmd_path)
+	{
+		ft_error(shell, "%s: command not found\n", cmd_clean, 127);
+		free(cmd_clean);
+		return ;
+	}
+	if (validate_command(shell, cmd_path, is_direct_path))
+		execute_command_path(shell, cmd_path, args);
+	free(cmd_path);
+	free(cmd_clean);
+} */
+static void	exec_path(t_shell *shell, char *cmd, t_list *args)
+{
+	char	*cmd_clean;
+	char	*cmd_path;
+	int		is_direct_path;
+
+	if (!cmd || !*cmd)
+		return ;
+	cmd_clean = remove_quotes(cmd);
+	if (!cmd_clean)
+		return (ft_error(shell, "Memory allocation error\n", NULL, 1));
+	if (!*cmd_clean)
+		return (free(cmd_clean));
 	is_direct_path = ft_strchr(cmd_clean, '/') != NULL;
 	cmd_path = get_command_path(shell, cmd_clean, is_direct_path);
 	if (!cmd_path)
@@ -113,3 +139,4 @@ void	exec_start(t_shell *shell)
 		}
 	}
 }
+

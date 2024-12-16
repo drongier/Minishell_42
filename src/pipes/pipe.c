@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: drongier <drongier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 17:31:29 by chbachir          #+#    #+#             */
-/*   Updated: 2024/12/13 16:32:03 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/12/16 13:18:02 by drongier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ static void	handle_parent_pipes(int *prev_fd, t_parser *parser)
 
 static void	handle_child(t_shell *shell, t_parser *parser, int prev_fd)
 {
+	if (parser->infile == -1 || parser->outfile == -1)
+		exit(1);
 	handle_child_redirections(prev_fd, parser);
 	handle_redirections_pipes(parser);
 	execute_command(shell, parser);
