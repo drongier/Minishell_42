@@ -6,7 +6,7 @@
 /*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 15:02:35 by emaydogd          #+#    #+#             */
-/*   Updated: 2024/12/16 15:37:05 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/12/16 16:30:18 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,6 +178,7 @@ void		handle_home_cd(t_shell *shell, char *home);
 void		exec_pwd(t_shell *shell);
 void		exec_env(t_shell shell);
 void		exec_export(t_shell *shell);
+void		exec_export_no_args(t_shell shell);
 void		exec_unset(t_shell *shell);
 void		exec_exit(t_shell *shell);
 void		exec_start(t_shell *shell);

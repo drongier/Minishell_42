@@ -6,7 +6,7 @@
 /*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 12:14:31 by chbachir          #+#    #+#             */
-/*   Updated: 2024/12/16 13:38:04 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/12/16 17:08:03 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	is_var_char(char c)
 
 int	is_special_variable(const char *input, int i)
 {
-	if (i + i > (int)ft_strlen(input))
+	if (i + 1 > (int)ft_strlen(input))
 		return (0);
 	return (input[i + 1] == '?');
 }
