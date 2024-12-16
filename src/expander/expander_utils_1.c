@@ -6,7 +6,7 @@
 /*   By: drongier <drongier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 12:14:31 by chbachir          #+#    #+#             */
-/*   Updated: 2024/12/16 17:36:03 by drongier         ###   ########.fr       */
+/*   Updated: 2024/12/16 17:41:25 by drongier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ int	is_var_char(char c)
 
 int	is_special_variable(const char *input, int i)
 {
+	if (i + 1 > (int)ft_strlen(input))
+		return (0);
 	return (input[i + 1] == '?');
 }
 
