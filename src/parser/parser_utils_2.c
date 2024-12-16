@@ -6,39 +6,39 @@
 /*   By: drongier <drongier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 13:28:24 by chbachir          #+#    #+#             */
-/*   Updated: 2024/12/16 13:21:18 by drongier         ###   ########.fr       */
+/*   Updated: 2024/12/16 14:11:27 by drongier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int handle_input_redir(t_shell *shell, t_parser *parser, t_lexer **lexer)
+int	handle_input_redir(t_shell *shell, t_parser *parser, t_lexer **lexer)
 {
-    char    *clean_input;
-    int     fd;
+	char	*clean_input;
+	int		fd;
 
-    if (!(*lexer) || !(*lexer)->next)
-        return (check_redir_error(shell));
-    *lexer = (*lexer)->next;
-    clean_input = remove_quotes((char *)(*lexer)->input);
-    if (!clean_input)
-        return (-1);
-    fd = open(clean_input, O_RDONLY, 777);
-    if (fd == -1)
-    {
-        ft_error(shell, "%s: No such file or directory\n", clean_input, 1);
-        free(clean_input);
-        if (shell->flag_pipe == 1)
-        {
-            parser->infile = -1;  // Mark as error
-            return (0);
-        }
-        cleanup(shell);
-        return (-1);
-    }
-    parser->infile = fd;
-    free(clean_input);
-    return (0);
+	if (!(*lexer) || !(*lexer)->next)
+		return (check_redir_error(shell));
+	*lexer = (*lexer)->next;
+	clean_input = remove_quotes((char *)(*lexer)->input);
+	if (!clean_input)
+		return (-1);
+	fd = open(clean_input, O_RDONLY, 777);
+	if (fd == -1)
+	{
+		ft_error(shell, "%s: No such file or directory\n", clean_input, 1);
+		free(clean_input);
+		if (shell->flag_pipe == 1)
+		{
+			parser->infile = -1;
+			return (0);
+		}
+		cleanup(shell);
+		return (-1);
+	}
+	parser->infile = fd;
+	free(clean_input);
+	return (0);
 }
 
 int	handle_output_redirection(t_shell *shell, t_parser *parser, \
@@ -86,7 +86,6 @@ int	handle_token_arg(t_lexer **lexer, t_parser **parser, char *clean_str)
 	}
 	return (0);
 }
-
 
 // #include "../minishell.h"
 

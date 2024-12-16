@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: drongier <drongier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 14:26:33 by drongier          #+#    #+#             */
-/*   Updated: 2024/12/13 16:31:59 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/12/16 14:14:26 by drongier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,11 @@ void	execute_command(t_shell *shell, t_parser *parser)
 	char	*cmd_path;
 
 	args = list_to_array(parser->args);
+	if (args == NULL || args[0] == NULL)
+	{
+		ft_error(shell, NULL, NULL, 130);
+		return ;
+	}
 	is_direct_path = ft_strchr(args[0], '/') != NULL;
 	cmd_path = get_command_path(shell, args[0], is_direct_path);
 	if (ft_strncmp(args[0], "env", 3) == 0)

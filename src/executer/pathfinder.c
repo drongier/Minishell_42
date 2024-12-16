@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pathfinder.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: drongier <drongier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 14:45:30 by chbachir          #+#    #+#             */
-/*   Updated: 2024/12/12 11:28:17 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/12/16 14:04:14 by drongier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,14 @@ static void	setup_args(t_list *args, char *cmd_name, char *argv[])
 	i = 1;
 	while (arg_node)
 	{
-		argv[i] = (char *)arg_node->content;
+		argv[i] = remove_quotes((char *)arg_node->content);
+		if (!argv[i])
+		{
+			while (i > 0)
+				free(argv[--i]);
+			free(argv);
+			return ;
+		}
 		i++;
 		arg_node = arg_node->next;
 	}

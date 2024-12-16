@@ -6,7 +6,7 @@
 /*   By: drongier <drongier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 17:35:42 by drongier          #+#    #+#             */
-/*   Updated: 2024/12/14 19:12:39 by drongier         ###   ########.fr       */
+/*   Updated: 2024/12/16 15:25:34 by drongier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int	handle_redirection(const char *in, int i)
 		i++;
 	i++;
 	i = skip_sp(in, i);
-	if (!in[i] || in[i] == '>' || in[i] == '<' || in[i] == '|')
+	if (!in[i] || in[i] == '>' || in[i] == '<')
 		return (-1);
 	return (i);
 }
@@ -78,7 +78,7 @@ int	is_valid_syntax(const char *in)
 	while (in[i])
 	{
 		i = skip_sp(in, i);
-		if (in[i] == '>' || in[i] == '<' || in[i] == '|')
+		if (in[i] == '>' || in[i] == '<')
 		{
 			i = handle_redirection(in, i);
 			if (i == -1)
@@ -86,7 +86,7 @@ int	is_valid_syntax(const char *in)
 		}
 		else
 		{
-			while (in[i] && in[i] != '>' && in[i] != '<' && in[i] != '|')
+			while (in[i] && in[i] != '>' && in[i] != '<')
 				i++;
 		}
 	}
