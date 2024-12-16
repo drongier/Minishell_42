@@ -9,7 +9,7 @@ SRCC	=	minishell.c \
 			expander/expander.c expander/expander_utils_1.c expander/expander_utils_2.c \
 			parser/parser.c parser/parser_utils_1.c parser/parser_utils_2.c \
 			executer/executer.c executer/pathfinder.c executer/exec_utils_1.c executer/exec_utils_2.c executer/exec_utils_3.c \
-			env/environment.c bin/echo.c bin/pwd.c bin/cd.c bin/env.c bin/export.c \
+			env/environment.c bin/echo.c bin/pwd.c bin/cd_1.c bin/cd_2.c bin/env.c bin/export.c \
 			bin/unset.c bin/exit.c pipes/pipe.c free.c  error.c \
 			helper.c signals.c heredoc/heredoc.c utils/utils_2.c \
 			utils/mini_utils.c pipes/pipe_utils.c heredoc/heredoc_utils.c utils/utils.c

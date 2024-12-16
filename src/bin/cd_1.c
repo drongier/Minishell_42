@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cd.c                                               :+:      :+:    :+:   */
+/*   cd_1.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: drongier <drongier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 21:27:23 by emaydogd          #+#    #+#             */
-/*   Updated: 2024/12/14 19:21:39 by drongier         ###   ########.fr       */
+/*   Updated: 2024/12/16 15:35:18 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,19 +23,11 @@ void	exec_cd(t_shell *shell, t_list *args)
 	if (ft_lstsize(args) >= 2)
 		return (ft_error(shell, "bash: cd: too many arguments\n", NULL, 1));
 	if (args == NULL)
-	{
-		if (chdir(home) != 0)
-			ft_error(shell, "bash: cd: %s: "NSFOD"\n", home, 1);
-		return ;
-	}
+		return (handle_home_cd(shell, home));
 	clean_arg = remove_quotes((char *)args->content);
+	if (ft_strcmp(clean_arg, "-") == 0)
+		return (handle_previous_dir(shell), free(clean_arg));
 	if (ft_strncmp(clean_arg, "~", 1) == 0)
-	{
-		if (chdir(home) != 0)
-			ft_error(shell, "bash: cd: %s: "NSFOD"\n", home, 1);
-		return (free(clean_arg));
-	}
-	else if (chdir(clean_arg) != 0)
-		ft_error(shell, "bash: cd: %s: "NSFOD"\n", clean_arg, 1);
-	free(clean_arg);
+		return (handle_tilde_path(shell, home, clean_arg));
+	handle_regular_path(shell, clean_arg);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: drongier <drongier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 15:02:35 by emaydogd          #+#    #+#             */
-/*   Updated: 2024/12/16 13:11:07 by drongier         ###   ########.fr       */
+/*   Updated: 2024/12/16 15:37:05 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,6 +171,10 @@ int			handle_token_arg(t_lexer **lexer, t_parser **parser, \
 void		exec_bin(t_shell *shell, char *cmd, t_list *args);
 void		exec_echo(t_shell *parser, t_list *args);
 void		exec_cd(t_shell *shell, t_list *args);
+void		handle_regular_path(t_shell *shell, char *clean_arg);
+void		handle_tilde_path(t_shell *shell, char *home, char *clean_arg);
+void		handle_previous_dir(t_shell *shell);
+void		handle_home_cd(t_shell *shell, char *home);
 void		exec_pwd(t_shell *shell);
 void		exec_env(t_shell shell);
 void		exec_export(t_shell *shell);
