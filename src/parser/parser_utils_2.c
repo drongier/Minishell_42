@@ -6,7 +6,7 @@
 /*   By: drongier <drongier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 13:28:24 by chbachir          #+#    #+#             */
-/*   Updated: 2024/12/16 14:11:27 by drongier         ###   ########.fr       */
+/*   Updated: 2024/12/16 16:28:46 by drongier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	handle_input_redir(t_shell *shell, t_parser *parser, t_lexer **lexer)
 		if (shell->flag_pipe == 1)
 		{
 			parser->infile = -1;
-			return (0);
+			return (-1);
 		}
 		cleanup(shell);
 		return (-1);
