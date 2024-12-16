@@ -6,7 +6,7 @@
 /*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 14:26:33 by drongier          #+#    #+#             */
-/*   Updated: 2024/12/13 16:31:59 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/12/16 16:41:46 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ void	execute_command(t_shell *shell, t_parser *parser)
 	cmd_path = get_command_path(shell, args[0], is_direct_path);
 	if (ft_strncmp(args[0], "env", 3) == 0)
 		exec_env(*shell);
+	if (ft_strncmp(args[0], "export", 6) == 0)
+		exec_export(shell);
 	else if (execve(cmd_path, args, NULL) == -1)
 	{
 		ft_error(shell, "%s : command not found\n", args[0], -1);

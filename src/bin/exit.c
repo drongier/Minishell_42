@@ -6,11 +6,36 @@
 /*   By: drongier <drongier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 18:51:01 by chbachir          #+#    #+#             */
-/*   Updated: 2024/12/13 19:40:22 by drongier         ###   ########.fr       */
+/*   Updated: 2024/12/16 13:13:00 by drongier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+static long	ft_atol(const char *str)
+{
+	long	result;
+	int		sign;
+	int		i;
+
+	result = 0;
+	sign = 1;
+	i = 0;
+	while (str[i] == ' ' || (str[i] >= 9 && str[i] <= 13))
+		i++;
+	if (str[i] == '-' || str[i] == '+')
+	{
+		if (str[i] == '-')
+			sign = -1;
+		i++;
+	}
+	while (str[i] >= '0' && str[i] <= '9')
+	{
+		result = result * 10 + (str[i] - '0');
+		i++;
+	}
+	return (result * sign);
+}
 
 static int	exit_val_isdigit(char *s)
 {
@@ -28,7 +53,7 @@ static int	exit_val_isdigit(char *s)
 static int	handle_exit_value(t_shell *shell)
 {
 	char	*arg;
-	int		exit_val;
+	long	exit_val;
 
 	arg = remove_quotes((char *)shell->parser->args->next->content);
 	if (!exit_val_isdigit(arg))
@@ -37,11 +62,17 @@ static int	handle_exit_value(t_shell *shell)
 		free(arg);
 		return (2);
 	}
-	exit_val = ft_atoi(arg);
+	exit_val = ft_atol(arg);
+	if (exit_val > INT_MAX || exit_val < INT_MIN)
+	{
+		ft_error(shell, ""M"\n", arg, -1);
+		free(arg);
+		return (2);
+	}
 	if (exit_val > 256)
 		exit_val = exit_val % 256;
 	free(arg);
-	return (exit_val);
+	return ((int)exit_val);
 }
 
 void	exec_exit(t_shell *shell)
