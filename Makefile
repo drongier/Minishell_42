@@ -1,7 +1,7 @@
 NAME	=	minishell
 CC		=	cc
 RL		=	-lreadline
-CFLAGS	=	-g -Wall -Wextra -Werror -fsanitize=address
+CFLAGS	=	-Wall -Wextra -Werror
 RM		=	rm -f -r
 
 SRCC	=	minishell.c \
