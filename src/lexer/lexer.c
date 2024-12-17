@@ -6,7 +6,7 @@
 /*   By: drongier <drongier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:54:47 by chbachir          #+#    #+#             */
-/*   Updated: 2024/12/16 16:09:27 by drongier         ###   ########.fr       */
+/*   Updated: 2024/12/17 17:28:18 by drongier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,11 +85,6 @@ void	lexer(t_shell *shell)
 	error_flag = 0;
 	i = 0;
 	pos = 0;
-	if (!is_valid_syntax(shell->cmdline))
-	{
-		ft_error(shell, ""NL"\n", NULL, 2);
-		return ;
-	}
 	new_str = add_spaces_around_redirection(shell->cmdline);
 	str = custom_split(new_str, &error_flag);
 	free(new_str);
