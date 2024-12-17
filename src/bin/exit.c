@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: drongier <drongier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 18:51:01 by chbachir          #+#    #+#             */
-/*   Updated: 2024/12/16 13:13:00 by drongier         ###   ########.fr       */
+/*   Updated: 2024/12/17 17:56:27 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,8 @@ void	exec_exit(t_shell *shell)
 {
 	int	exit_val;
 
+	if (shell->flag_pipe)
+		exit(0);
 	printf("exit\n");
 	if (!shell->parser->args->next)
 	{

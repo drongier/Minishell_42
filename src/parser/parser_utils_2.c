@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils_2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: drongier <drongier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 13:28:24 by chbachir          #+#    #+#             */
-/*   Updated: 2024/12/17 14:03:46 by drongier         ###   ########.fr       */
+/*   Updated: 2024/12/17 16:52:26 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ int	handle_token_arg(t_lexer **lexer, t_parser **parser, char *clean_str)
 {
 	t_list	*node_input;
 
-	if ((*lexer)->type == TOKEN_ARG)
+	if ((*lexer)->type == TOKEN_ARG && (*lexer)->input[0] != '\0')
 	{
 		node_input = ft_lstnew(ft_strdup((*lexer)->input));
 		if (!node_input)

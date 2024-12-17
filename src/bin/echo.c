@@ -6,7 +6,7 @@
 /*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 21:05:13 by emaydogd          #+#    #+#             */
-/*   Updated: 2024/12/15 22:16:10 by chbachir         ###   ########.fr       */
+/*   Updated: 2024/12/17 17:14:26 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,17 +75,19 @@ void	exec_echo(t_shell *shell, t_list *args)
 
 	parser = shell->parser;
 	if (!args)
-	{
-		printf("\n");
-		return ;
-	}
+		return ((void)printf("\n"));
 	newline = check_n_option(&args, args->content);
-	while (args)
+	if (ft_lstsize(args) == 1 && ft_strncmp(args->content, "~", 1) == 0)
+		write_output(parser->outfile, ft_getenv(shell, "HOME"), 0);
+	else
 	{
-		original = remove_quotes((char *)args->content);
-		write_output(parser->outfile, original, args->next != NULL);
-		free(original);
-		args = args->next;
+		while (args)
+		{
+			original = remove_quotes((char *)args->content);
+			write_output(parser->outfile, original, args->next != NULL);
+			free(original);
+			args = args->next;
+		}
 	}
 	if (newline)
 		write_output(parser->outfile, "\n", 0);
