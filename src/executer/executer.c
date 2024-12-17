@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executer.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: drongier <drongier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 12:10:13 by chbachir          #+#    #+#             */
-/*   Updated: 2024/12/16 17:35:52 by drongier         ###   ########.fr       */
+/*   Updated: 2024/12/17 16:58:19 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,30 +42,6 @@ static void	execute_command_path(t_shell *shell, char *cmd_path, t_list *args)
 	restore_redirections(saved_out, saved_in);
 }
 
-/* static void	exec_path(t_shell *shell, char *cmd, t_list *args)
-{
-	char	*cmd_clean;
-	char	*cmd_path;
-	int		is_direct_path;
-
-	if (!cmd)
-		return ;
-	cmd_clean = remove_quotes(cmd);
-	if (!cmd_clean)
-		return (ft_error(shell, "Memory allocation error\n", NULL, 1));
-	is_direct_path = ft_strchr(cmd_clean, '/') != NULL;
-	cmd_path = get_command_path(shell, cmd_clean, is_direct_path);
-	if (!cmd_path)
-	{
-		ft_error(shell, "%s: command not found\n", cmd_clean, 127);
-		free(cmd_clean);
-		return ;
-	}
-	if (validate_command(shell, cmd_path, is_direct_path))
-		execute_command_path(shell, cmd_path, args);
-	free(cmd_path);
-	free(cmd_clean);
-} */
 static void	exec_path(t_shell *shell, char *cmd, t_list *args)
 {
 	char	*cmd_clean;
@@ -122,20 +98,22 @@ void	exec_start(t_shell *shell)
 
 	parser = shell->parser;
 	if (shell->flag_pipe == 1)
-		exec_with_pipe(shell);
-	else
+		return (exec_with_pipe(shell));
+	while (parser)
 	{
-		while (parser)
+		args = parser->args;
+		while (args)
 		{
-			args = parser->args;
-			while (args)
+			cmd_name = (char *)args->content;
+			if (cmd_name && *cmd_name)
 			{
-				cmd_name = (char *)args->content;
 				args = args->next;
 				exec_bin(shell, cmd_name, args);
 				break ;
 			}
-			parser = parser->next;
+			else
+				args = args->next;
 		}
+		parser = parser->next;
 	}
 }

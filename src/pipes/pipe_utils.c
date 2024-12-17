@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: drongier <drongier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: chbachir <chbachir@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 14:26:33 by drongier          #+#    #+#             */
-/*   Updated: 2024/12/16 17:34:11 by drongier         ###   ########.fr       */
+/*   Updated: 2024/12/17 18:07:52 by chbachir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,19 +34,21 @@ void	execute_command(t_shell *shell, t_parser *parser)
 
 	args = list_to_array(parser->args);
 	if (args == NULL || args[0] == NULL)
-	{
-		ft_error(shell, NULL, NULL, 130);
-		return ;
-	}
+		return (ft_error(shell, NULL, NULL, 130));
 	is_direct_path = ft_strchr(args[0], '/') != NULL;
-	cmd_path = get_command_path(shell, args[0], is_direct_path);
-	if (ft_strncmp(args[0], "env", 3) == 0)
+	if (ft_strcmp(args[0], "env") == 0)
 		exec_env(*shell);
-	if (ft_strncmp(args[0], "export", 6) == 0)
+	else if (ft_strcmp(args[0], "export") == 0)
 		exec_export(shell);
-	else if (execve(cmd_path, args, NULL) == -1)
+	else if (ft_strcmp(args[0], "exit") == 0)
+		exec_exit(shell);
+	else
 	{
-		ft_error(shell, "%s : command not found\n", args[0], -1);
+		cmd_path = get_command_path(shell, args[0], is_direct_path);
+		if (cmd_path == NULL)
+			ft_error(shell, "%s : command not found\n", args[0], -1);
+		if (execve(cmd_path, args, NULL) == -1)
+			ft_error(shell, "%s : command not found\n", args[0], -1);
 		exit(127);
 	}
 }
