@@ -6,7 +6,7 @@
 /*   By: drongier <drongier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 15:02:35 by emaydogd          #+#    #+#             */
-/*   Updated: 2024/12/16 17:33:48 by drongier         ###   ########.fr       */
+/*   Updated: 2024/12/17 13:49:46 by drongier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 # define _POSIX_C_SOURCE 200809L
 # define MAX_PATH_LENGTH 1024
 # define NSFOD "No such file or directory"
-# define PD "Permission Denied"
+# define PD "Permission denied"
 # define M "minishell: exit: numeric argument required"
 # define SYNT "bash: syntax error near unexpected token `newline'"
 # define NL "minishell: syntax error near unexpected token `newline'"
